@@ -1,0 +1,52 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import ConvexClientProvider from "@/components/ConvexClientProvider";
+import { ClerkProvider } from "@clerk/nextjs";
+import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
+import NextTopLoader from "nextjs-toploader";
+import SyncUserWithConvex from "@/components/other/SyncUserWithConvex";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "Raveza: Buy & Sell Tickets for Events & Concerts",
+  description:
+    "Raveza is a leading ticketing platform in Kenya for events and concerts, offering easy ticket purchases and seamless event management for both organizers and attendees.",
+  icons: {
+    icon: "/convex.svg",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased overflow-hidden`}
+      >
+        <ClerkProvider dynamic>
+          <ConvexClientProvider>
+            <SyncUserWithConvex />
+            <NextTopLoader showSpinner={false} />
+            <main className="flex flex-col h-screen overflow-hidden">
+              {children}
+            </main>
+            <Toaster />
+          </ConvexClientProvider>
+        </ClerkProvider>
+      </body>
+    </html>
+  );
+}
