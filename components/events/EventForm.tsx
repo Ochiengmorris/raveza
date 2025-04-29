@@ -230,7 +230,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             });
           }
 
-          router.push(`/event/${eventId}`);
+          router.push(`/events/${eventId}`);
         } else {
           // Ensure initialData exists before proceeding with update
           if (!initialData) {
@@ -262,7 +262,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             });
           }
 
-          router.push(`/event/${initialData._id}`);
+          router.push(`/events/${initialData._id}`);
           toast("Event updated", {
             description: "Your event has been successfully updated.",
           });
