@@ -12,16 +12,16 @@ export default function CTASection() {
           <span className="font-bold text-primary"> Raveza</span> to discover
           and book tickets to the most exciting events happening near them.
         </p>
-        <div className="flex flex-col sm:flex-row justify-center gap-4">
+        <div className="flex flex-row justify-center gap-4">
           <Link
             href="/events"
-            className="px-6 py-4 bg-primary/90 hover:bg-primary text-landingsecondary font-semibold rounded-md transition duration-200"
+            className="flex-1 md:flex-none md:w-44 px-6 py-4 bg-primary/90 hover:bg-primary text-landingsecondary font-semibold rounded-md transition duration-200"
           >
             Explore Events
           </Link>
           <Link
             href="#how-it-works"
-            className="px-6 py-4 bg-transparent hover:bg-primary/30 text-white border border-primary/40 hover:border-primary/5 font-semibold rounded-md transition duration-200"
+            className="flex-1 md:flex-none md:w-44 px-6 py-4 bg-transparent hover:bg-primary/30 text-white border border-primary/40 hover:border-primary/5 font-semibold rounded-md transition duration-200"
           >
             Learn More
           </Link>

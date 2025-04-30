@@ -5,7 +5,9 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import React, { useEffect, useState } from "react";
-import { Button } from "../ui/button";
+import { Ticket } from "lucide-react";
+import ReleaseTicket from "@/components/tickets/ReleaseTicket";
+import TicketPurchaseDialog from "@/components/tickets/TicketPurchaseDialog";
 
 const PurchaseTicket = ({
   eventId,
@@ -65,8 +67,51 @@ const PurchaseTicket = ({
     setIsModalOpen(true);
   };
   return (
-    <div>
-      <Button onClick={handleRedirect}>Purchase</Button>
+    <div className="bg-white p-6 rounded-xl shadow-lg border border-amber-200">
+      <div className="">
+        <div className="bg-white rounded-lg p-6 border mb-4  border-gray-200">
+          <div className="flex flex-col gap-4">
+            <div className="flex items-center gap-3">
+              <div className="p-3 rounded-full bg-amber-100 flex items-center justify-center">
+                <Ticket className="w-6 h-6 text-amber-600" />
+              </div>
+              <div>
+                <h3 className="text-sm md:text-base lg:text-lg font-semibold text-gray-900">
+                  Ticket Reserved
+                </h3>
+                <p className="text-xs md:text-sm text-gray-500">
+                  Expires in {timeRemaining}
+                </p>
+              </div>
+            </div>
+
+            <div className="text-xs md:text-sm text-gray-600 leading-relaxed">
+              A ticket has been reserved for you. Complete your purchase before
+              the timer expires to secure your spot at this event.
+            </div>
+          </div>
+        </div>
+
+        <button
+          onClick={handleRedirect}
+          disabled={isExpired || isModalOpen}
+          className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-white px-8 py-2 mb-1 md:py-4 rounded-lg font-bold shadow-md hover:from-amber-600 hover:to-amber-700 transform hover:scale-[1.02] transition-all text-xs md:text-sm sm:text-base duration-200 disabled:from-gray-400 disabled:to-gray-500 disabled:cursor-not-allowed disabled:hover:scale-100"
+        >
+          {isModalOpen ? "Purchasing.." : "Purchase Ticket Now →"}
+        </button>
+
+        <div className="">
+          <ReleaseTicket eventId={eventId} waitingListId={queuePosition._id} />
+        </div>
+      </div>
+
+      {/* Purchase modal */}
+      <TicketPurchaseDialog
+        open={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        eventId={eventId}
+        ticketTypeId={ticketTypeId}
+      />
     </div>
   );
 };

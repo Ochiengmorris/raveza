@@ -42,7 +42,7 @@ const Upcoming = async () => {
             )}
           </div>
 
-          <div className="mt-8 text-center md:hidden">
+          <div className="mt-8 text-center w-full  md:hidden">
             <Link
               href="/events"
               className="inline-flex items-center text-primary hover:text-primary-dark font-medium"

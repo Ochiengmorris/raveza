@@ -181,7 +181,7 @@ const EventCard = ({
 
     if (userTicket) {
       return (
-        <div className="mt-4 flex items-center justify-between p-3 bg-primary/10 rounded-lg border border-jmprimary/5">
+        <div className="mt-4 flex items-center justify-between p-3 bg-[#120030]/10 rounded-lg border border-primary/5">
           <div className="flex items-center">
             <Check className="w-5 h-5 text-jmprimary mr-2" />
             <span className="text-jmprimary font-medium">
@@ -190,9 +190,9 @@ const EventCard = ({
           </div>
           <button
             onClick={handleTicketClick}
-            className="text-sm bg-jmprimary/50 hover:bg-jmprimary/70 text-black px-3 py-1.5 rounded-full font-medium shadow-sm transition-colors duration-200 flex items-center gap-1"
+            className="text-sm bg-primary/50 hover:bg-primary/70 text-black px-3 py-1.5 rounded-full font-medium shadow-sm transition-colors duration-200 flex items-center gap-1"
           >
-            View your ticket
+            View <span className="hidden lg:inline">your</span> ticket
           </button>
         </div>
       );
@@ -263,7 +263,9 @@ const EventCard = ({
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
-              priority
+              loading="lazy"
+              placeholder="blur"
+              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 

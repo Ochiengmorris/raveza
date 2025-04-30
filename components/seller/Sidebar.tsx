@@ -109,6 +109,8 @@ const Sidebar = async () => {
             src={user?.imageUrl ?? ""}
             alt="User avatar"
             className="h-10 w-10 rounded-full"
+            width={40}
+            height={40}
           />
           <div>
             <p className="font-medium">{user?.fullName}</p>

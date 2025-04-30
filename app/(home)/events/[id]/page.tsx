@@ -137,13 +137,13 @@ function EventPage() {
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-0 left-6  bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end">
-                <div className="container pb-8">
-                  <Badge variant="category" className="mb-4">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end">
+                <div className="container pb-4 lg:pb-6 ml-4 lg:ml-6">
+                  <Badge variant="category" className="md:pb-2">
                     {event.category}
                     {/* {"Music"} */}
                   </Badge>
-                  <h1 className="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-white mb-4">
+                  <h1 className="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-white md:leading-tight md:pb-2">
                     {event.name}
                   </h1>
                   <div className="flex flex-wrap gap-4 text-white">
@@ -154,7 +154,7 @@ function EventPage() {
                   </div>
                 </div>
               </div>
-              <div className="absolute top-4 right-4 flex gap-2">
+              <div className="absolute top-2 right-2 flex gap-2">
                 <Button
                   variant="secondary"
                   size="icon"
@@ -204,7 +204,7 @@ function EventPage() {
                     "text-card-foreground bg-card rounded-lg p-6 relative shadow transition-all duration-300 overflow-hidden border-primary-foreground/10 max-w-xl",
                   )}
                 >
-                  <h3 className="text-xl font-display font-semibold text-primary-foreground">
+                  <h3 className="text-xl font-display font-semibold text-secondary-foreground">
                     About this Event
                   </h3>
                   <p className="text-muted-foreground text-sm md:text-base whitespace-pre-line">
@@ -219,9 +219,11 @@ function EventPage() {
                         src={user?.imageUrl ?? ""}
                         alt={"Organizer Logo"}
                         className="w-12 h-12 rounded-full object-cover"
+                        width={48}
+                        height={48}
                       />
                       <div>
-                        <p className="font-medium">
+                        <p className="font-medium capitalize">
                           {user?.fullName ?? "Admin"}
                         </p>
                         <Button
@@ -254,11 +256,11 @@ function EventPage() {
                             <h4 className="font-semibold">
                               {ticket.ticketType.name}
                             </h4>
-                            <p className="text-sm text-muted-foreground mb-2 line-clamp-1">
-                              Ticket Description
-                            </p>
-                            <p className="font-semibold text-jmprimary">
-                              Ksh {FormatMoney(ticket.ticketType.price)}
+                            <p className="font-semibold text-muted-foreground text-xl  ml-2">
+                              <span className="text-secondary-foreground text-xs">
+                                Ksh
+                              </span>{" "}
+                              {FormatMoney(ticket.ticketType.price)}
                             </p>
                           </div>
 
@@ -307,7 +309,7 @@ function EventPage() {
                           </div>
                         </div>
 
-                        <div className="text-xs text-muted-foreground">
+                        <div className="text-xs text-muted-foreground ml-2">
                           {isEventPast
                             ? "Event ended"
                             : ticket.remainingTickets > 0
