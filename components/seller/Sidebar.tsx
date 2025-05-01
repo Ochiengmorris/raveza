@@ -17,7 +17,7 @@ import { RedirectToSignIn } from "@clerk/nextjs";
 import LogOutButton from "@/components/seller/LogOutButton";
 import Link from "next/link";
 
-const menuItems = [
+export const menuItems = [
   {
     title: "DASHBOARD",
     items: [
@@ -71,6 +71,7 @@ const menuItems = [
     ],
   },
 ];
+
 const Sidebar = async () => {
   const user = await currentUser();
 
@@ -92,7 +93,7 @@ const Sidebar = async () => {
       </Link>
 
       {/* Navigation */}
-      <nav className="mt-16 px-2 text-sm flex flex-col justify-start gap-4 grow">
+      <nav className="mt-[70px] px-2 text-sm flex flex-col justify-start gap-4 grow">
         {menuItems.map((section, index) => (
           <MenuItemComp
             key={index}

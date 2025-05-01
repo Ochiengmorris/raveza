@@ -245,7 +245,7 @@ const EventCard = ({
         {isPastEvent && (
           <>
             <div className="absolute top-4 right-2 text-white text-xs font-extrabold uppercase transform rotate-45 translate-x-10 -translate-y-3 z-20">
-              <div className="py-3 bg-accent/30 backdrop-blur-3xl">
+              <div className="py-2.5 bg-white z-10">
                 <span className="bg-destructive text-accent py-2 px-10">
                   PAST
                 </span>

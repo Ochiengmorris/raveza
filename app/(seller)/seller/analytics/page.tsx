@@ -28,7 +28,6 @@ import { format } from "date-fns";
 import RevenueChart from "@/components/seller/RevenueChart";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
-import { useRouter } from "next/navigation";
 import { api } from "@/convex/_generated/api";
 import {
   ChartConfig,
@@ -56,13 +55,12 @@ const AnalyticsPage = () => {
   const [revenueData, setRevenueData] =
     useState<{ month: number; revenue: number }[]>(mockMonthlyRevenue);
   const { user } = useUser();
-  const router = useRouter();
 
   const eventMetrics = useQuery(api.events.getAllUserEventsMetrics, {
     userId: user?.id ?? "",
   });
 
-  if (!user) router.replace("/");
+  if (!user) return null;
 
   console.log(
     setIsLoadingEvents,

@@ -91,7 +91,7 @@ const AttendeesPage = () => {
         </div>
       </div>
 
-      <div className="mb-6 flex flex-col sm:flex-row gap-4">
+      <div className="mb-6 flex flex-row gap-4">
         <div className="relative flex-1">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-4 w-4" />
           <Input
@@ -103,7 +103,7 @@ const AttendeesPage = () => {
           />
         </div>
 
-        <div className="w-full sm:w-64">
+        <div className="">
           <Select value={eventFilter} onValueChange={setEventFilter}>
             <SelectTrigger>
               <div className="flex items-center">

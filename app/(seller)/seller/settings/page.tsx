@@ -167,7 +167,7 @@ const SettingsPage = () => {
                     )}
                   />
 
-                  <Button type="submit" disabled={isSubmitting}>
+                  <Button type="submit" disabled={isSubmitting} className="">
                     {isSubmitting && (
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     )}
@@ -198,7 +198,12 @@ const SettingsPage = () => {
               </Alert>
             </CardContent>
             <CardFooter>
-              <Button variant="destructive">Delete Account</Button>
+              <Button
+                onClick={() => toast("Account deletion coming soon")}
+                variant="destructive"
+              >
+                Delete Account
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>

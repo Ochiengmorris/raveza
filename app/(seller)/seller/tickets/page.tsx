@@ -34,7 +34,9 @@ import {
 import { format } from "date-fns";
 import { formatDate } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
-import Image from "next/image";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import AvatarNameImage from "@/components/other/AvatarNameImage";
 
 const TicketsPage = () => {
   const { user } = useUser();
@@ -44,36 +46,16 @@ const TicketsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  const tickets = useQuery(api.tickets.getAllUserTickets, {
+    userId: user?.id ?? "",
+  });
+  const events = useQuery(api.events.getSellerEvents, {
+    userId: user?.id ?? "",
+  });
+
   if (!user) return null;
 
-  interface User {
-    fullName?: string;
-    email?: string;
-    avatar?: string;
-  }
-
-  interface TicketType {
-    name: string;
-  }
-
-  interface Ticket {
-    id: number;
-    eventId: number;
-    user?: User;
-    status: "valid" | "used" | "refunded";
-    purchaseDate: string;
-    ticketType?: TicketType;
-    amount: number;
-  }
-
-  interface Event {
-    id: number;
-    name: string;
-    date: string;
-  }
-
-  const events: Event[] = [];
-  const tickets: Ticket[] = [];
+  // const tickets: Ticket[] = [];
 
   const isLoadingEvents = false;
   const isLoadingTickets = false;
@@ -83,7 +65,7 @@ const TicketsPage = () => {
     ? tickets.filter((ticket) => {
         const matchesSearch =
           searchQuery === "" ||
-          ticket.user?.fullName
+          ticket.user?.name
             ?.toLowerCase()
             .includes(searchQuery.toLowerCase()) ||
           ticket.user?.email?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -91,7 +73,7 @@ const TicketsPage = () => {
         const matchesStatus =
           statusFilter === "all" || ticket.status === statusFilter;
         const matchesEvent =
-          eventFilter === "all" || ticket.eventId === parseInt(eventFilter);
+          eventFilter === "all" || ticket.eventId.toString() === eventFilter;
 
         return matchesSearch && matchesStatus && matchesEvent;
       })
@@ -114,20 +96,13 @@ const TicketsPage = () => {
     }
   };
 
-  // Get event name by ID
-  const getEventName = (eventId: number) => {
-    if (!events) return "";
-    const event = events.find((event) => event.id === eventId);
-    return event ? event.name : "";
-  };
-
   // Function to render status badge
   const renderStatusBadge = (status: string) => {
     switch (status) {
       case "valid":
-        return <Badge className="bg-green-100 text-green-800">Confirmed</Badge>;
+        return <Badge className="bg-green-100 text-green-800">Valid</Badge>;
       case "used":
-        return <Badge className="bg-amber-100 text-amber-800">Pending</Badge>;
+        return <Badge className="bg-amber-100 text-amber-800">Used</Badge>;
       case "refunded":
         return <Badge className="bg-red-100 text-red-800">Refunded</Badge>;
       default:
@@ -136,7 +111,7 @@ const TicketsPage = () => {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
+    <div className="max-w-screen-xl mx-auto p-4 sm:p-6 overflow-x-hidden">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Tickets</h1>
@@ -146,19 +121,19 @@ const TicketsPage = () => {
         </div>
       </div>
 
-      <div className="mb-6 flex flex-col sm:flex-row gap-4">
-        <div className="relative flex-1">
+      <div className="mb-6 flex flex-row gap-2 lg:gap-4">
+        <div className="relative flex-1 hidden lg:flex">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-4 w-4" />
           <Input
             type="text"
             placeholder="Search by customer name or email..."
-            className="pl-10"
+            className={"focus:ring-0 focus:border-0  pl-10"}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
 
-        <div className="w-full sm:w-48">
+        <div className="flex-1 lg:flex-none">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger>
               <div className="flex items-center">
@@ -175,19 +150,19 @@ const TicketsPage = () => {
           </Select>
         </div>
 
-        <div className="w-full sm:w-64">
+        <div className="flex-1 lg:flex-none">
           <Select value={eventFilter} onValueChange={setEventFilter}>
             <SelectTrigger>
-              <div className="flex items-center">
+              <div className="flex items-center overflow-hidden">
                 <CalendarIcon className="h-4 w-4 mr-2 text-slate-400" />
-                <SelectValue placeholder="All Events" />
+                <SelectValue placeholder="All Events" className="truncate" />
               </div>
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All Events</SelectItem>
               {events &&
                 events.map((event) => (
-                  <SelectItem key={event.id} value={event.id.toString()}>
+                  <SelectItem key={event._id} value={event._id.toString()}>
                     {event.name}
                   </SelectItem>
                 ))}
@@ -196,7 +171,7 @@ const TicketsPage = () => {
         </div>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden p-0 lg:px-4 px-2 py-2">
         <CardContent className="p-0">
           {isLoadingTickets || isLoadingEvents ? (
             <div className="p-8 space-y-4">
@@ -238,22 +213,18 @@ const TicketsPage = () => {
                 </TableHeader>
                 <TableBody>
                   {paginatedTickets.map((ticket) => (
-                    <TableRow key={ticket.id} className="hover:bg-slate-50">
+                    <TableRow key={ticket._id} className="hover:bg-slate-50">
                       <TableCell>
                         <div className="flex items-center">
                           <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">
-                            <Image
-                              src={
-                                ticket.user?.avatar ||
-                                `https://ui-avatars.com/api/?name=${encodeURIComponent(ticket.user?.fullName || "User")}&background=random`
-                              }
-                              alt="User avatar"
-                              className="h-full w-full object-cover"
+                            <AvatarNameImage
+                              name={ticket.user?.name || ""}
+                              className="h-8 w-8"
                             />
                           </div>
                           <div className="ml-3">
                             <p className="text-sm font-medium text-slate-900">
-                              {ticket.user?.fullName}
+                              {ticket.user?.name || "Anonymus"}
                             </p>
                             <p className="text-xs text-slate-500">
                               {ticket.user?.email}
@@ -263,23 +234,27 @@ const TicketsPage = () => {
                       </TableCell>
                       <TableCell>
                         <p className="text-sm text-slate-900">
-                          {getEventName(ticket.eventId)}
+                          {ticket.event.name}
                         </p>
                         <p className="text-xs text-slate-500">
                           {events &&
-                            events?.find((e) => e.id === ticket.eventId)
-                              ?.date &&
+                            events?.find((e) => e._id === ticket.eventId)
+                              ?.eventDate &&
                             formatDate(
-                              events.find((e) => e.id === ticket.eventId)
-                                ?.date || "",
+                              new Date(
+                                events.find((e) => e._id === ticket.eventId)
+                                  ?.eventDate || 0,
+                              ).toISOString(),
                             )}
                         </p>
                       </TableCell>
                       <TableCell className="text-sm text-slate-500">
-                        {formatDate(ticket.purchaseDate)}
+                        {formatDate(new Date(ticket.purchasedAt).toISOString())}
                         <br />
                         <span className="text-xs">
-                          {formatTime(ticket.purchaseDate)}
+                          {formatTime(
+                            new Date(ticket.purchasedAt).toISOString(),
+                          )}
                         </span>
                       </TableCell>
                       <TableCell className="text-sm text-slate-900">

@@ -114,7 +114,9 @@ const ProfilePage = () => {
                       <Image
                         src={user.imageUrl}
                         alt={user?.fullName || user?.username || "User profile"}
-                        className="h-full w-full object-cover"
+                        className="object-cover"
+                        width={64}
+                        height={64}
                       />
                     ) : (
                       <User className="h-8 w-8 text-slate-400" />

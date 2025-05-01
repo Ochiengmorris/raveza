@@ -12,10 +12,10 @@ import {
   TicketIcon,
 } from "lucide-react";
 import { useState } from "react";
-import { Card, CardContent } from "../ui/card";
-import { Button } from "../ui/button";
-import { Skeleton } from "../ui/skeleton";
-import { Input } from "../ui/input";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -23,17 +23,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table";
+} from "@/components/ui/table";
 import { formatDate } from "@/lib/utils";
 import { Id } from "@/convex/_generated/dataModel";
-import Image from "next/image";
+import AvatarNameImage from "@/components/other/AvatarNameImage";
 
 interface RecentTicketsProps {
-  tickets?: Ticket[];
+  tickets?: TicketProps[];
   isLoading?: boolean;
 }
 
-interface Ticket {
+export interface TicketProps {
   _id: Id<"tickets">;
   amount?: number;
   eventId: Id<"events">;
@@ -66,7 +66,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
   // Filter tickets based on search
   const filteredTickets = tickets
     ? tickets
-        .filter((ticket: Ticket) => {
+        .filter((ticket: TicketProps) => {
           return (
             searchQuery === "" ||
             ticket.user?.name
@@ -118,7 +118,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
 
   return (
     <Card className="border border-slate-200 bg-white mb-6 p-0">
-      <div className="border-b border-slate-200 p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-b border-slate-200 px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h2 className="font-semibold text-lg text-slate-900">
           Recent <span className="hidden lg:inline"> Ticket</span> Purchases
         </h2>
@@ -139,7 +139,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
         </div>
       </div>
 
-      <CardContent className="p-0">
+      <div className="">
         {isLoading ? (
           <div className="p-8 space-y-4">
             {[1, 2, 3, 4, 5].map((item) => (
@@ -165,7 +165,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
             </p>
           </div>
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto px-4">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -179,15 +179,14 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {paginatedTickets.map((ticket: Ticket) => (
+                {paginatedTickets.map((ticket: TicketProps) => (
                   <TableRow key={ticket._id} className="hover:bg-slate-50">
                     <TableCell>
                       <div className="flex items-center">
                         <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">
-                          <Image
-                            src={`https://ui-avatars.com/api/?name=${encodeURIComponent(ticket.user?.name || "User")}&background=random`}
-                            alt="User avatar"
-                            className="h-full w-full object-cover"
+                          <AvatarNameImage
+                            name={ticket.user?.name || "User"}
+                            className="h-8 w-8"
                           />
                         </div>
                         <div className="ml-3">
@@ -296,7 +295,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
             )}
           </div>
         )}
-      </CardContent>
+      </div>
     </Card>
   );
 };

@@ -99,13 +99,33 @@ const SellerEventsPage = () => {
       <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <div>
-            <h1 className="text-2xl font-bold text-slate-900">Events</h1>
+            <div className="flex items-center justify-between">
+              <h1 className="text-2xl font-bold text-slate-900">Events</h1>
+              <div className="md:hidden flex items-center justify-end gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="flex items-center gap-1 cursor-pointer"
+                >
+                  <DownloadIcon className="h-4 w-4" />
+                  Export
+                </Button>
+                <Button
+                  onClick={() => setIsCreateEventModalOpen(true)}
+                  className="bg-primary/5 text-primary-foreground hover:bg-jmprimary/50 cursor-pointer"
+                  size="sm"
+                >
+                  <PlusIcon className="h-4 w-4 mr-1" />
+                  New Event
+                </Button>
+              </div>
+            </div>
             <p className="text-slate-500 mt-1">
               Manage your upcoming and past events
             </p>
           </div>
 
-          <div className="mt-4 md:mt-0 flex items-center justify-end gap-2">
+          <div className="hidden mt-4 md:mt-0 md:flex items-center justify-end gap-2">
             <Button
               variant="outline"
               size="sm"
@@ -116,7 +136,7 @@ const SellerEventsPage = () => {
             </Button>
             <Button
               onClick={() => setIsCreateEventModalOpen(true)}
-              className="bg-jmprimary text-primary-foreground hover:bg-jmprimary/50 cursor-pointer"
+              className="bg-primary/5 text-primary-foreground hover:bg-jmprimary/50 cursor-pointer"
               size="sm"
             >
               <PlusIcon className="h-4 w-4 mr-1" />
