@@ -6,9 +6,12 @@ import MobileNavbar from "@/components/seller/MobileNavbar";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: "UmojaTickets: Buy & Sell Tickets for Events & Concerts",
+  title: {
+    default: "Seller",
+    template: "%s | Seller",
+  },
   description:
-    "UmojaTickets is a leading ticketing platform in Kenya for events and concerts, offering easy ticket purchases and seamless event management for both organizers and attendees.",
+    "Buy & Sell Tickets for Events & Concerts | Discover and book tickets to the most exciting events happening near you.",
 };
 
 export default async function RootLayout({

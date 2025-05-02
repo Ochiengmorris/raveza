@@ -22,14 +22,28 @@ const Header = () => {
 
           <div className="lg:hidden ml-auto">
             <SignedIn>
-              <UserButton />
+              <div className="flex items-center gap-3">
+                <Link href="/sell-tickets" className="shrink-0">
+                  <button className="bg-none text-primary-foreground px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0">
+                    Sell Tickets
+                  </button>
+                </Link>
+                <UserButton />
+              </div>
             </SignedIn>
             <SignedOut>
-              <SignInButton mode="modal">
-                <button className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition">
-                  Sign In
-                </button>
-              </SignInButton>
+              <div className="flex items-center gap-3">
+                <Link href="/sell-tickets" className="shrink-0">
+                  <button className="bg-none text-primary-foreground px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0">
+                    Sell Tickets
+                  </button>
+                </Link>
+                <SignInButton mode="modal">
+                  <button className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition">
+                    Sign In
+                  </button>
+                </SignInButton>
+              </div>
             </SignedOut>
           </div>
         </div>
@@ -53,11 +67,18 @@ const Header = () => {
           </SignedIn>
 
           <SignedOut>
-            <SignInButton mode="modal">
-              <button className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition  ">
-                Sign In
-              </button>
-            </SignInButton>
+            <div className="flex items-center gap-3">
+              <Link href="/sell-tickets" className="shrink-0">
+                <button className="bg-none text-primary-foreground px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0">
+                  Sell Tickets
+                </button>
+              </Link>
+              <SignInButton mode="modal">
+                <button className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition  ">
+                  Sign In
+                </button>
+              </SignInButton>
+            </div>
           </SignedOut>
         </div>
       </div>

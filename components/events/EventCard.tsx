@@ -29,7 +29,7 @@ const EventCard = ({
   eventId: Id<"events"> | null;
   motionkey: number;
 }) => {
-  const { user } = useUser();
+  const { user, isLoaded: isUserLoaded } = useUser();
   const router = useRouter();
 
   const event = useQuery(api.events.getById, {
@@ -116,7 +116,7 @@ const EventCard = ({
     );
   }
 
-  if (!event) {
+  if (!event || !isUserLoaded) {
     return (
       <div className="col-span-1">
         <EventCardSkeleton />
