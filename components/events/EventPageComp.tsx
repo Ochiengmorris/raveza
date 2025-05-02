@@ -139,7 +139,7 @@ const EventPageComp = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end">
               <div className="container pb-4 lg:pb-6 ml-4 lg:ml-6">
-                <Badge variant="category" className="md:pb-2">
+                <Badge variant="category">
                   {event.category}
                   {/* {"Music"} */}
                 </Badge>
@@ -192,10 +192,10 @@ const EventPageComp = ({
           </section>
         )}
 
-        <section className="container py-8 lg:mt-8 rounded-xl">
-          <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-2 gap-12">
+        <section className=" w-full py-8 lg:mt-8 rounded-xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 ">
             {/* Left Column - Event Details */}
-            <div className="">
+            <div className="space-y-4">
               {/* Additional Event Information */}
               <Card
                 className={cn(
@@ -238,7 +238,7 @@ const EventPageComp = ({
                 </div>
               </Card>
 
-              <Card className="rounded-lg p-0 overflow-hidden mt-4 text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+              <Card className="rounded-lg p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
                 <div className="bg-secondary py-3 px-5">
                   <h3 className="font-display font-semibold">Select Tickets</h3>
                 </div>
@@ -330,9 +330,9 @@ const EventPageComp = ({
             </div>
 
             {/* Right Column - Ticket Purchase Card */}
-            <div>
-              <div className="sticky top-8 space-y-4">
-                <EventCard motionkey={1} eventId={eventId} />
+            <div className="">
+              <div className=" space-y-4">
+                <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
 
                 {/* ticket should take the tickettypeId and price  */}
                 {user ? (

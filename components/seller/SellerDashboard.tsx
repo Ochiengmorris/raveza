@@ -94,7 +94,7 @@ const SellerDashboard = () => {
           <div className="flex justify-center gap-4">
             <button
               onClick={handleManageAccount}
-              className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors flex items-center"
+              className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 cursor-pointer transition-colors flex items-center"
             >
               <Cog className="w-4 h-4 mr-2" />
               Seller Dashboard
@@ -102,7 +102,7 @@ const SellerDashboard = () => {
 
             <Link
               href="/seller/events"
-              className="flex items-center gap-2 text-foreground bg-foreground/10 hover:bg-foreground/20 px-4 py-2 rounded-lg transition-colors"
+              className="flex items-center gap-2 text-foreground bg-foreground/10 hover:bg-foreground/20 px-4 py-2 cursor-pointer rounded-lg transition-colors"
             >
               <CalendarDays className="w-4 h-4" />
               <span className="text-sm">View my Events</span>

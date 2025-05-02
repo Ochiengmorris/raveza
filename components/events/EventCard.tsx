@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 
 import EventCardSkeleton from "@/components/events/EventCardSkeleton";
 import { Card } from "@/components/ui/card";
-import { cn, FormatMoney, useStorageUrl } from "@/lib/utils";
+import { cn, formatDate, FormatMoney, useStorageUrl } from "@/lib/utils";
 import { useCallback, useMemo } from "react";
 import { api } from "@/convex/_generated/api";
 import PurchaseTicket from "@/components/tickets/PurchaseTicket";
@@ -25,9 +25,11 @@ import PurchaseTicket from "@/components/tickets/PurchaseTicket";
 const EventCard = ({
   eventId,
   motionkey,
+  isEventPage,
 }: {
   eventId: Id<"events"> | null;
   motionkey: number;
+  isEventPage?: boolean;
 }) => {
   const { user, isLoaded: isUserLoaded } = useUser();
   const router = useRouter();
@@ -270,17 +272,22 @@ const EventCard = ({
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
             {/* Event Owner Ribbon */}
-            <div className="absolute bottom-[2px] left-[2px]">
+            <div className="absolute lg:bottom-[2px] bottom-[1px] left-[2px]">
               {isEventOwner && (
-                <span className="inline-flex items-center gap-1 bg-primary backdrop-blur-sm text-jmprimary px-2 py-1 rounded-tr-md  text-xs font-semibold">
-                  <StarIcon className="w-3 h-3" fill="currentColor" />
+                <span className="inline-flex items-center gap-1 bg-primary backdrop-blur-sm px-1 py-0.5 lg:px-2 lg:py-1 rounded-tr-md  text-xs font-semibold">
+                  <StarIcon
+                    className="lg:w-3 lg:h-3 w-2 h-2"
+                    fill="currentColor"
+                  />
                   Your Event
                 </span>
               )}
             </div>
           </div>
         )}
-        <div className={`px-6 pb-4 pt-2 ${imageUrl ? "relative" : ""}`}>
+        <div
+          className={`px-4  lg:px-6 pb-4 pt-2 ${imageUrl ? "relative" : ""}`}
+        >
           <div className="flex justify-between items-start">
             <div>
               <span className="text-xs text-card-foreground font-extrabold">
@@ -290,24 +297,16 @@ const EventCard = ({
                 </span>{" "}
               </span>
             </div>
-
-            {/* <div className="flex flex-col items-end gap-2 ml-4 shrink-0">
-              {availability.purchasedCount >= availability.totalTickets && (
-                <span className="px-4 py-1.5 bg-red-50 text-red-700 font-semibold rounded-full text-xs md:text-sm">
-                  Sold Out
-                </span>
-              )}
-            </div> */}
           </div>
 
-          <div className="mt-4 flex gap-4">
-            <div className="w-20 h-20 rounded-lg flex items-center justify-start flex-col shadow-md shrink-0  overflow-hidden">
-              <div className="uppercase bg-card-foreground px-2 py-1 justify-center flex font-bold  w-full text-card">
+          <div className=" mt-1 md:mt-2 lg:mt-4 flex flex-col md:flex-row lg:gap-4 gap-2">
+            <div className="xl:w-20 xl:h-20 lg:w-18 lg:h-18 w-16 h-16 rounded-lg items-center justify-start flex-col shadow-md shrink-0 overflow-hidden hidden md:flex">
+              <div className="uppercase bg-card-foreground flex px-2 py-1 justify-center font-bold text-xs md:text-sm lg:text-md w-full text-card">
                 {new Intl.DateTimeFormat("en-US", { month: "short" }).format(
                   new Date(event.eventDate),
                 )}
               </div>
-              <div className="text-card-foreground flex-1 flex items-center justify-center text-3xl font-bold">
+              <div className="text-card-foreground flex-1 flex items-center justify-center text-md md:text-2xl lg:text-3xl font-bold">
                 {new Intl.DateTimeFormat("en-US", { day: "numeric" }).format(
                   new Date(event.eventDate),
                 )}
@@ -315,17 +314,22 @@ const EventCard = ({
             </div>
             <div>
               <div className="flex items-center gap-2 text-muted-foreground">
-                <MapPin className="w-4 h-4" />
-                <span className="text-sm">{event.location}</span>
+                <MapPin className="lg:w-4 lg:h-4 w-3 h-3 shrink-0" />
+                <span className="text-xs lg:text-sm line-clamp-1">
+                  {event.location}
+                </span>
               </div>
-              <h2 className="text-xl md:text-2xl font-bold text-card-foreground line-clamp-2">
+              <h2 className="text-md lg:text-xl md:text-lg font-bold text-gray-700 line-clamp-2">
                 {event.name}
               </h2>
+            </div>
+            <div className="md:hidden text-xs text-muted-foreground">
+              {formatDate(new Date(event.eventDate).toISOString())}
             </div>
           </div>
 
           <div onClick={(e) => e.stopPropagation()} className="">
-            {!isPastEvent && renderTicketStatus()}
+            {!isPastEvent && isEventPage && renderTicketStatus()}
           </div>
         </div>
       </motion.div>
