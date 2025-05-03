@@ -65,7 +65,7 @@ const EventList = () => {
 
       {/* Upcoming Events Grid */}
       {upcomingEvents.length > 0 ? (
-        <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <section className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-6 mb-12">
           {upcomingEvents.map((event, index) => (
             <EventCard key={event._id} motionkey={index} eventId={event._id} />
           ))}
@@ -86,7 +86,7 @@ const EventList = () => {
           <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6">
             Past Events
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2  lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-6">
             {pastEvents.map((event, index) => (
               <EventCard
                 key={event._id}

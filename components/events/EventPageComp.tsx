@@ -9,7 +9,7 @@ import React, { useState } from "react";
 import Spinner from "../loaders/Spinner";
 import { ticketTypeWithId } from "@/app/(home)/events/[id]/page";
 import { Button } from "../ui/button";
-import { Clock, Heart, Info, Minus, Plus, Share2 } from "lucide-react";
+import { Clock, Heart, Minus, Plus, Share2 } from "lucide-react";
 import JoinQueue from "../tickets/JoinQueue";
 import EventCard from "./EventCard";
 import { Card } from "../ui/card";
@@ -330,8 +330,8 @@ const EventPageComp = ({
             </div>
 
             {/* Right Column - Ticket Purchase Card */}
-            <div className="">
-              <div className=" space-y-4">
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 lg:block">
+              <div className="space-y-4">
                 <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
 
                 {/* ticket should take the tickettypeId and price  */}
@@ -394,7 +394,7 @@ const EventPageComp = ({
                 )}
               </div>
 
-              <div className="border rounded-lg mt-4 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+              {/* <div className="border rounded-lg mt-4 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
                 <h3 className="font-display font-bold text-lg flex items-center mb-4 bg-secondary p-4">
                   <Info className="h-5 w-5 mr-2 text-jmprimary" />
                   Event Information
@@ -431,7 +431,7 @@ const EventPageComp = ({
                     organizer directly.
                   </p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

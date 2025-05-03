@@ -26,7 +26,7 @@ const HeroSection = () => {
             Find and book tickets to the hottest concerts, festivals, theater
             performances, and more, all in one place.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-4">
+          <div className="flex flex-row justify-center md:justify-start gap-4">
             <Link
               href="/events"
               className="px-6 py-4 bg-primary/90 hover:bg-primary text-accent-foreground font-semibold rounded-md transition duration-200 text-center"
