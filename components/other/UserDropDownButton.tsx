@@ -30,48 +30,23 @@ const DropButton = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-42 -translate-x-14">
-        {/* <DropdownMenuItem className={"justify-center"}>
-          <UserButton />
-        </DropdownMenuItem> */}
-
-        {/* <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Theme</DropdownMenuSubTrigger>
-          <DropdownMenuPortal>
-            <DropdownMenuSubContent>
-              <DropdownMenuItem
-                onClick={() => setTheme("light")}
-                className={cn("justify-center")}
-              >
-                Light
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setTheme("dark")}
-                className={cn("justify-center")}
-              >
-                Dark
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => setTheme("system")}
-                className={cn("justify-center")}
-              >
-                System
-              </DropdownMenuItem>
-            </DropdownMenuSubContent>
-          </DropdownMenuPortal>
-        </DropdownMenuSub> */}
         <DropdownMenuItem>
           <Button
+            variant={"outline"}
             onClick={() => redirect("/tickets")}
             className={"w-full justify-center"}
           >
             My Tickets
           </Button>
         </DropdownMenuItem>
-        <DropdownMenuItem
-          onClick={async () => await signOut()}
-          className="text-center"
-        >
-          Sign Out
+        <DropdownMenuItem className="">
+          <Button
+            variant={"link"}
+            onClick={async () => await signOut()}
+            className={"w-full justify-center"}
+          >
+            Sign Out
+          </Button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

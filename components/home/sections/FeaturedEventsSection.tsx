@@ -3,7 +3,7 @@ import { fetchQuery } from "convex/nextjs";
 import { api } from "@/convex/_generated/api";
 import EventCardSkeleton from "@/components/events/EventCardSkeleton";
 import Link from "next/link";
-import FeaturedCard from "@/components/home/FeaturedCard";
+import EventCard from "@/components/events/EventCard";
 
 const FeaturedEventsSection = async () => {
   const events =
@@ -37,11 +37,11 @@ const FeaturedEventsSection = async () => {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-2 w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
           {!events && renderSkeletons()}
           {events &&
             events.map((event) => (
-              <FeaturedCard key={event._id} eventId={event._id} />
+              <EventCard motionkey={1} key={event._id} eventId={event._id} />
             ))}
           {events && events.length === 0 && (
             <div className="col-span-full text-center py-8">

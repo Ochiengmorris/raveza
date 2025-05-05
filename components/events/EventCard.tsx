@@ -17,7 +17,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import EventCardSkeleton from "@/components/events/EventCardSkeleton";
-import { Card } from "@/components/ui/card";
 import { cn, formatDate, FormatMoney, useStorageUrl } from "@/lib/utils";
 import { useCallback, useMemo } from "react";
 import { api } from "@/convex/_generated/api";
@@ -226,9 +225,9 @@ const EventCard = ({
   };
 
   return (
-    <Card
+    <div
       className={cn(
-        "relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 hover:shadow-xl",
+        "relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 rounded-xl hover:shadow-xl",
       )}
     >
       <motion.div
@@ -258,32 +257,34 @@ const EventCard = ({
 
         {/* Event Image */}
         {imageUrl && !isEventPage && (
-          <div className="relative w-full h-[260px] overflow-hidden">
-            <Image
-              src={imageUrl}
-              alt={event.name}
-              fill
-              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
+          <div className="p-2">
+            <div className="relative w-full rounded-xl aspect-1/1 overflow-hidden ">
+              <Image
+                src={imageUrl}
+                alt={event.name}
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover"
+                loading="lazy"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
-            {/* Event Owner Ribbon */}
-            <div className="absolute lg:bottom-[2px] bottom-[1px] left-[2px]">
-              {isEventOwner && (
-                <span className="inline-flex items-center gap-1 bg-primary backdrop-blur-sm px-1 py-0.5 lg:px-2 lg:py-1 rounded-tr-md  text-xs font-semibold">
-                  <StarIcon
-                    className="lg:w-3 lg:h-3 w-2 h-2"
-                    fill="currentColor"
-                  />
-                  Your Event
-                </span>
-              )}
+              {/* Event Owner Ribbon */}
+              <div className="absolute hidden lg:bottom-[2px] bottom-[1px] left-[2px]">
+                {isEventOwner && (
+                  <span className="inline-flex items-center gap-1 bg-primary backdrop-blur-sm px-1 py-0.5 lg:px-2 lg:py-1 rounded-tr-md rounded-bl-xl text-xs font-semibold">
+                    <StarIcon
+                      className="lg:w-3 lg:h-3 w-2 h-2"
+                      fill="currentColor"
+                    />
+                    Your Event
+                  </span>
+                )}
+              </div>
             </div>
           </div>
         )}
-        <div className={`px-4 pb-4 pt-2 ${imageUrl ? "relative" : ""}`}>
+        <div className={`px-2 pb-4 ${imageUrl ? "relative" : ""}`}>
           <h2 className="text-md lg:text-xl md:text-lg font-bold text-gray-700 line-clamp-2">
             {event.name}
           </h2>
@@ -327,7 +328,7 @@ const EventCard = ({
           </div>
         </div>
       </motion.div>
-    </Card>
+    </div>
   );
 };
 
