@@ -47,3 +47,27 @@ export const FormatMoney: (amount?: number) => string = (amount) => {
     // maximumFractionDigits: 2,
   }).format(amount);
 };
+
+export const formatTime = (timeString?: string): string => {
+  if (!timeString) return "";
+  const hour = Number(timeString.slice(0, 2));
+  const minute = Number(timeString.slice(3, 5));
+  const amOrPm = hour >= 12 ? "PM" : "AM";
+  const formattedHour = hour % 12 || 12;
+  const formattedMinute = minute < 10 ? `0${minute}` : minute;
+  const formattedTime = `${formattedHour}:${formattedMinute} ${amOrPm}`;
+  return formattedTime;
+};
+
+export const formatDateTime = (dateTimeString: string): string => {
+  const date = new Date(dateTimeString);
+  const options: Intl.DateTimeFormatOptions = {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+  return date.toLocaleString(undefined, options);
+};

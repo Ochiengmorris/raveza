@@ -37,7 +37,7 @@ const EventList = () => {
       <section className="flex items-center justify-between mb-8">
         <div className="w-full">
           <div className="flex items-center justify-between ">
-            <h1 className="text-xl md:text-2xl  lg:text-3xl font-bold text-foreground">
+            <h1 className="text-2xl md:text-3xl heading font-bold text-foreground">
               Upcoming Events
             </h1>
             <div className="bg-white px-1.5 py-0.5 md:hidden rounded-lg shadow-sm border border-gray-100">
@@ -65,7 +65,7 @@ const EventList = () => {
 
       {/* Upcoming Events Grid */}
       {upcomingEvents.length > 0 ? (
-        <section className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-6 mb-12">
+        <section className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-6 mb-12">
           {upcomingEvents.map((event, index) => (
             <EventCard key={event._id} motionkey={index} eventId={event._id} />
           ))}
@@ -83,10 +83,10 @@ const EventList = () => {
       {/* Past Events Section */}
       {pastEvents.length > 0 && (
         <section>
-          <h2 className="text-xl md:text-2xl lg:text-3xl font-bold text-foreground mb-6">
-            Past Events
+          <h2 className="text-2xl md:text-3xl heading font-bold text-foreground mb-6">
+            <span className="text-destructive">Past</span> Events
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-6">
             {pastEvents.map((event, index) => (
               <EventCard
                 key={event._id}

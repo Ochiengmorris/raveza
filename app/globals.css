@@ -190,3 +190,7 @@
     @apply bg-background text-foreground;
   }
 }
+
+.heading {
+  font-weight: 900;
+}

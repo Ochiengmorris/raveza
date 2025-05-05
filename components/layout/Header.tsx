@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import new_logo from "@/images/logo/new_logo.png";
+import new_logo from "@/images/logo/logo_newer.png";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 
 const Header = () => {
@@ -15,7 +15,7 @@ const Header = () => {
               width={200}
               height={200}
               alt="logo"
-              className="object-contain w-[100px] h-[100px] md:w-[140px] md:h-[140px] absolute left-2 lg:-top-9"
+              className="object-contain w-[100px] h-[100px] md:w-[180px] md:h-[180px] absolute left-2 lg:-top-14"
               priority
             />
           </Link>

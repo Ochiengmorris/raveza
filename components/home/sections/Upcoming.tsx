@@ -8,7 +8,7 @@ const Upcoming = async () => {
   const events =
     (await fetchQuery(api.events.get))
       .filter((e) => e.eventDate > Date.now())
-      .splice(0, 3) || [];
+      .splice(0, 4) || [];
   return (
     <section className="py-14 ">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
@@ -27,7 +27,7 @@ const Upcoming = async () => {
             Browse events happening soon
           </p>
 
-          <div className="mt-6 grid grid-cols-2 w-full md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="mt-6 grid grid-cols-2 w-full md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4  gap-6">
             {/* {!events && renderSkeletons()} */}
             {events &&
               events.map((event) => (

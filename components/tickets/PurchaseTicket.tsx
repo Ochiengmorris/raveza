@@ -26,8 +26,6 @@ const PurchaseTicket = ({
 
   const [timeRemaining, setTimeRemaining] = useState("");
 
-  console.log(isModalOpen, timeRemaining);
-
   const offerExpiresAt = queuePosition?.offerExpiresAt ?? 0;
   const isExpired = Date.now() > offerExpiresAt;
 

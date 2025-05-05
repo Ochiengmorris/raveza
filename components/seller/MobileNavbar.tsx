@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import React, { useState } from "react";
-import logo from "@/images/logo/new_logo.png";
+import logo from "@/images/logo/logo_newer.png";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import MenuItemComp from "./MenuItemComp";

@@ -10,7 +10,7 @@ import {
   TagIcon,
 } from "lucide-react";
 import Image from "next/image";
-import logo_blue from "@/images/logo/new_logo.png";
+import logo_blue from "@/images/logo/logo_newer.png";
 import MenuItemComp from "@/components/seller/MenuItemComp";
 import { currentUser } from "@clerk/nextjs/server";
 import { RedirectToSignIn } from "@clerk/nextjs";

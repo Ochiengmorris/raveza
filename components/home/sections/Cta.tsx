@@ -9,7 +9,7 @@ export default function CTASection() {
         </h2>
         <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
           Join thousands of people who use{" "}
-          <span className="font-bold text-primary"> Raveza</span> to discover
+          <span className="font-bold text-primary"> raveza</span> to discover
           and book tickets to the most exciting events happening near them.
         </p>
         <div className="flex flex-row justify-center gap-4">

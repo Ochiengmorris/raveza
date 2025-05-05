@@ -37,9 +37,17 @@ export async function generateMetadata({
   const event = await getEvent(id as Id<"events">);
 
   if (event) {
+    const imageUrl = await fetchQuery(api.storage.getUrl, {
+      storageId: event.imageStorageId ?? ("" as Id<"_storage">),
+    });
     return {
       title: event.name,
       description: event.description,
+      openGraph: {
+        title: event.name,
+        description: event.description,
+        images: imageUrl ? [imageUrl] : undefined,
+      },
     };
   }
   return {

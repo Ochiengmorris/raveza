@@ -9,6 +9,7 @@ import {
   CircleArrowRight,
   LoaderCircle,
   MapPin,
+  PencilIcon,
   StarIcon,
   XCircle,
 } from "lucide-react";
@@ -95,7 +96,7 @@ const EventCard = ({
     [router, eventId],
   );
 
-  console.log(handleEditClick);
+  // console.log(handleEditClick);
 
   const handleTicketClick = useCallback(() => {
     if (userTicket) {
@@ -166,19 +167,18 @@ const EventCard = ({
   const renderTicketStatus = () => {
     if (!user) return null;
 
-    if (isEventOwner) {
-      // return (
-      //   <div className="mt-4">
-      //     <button
-      //       onClick={handleEditClick}
-      //       className="w-full bg-primary/80 text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200 ease-in-out shadow-sm flex items-center justify-center gap-2"
-      //     >
-      //       <PencilIcon className="w-5 h-5" />
-      //       Edit Event
-      //     </button>
-      //   </div>
-      // );
-      return null;
+    if (isEventOwner && isEventPage) {
+      return (
+        <div className="mt-4">
+          <button
+            onClick={handleEditClick}
+            className="w-full bg-primary/80 text-primary-foreground px-6 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors duration-200 ease-in-out shadow-sm flex items-center justify-center gap-2"
+          >
+            <PencilIcon className="w-5 h-5" />
+            Edit Event
+          </button>
+        </div>
+      );
     }
 
     if (userTicket) {
@@ -228,7 +228,7 @@ const EventCard = ({
   return (
     <Card
       className={cn(
-        "relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl p-0 hover:border hover:border-primary-foreground/20 hover:shadow-md hover:shadow-primary-foreground/10",
+        "relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 hover:shadow-xl",
       )}
     >
       <motion.div
@@ -257,17 +257,15 @@ const EventCard = ({
         )}
 
         {/* Event Image */}
-        {imageUrl && (
-          <div className="relative w-full h-48 overflow-hidden">
+        {imageUrl && !isEventPage && (
+          <div className="relative w-full h-[260px] overflow-hidden">
             <Image
               src={imageUrl}
               alt={event.name}
               fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              // sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               className="object-cover"
               loading="lazy"
-              placeholder="blur"
-              blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+ip1sAAAAASUVORK5CYII="
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
 
@@ -285,22 +283,13 @@ const EventCard = ({
             </div>
           </div>
         )}
-        <div
-          className={`px-4  lg:px-6 pb-4 pt-2 ${imageUrl ? "relative" : ""}`}
-        >
-          <div className="flex justify-between items-start">
-            <div>
-              <span className="text-xs text-card-foreground font-extrabold">
-                KES{" "}
-                <span className="text-xl">
-                  {FormatMoney(minTicketPrice)}
-                </span>{" "}
-              </span>
-            </div>
-          </div>
+        <div className={`px-4 pb-4 pt-2 ${imageUrl ? "relative" : ""}`}>
+          <h2 className="text-md lg:text-xl md:text-lg font-bold text-gray-700 line-clamp-2">
+            {event.name}
+          </h2>
 
-          <div className=" mt-1 md:mt-2 lg:mt-4 flex flex-col md:flex-row lg:gap-4 gap-2">
-            <div className="xl:w-20 xl:h-20 lg:w-18 lg:h-18 w-16 h-16 rounded-lg items-center justify-start flex-col shadow-md shrink-0 overflow-hidden hidden md:flex">
+          <div className="mt-1 flex flex-col md:flex-row lg:gap-4 gap-2">
+            <div className="w-16 h-16 rounded-lg items-center justify-start flex-col shadow-md shrink-0 overflow-hidden hidden md:flex">
               <div className="uppercase bg-card-foreground flex px-2 py-1 justify-center font-bold text-xs md:text-sm lg:text-md w-full text-card">
                 {new Intl.DateTimeFormat("en-US", { month: "short" }).format(
                   new Date(event.eventDate),
@@ -320,7 +309,12 @@ const EventCard = ({
                 </span>
               </div>
               <h2 className="text-md lg:text-xl md:text-lg font-bold text-gray-700 line-clamp-2">
-                {event.name}
+                <span className="text-xs text-card-foreground font-extrabold">
+                  KES{" "}
+                  <span className="text-xl">
+                    {FormatMoney(minTicketPrice)}
+                  </span>{" "}
+                </span>
               </h2>
             </div>
             <div className="md:hidden text-xs text-muted-foreground">
@@ -328,7 +322,7 @@ const EventCard = ({
             </div>
           </div>
 
-          <div onClick={(e) => e.stopPropagation()} className="">
+          <div onClick={(e) => e.stopPropagation()}>
             {!isPastEvent && isEventPage && renderTicketStatus()}
           </div>
         </div>

@@ -9,13 +9,12 @@ import React, { useState } from "react";
 import Spinner from "../loaders/Spinner";
 import { ticketTypeWithId } from "@/app/(home)/events/[id]/page";
 import { Button } from "../ui/button";
-import { Clock, Heart, Minus, Plus, Share2 } from "lucide-react";
+import { Heart, Minus, Plus, Share2 } from "lucide-react";
 import JoinQueue from "../tickets/JoinQueue";
 import EventCard from "./EventCard";
 import { Card } from "../ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
-import { Badge } from "../ui/badge";
 
 type Event = {
   _id: Id<"events">;
@@ -126,93 +125,90 @@ const EventPageComp = ({
       : 0;
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="rounded-xl overflow-hidden">
-        {imageUrl && (
-          // Event Header
-          <section className="h-64 lg:h-full lg:aspect-[21/9] relative w-full rounded-xl overflow-hidden border">
-            <Image
-              src={imageUrl}
-              alt={event.name}
-              fill
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end">
-              <div className="container pb-4 lg:pb-6 ml-4 lg:ml-6">
-                <Badge variant="category">
-                  {event.category}
-                  {/* {"Music"} */}
-                </Badge>
-                <h1 className="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-white md:leading-tight md:pb-2">
-                  {event.name}
-                </h1>
-                <div className="flex flex-wrap gap-4 text-white">
-                  <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5" />
-                    <span>{event.startTime}</span>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <section className="space-y-4">
+          {imageUrl && (
+            // Event Header
+            <div className="relative w-full rounded-xl overflow-hidden bg-[#120030]/10">
+              <Image
+                src={imageUrl}
+                alt={event.name}
+                width={1000}
+                height={1000}
+                className="object-cover"
+                priority
+              />
+              {/* <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-end">
+                <div className="container pb-4 lg:pb-6 ml-4 lg:ml-6">
+                  <Badge variant="category">
+                    {event.category}
+                  </Badge>
+                  <h1 className="font-display font-extrabold text-3xl md:text-4xl lg:text-5xl text-white md:leading-tight md:pb-2">
+                    {event.name}
+                  </h1>
+                  <div className="flex flex-wrap gap-4 text-sm md:text-base text-muted">
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4" />
+                      <span>{formatTime(event.startTime)}</span>
+                    </div>
                   </div>
                 </div>
+              </div> */}
+              <div className="absolute top-1.5 right-2 flex gap-2">
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className="rounded-full bg-white/80 hover:bg-white cursor-pointer"
+                  onClick={() => {
+                    if (navigator.share) {
+                      navigator
+                        .share({
+                          title: event.name,
+                          text: `Check out this event: ${event.name}`,
+                          url: window.location.href,
+                        })
+                        .catch((error) =>
+                          console.error("Error sharing", error),
+                        );
+                    } else {
+                      // Fallback for browsers that don't support the Web Share API
+                      toast("Sharing is not supported in your browser.", {
+                        description: "Please copy the link manually.",
+                      });
+                    }
+                  }}
+                >
+                  <Share2 className="h-5 w-5" />
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="icon"
+                  className={`rounded-full bg-white/80 hover:bg-white ${isFavorite ? "text-amber-500" : ""} cursor-pointer`}
+                  onClick={() => setIsFavorite(!isFavorite)}
+                >
+                  <Heart
+                    className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`}
+                  />
+                </Button>
               </div>
             </div>
-            <div className="absolute top-2 right-2 flex gap-2">
-              <Button
-                variant="secondary"
-                size="icon"
-                className="rounded-full bg-white/80 hover:bg-white"
-                onClick={() => {
-                  if (navigator.share) {
-                    navigator
-                      .share({
-                        title: event.name,
-                        text: `Check out this event: ${event.name}`,
-                        url: window.location.href,
-                      })
-                      .catch((error) => console.error("Error sharing", error));
-                  } else {
-                    // Fallback for browsers that don't support the Web Share API
-                    toast("Sharing is not supported in your browser.", {
-                      description: "Please copy the link manually.",
-                    });
-                  }
-                }}
-              >
-                <Share2 className="h-5 w-5" />
-              </Button>
-              <Button
-                variant="secondary"
-                size="icon"
-                className={`rounded-full bg-white/80 hover:bg-white ${isFavorite ? "text-red-500" : ""}`}
-                onClick={() => setIsFavorite(!isFavorite)}
-              >
-                <Heart
-                  className={`h-5 w-5 ${isFavorite ? "fill-current" : ""}`}
-                />
-              </Button>
-            </div>
-          </section>
-        )}
+          )}
 
-        <section className=" w-full py-8 lg:mt-8 rounded-xl">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 ">
-            {/* Left Column - Event Details */}
-            <div className="space-y-4">
-              {/* Additional Event Information */}
-              <Card
-                className={cn(
-                  "text-card-foreground bg-card rounded-lg p-6 relative shadow transition-all duration-300 overflow-hidden border-primary-foreground/10 max-w-xl",
-                )}
-              >
-                <h3 className="text-xl font-display font-semibold text-secondary-foreground">
-                  About this Event
-                </h3>
-                <p className="text-muted-foreground text-sm md:text-base whitespace-pre-line">
-                  {event.description}
-                </p>
+          <Card
+            className={cn(
+              "text-card-foreground bg-card rounded-lg p-6 relative shadow transition-all duration-300 overflow-hidden border-primary-foreground/10",
+            )}
+          >
+            <h3 className="text-xl font-display font-semibold text-secondary-foreground">
+              About this Event
+            </h3>
+            <p className="text-muted-foreground text-sm md:text-base whitespace-pre-line">
+              {event.description}
+            </p>
 
-                <div className="border-t">
-                  <h3 className="font-semibold mb-3">Organizer</h3>
+            <div>
+              {/* <h3 className="font-semibold mb-3">Organizer</h3>
                   <div className="flex items-center gap-3">
-                    {/** TODO: Add organizer logo */}
                     {user && (
                       <Image
                         src={user?.imageUrl}
@@ -234,205 +230,255 @@ const EventPageComp = ({
                         View Profile
                       </Button>
                     </div>
-                  </div>
-                </div>
-              </Card>
+                  </div> */}
+              <div className="text-gray-500 text-sm">
+                Organized by
+                <span className="capitalize text-[#6D28D9] font-semibold">
+                  {" "}
+                  {user?.username}
+                </span>
+              </div>
+            </div>
+          </Card>
+        </section>
 
-              <Card className="rounded-lg p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
-                <div className="bg-secondary py-3 px-5">
-                  <h3 className="font-display font-semibold">Select Tickets</h3>
-                </div>
+        <section className="w-full space-y-4">
+          <div className="flex flex-col sm:flex-row  gap-4">
+            <div className="flex-1">
+              <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
+            </div>
+            <Card className="rounded-lg md:hidden h-fit  p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+              <div className="bg-secondary py-3 px-5">
+                <h3 className="font-display font-semibold">Select Tickets</h3>
+              </div>
 
-                <div className="px-5">
-                  {allAvailability?.map((ticket) => (
-                    <div
-                      key={ticket.ticketType._id}
-                      className="pb-4 border-b last:border-0"
-                    >
-                      <div className="flex items-center justify-between ">
-                        <div>
-                          <h4 className="font-semibold">
-                            {ticket.ticketType.name}
-                          </h4>
-                          <p className="font-semibold text-muted-foreground text-xl  ml-2">
-                            <span className="text-secondary-foreground text-xs">
-                              Ksh
-                            </span>{" "}
-                            {FormatMoney(ticket.ticketType.price)}
-                          </p>
-                        </div>
-
-                        <div className="flex items-center gap-3">
-                          <Button
-                            variant={"outline"}
-                            type="button"
-                            size={"icon"}
-                            onClick={() =>
-                              handleTicketChange(ticket.ticketType._id, -1)
-                            }
-                            disabled={
-                              selectedCount[ticket.ticketType._id] <= 0 ||
-                              selectedTicket !== ticket.ticketType._id ||
-                              hasBeenOffered ||
-                              isEventPast ||
-                              isEventOwner ||
-                              userTicket !== null
-                            }
-                          >
-                            <Minus className="w-4 h-4" />
-                          </Button>
-
-                          <span className="w-6 text-center">
-                            {selectedCount[ticket.ticketType._id] || 0}
-                          </span>
-
-                          <Button
-                            variant={"outline"}
-                            type="button"
-                            size={"icon"}
-                            onClick={() =>
-                              handleTicketChange(ticket.ticketType._id, 1)
-                            }
-                            disabled={
-                              (selectedTicket !== null &&
-                                selectedTicket !== ticket.ticketType._id) ||
-                              hasBeenOffered ||
-                              isEventPast ||
-                              isEventOwner ||
-                              userTicket !== null
-                            }
-                          >
-                            <Plus className="w-4 h-4" />
-                          </Button>
-                        </div>
+              <div className="px-5">
+                {allAvailability?.map((ticket) => (
+                  <div
+                    key={ticket.ticketType._id}
+                    className="pb-4 border-b last:border-0"
+                  >
+                    <div className="flex items-center justify-between ">
+                      <div>
+                        <h4 className="font-semibold">
+                          {ticket.ticketType.name}
+                        </h4>
+                        <p className="font-semibold text-muted-foreground text-xl  ml-2">
+                          <span className="text-secondary-foreground text-xs">
+                            Ksh
+                          </span>{" "}
+                          {FormatMoney(ticket.ticketType.price)}
+                        </p>
                       </div>
 
-                      <div className="text-xs text-muted-foreground ml-2">
-                        {isEventPast
-                          ? "Event ended"
-                          : ticket.remainingTickets > 0
-                            ? ticket.remainingTickets === 1
-                              ? "1 Ticket Available"
-                              : `${ticket.remainingTickets} Tickets Available`
-                            : "0 Tickets Available"}
-                        {isEventPast
-                          ? null
-                          : ticket.remainingTickets === 0 && (
-                              <span className="text-red-500 ml-2">
-                                (Sold Out)
-                              </span>
-                            )}
+                      <div className="flex items-center gap-3">
+                        <Button
+                          variant={"outline"}
+                          type="button"
+                          size={"icon"}
+                          onClick={() =>
+                            handleTicketChange(ticket.ticketType._id, -1)
+                          }
+                          disabled={
+                            selectedCount[ticket.ticketType._id] <= 0 ||
+                            selectedTicket !== ticket.ticketType._id ||
+                            hasBeenOffered ||
+                            isEventPast ||
+                            isEventOwner ||
+                            userTicket !== null
+                          }
+                        >
+                          <Minus className="w-4 h-4" />
+                        </Button>
+
+                        <span className="w-6 text-center">
+                          {selectedCount[ticket.ticketType._id] || 0}
+                        </span>
+
+                        <Button
+                          variant={"outline"}
+                          type="button"
+                          size={"icon"}
+                          onClick={() =>
+                            handleTicketChange(ticket.ticketType._id, 1)
+                          }
+                          disabled={
+                            (selectedTicket !== null &&
+                              selectedTicket !== ticket.ticketType._id) ||
+                            hasBeenOffered ||
+                            isEventPast ||
+                            isEventOwner ||
+                            userTicket !== null
+                          }
+                        >
+                          <Plus className="w-4 h-4" />
+                        </Button>
                       </div>
                     </div>
-                  ))}
-                </div>
-              </Card>
+
+                    <div className="text-xs text-muted-foreground ml-2">
+                      {isEventPast
+                        ? "Event ended"
+                        : ticket.remainingTickets > 0
+                          ? ticket.remainingTickets === 1
+                            ? "1 Ticket Available"
+                            : `${ticket.remainingTickets} Tickets Available`
+                          : "0 Tickets Available"}
+                      {isEventPast
+                        ? null
+                        : ticket.remainingTickets === 0 && (
+                            <span className="text-red-500 ml-2">
+                              (Sold Out)
+                            </span>
+                          )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+
+          <Card className="rounded-lg hidden md:block p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+            <div className="bg-secondary py-3 px-5">
+              <h3 className="font-display font-semibold">Select Tickets</h3>
             </div>
 
-            {/* Right Column - Ticket Purchase Card */}
-            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 lg:block">
-              <div className="space-y-4">
-                <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
-
-                {/* ticket should take the tickettypeId and price  */}
-                {user ? (
-                  isEventPast ? (
-                    <div className="p-4 bg-destructive/10 text-center text-destructive w-full font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed  duration-200 px-4 py-3">
-                      This event has ended
+            <div className="px-5">
+              {allAvailability?.map((ticket) => (
+                <div
+                  key={ticket.ticketType._id}
+                  className="py-2 border-t first:border-0"
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h4 className="font-semibold">
+                        {ticket.ticketType.name}
+                      </h4>
+                      <p className="font-semibold text-muted-foreground text-xl  ml-2">
+                        <span className="text-secondary-foreground text-xs">
+                          Ksh
+                        </span>{" "}
+                        {FormatMoney(ticket.ticketType.price)}
+                      </p>
                     </div>
-                  ) : isEventOwner ? (
+
+                    <div className="flex items-center gap-1 md:gap-3">
+                      <Button
+                        variant={"outline"}
+                        type="button"
+                        size={"icon"}
+                        onClick={() =>
+                          handleTicketChange(ticket.ticketType._id, -1)
+                        }
+                        disabled={
+                          selectedCount[ticket.ticketType._id] <= 0 ||
+                          selectedTicket !== ticket.ticketType._id ||
+                          hasBeenOffered ||
+                          isEventPast ||
+                          isEventOwner ||
+                          userTicket !== null
+                        }
+                      >
+                        <Minus className="w-4 h-4" />
+                      </Button>
+
+                      <span className="w-6 text-center">
+                        {selectedCount[ticket.ticketType._id] || 0}
+                      </span>
+
+                      <Button
+                        variant={"outline"}
+                        type="button"
+                        size={"icon"}
+                        onClick={() =>
+                          handleTicketChange(ticket.ticketType._id, 1)
+                        }
+                        disabled={
+                          (selectedTicket !== null &&
+                            selectedTicket !== ticket.ticketType._id) ||
+                          hasBeenOffered ||
+                          isEventPast ||
+                          isEventOwner ||
+                          userTicket !== null
+                        }
+                      >
+                        <Plus className="w-4 h-4" />
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="text-xs text-muted-foreground ml-2">
+                    {isEventPast
+                      ? "Event ended"
+                      : ticket.remainingTickets > 0
+                        ? ticket.remainingTickets === 1
+                          ? "1 Ticket Available"
+                          : `${ticket.remainingTickets} Tickets Available`
+                        : "0 Tickets Available"}
+                    {isEventPast
+                      ? null
+                      : ticket.remainingTickets === 0 && (
+                          <span className="text-red-500 ml-2">(Sold Out)</span>
+                        )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </Card>
+
+          <div className="">
+            {user ? (
+              isEventPast ? (
+                <div className="p-4 bg-destructive/10 text-center text-destructive w-full font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed  duration-200 px-4 py-3">
+                  This event has ended
+                </div>
+              ) : isEventOwner ? (
+                <></>
+              ) : hasBeenOffered ? (
+                <div className="flex justify-end gap-2 max-w-xl">
+                  Total Price:{" "}
+                  <span className="font-bold">{FormatMoney(totalPrice)}</span>
+                </div>
+              ) : userTicket ? (
+                <div className="w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3">
+                  You have already purchased a ticket for this event
+                </div>
+              ) : (
+                <>
+                  <div className="flex justify-end gap-2 max-w-xl">
+                    Total Price:{" "}
+                    <span className="font-bold">{FormatMoney(totalPrice)}</span>
+                  </div>
+
+                  {selectedTicket !== null && selectedTicket !== "" ? (
+                    <JoinQueue
+                      eventId={eventId}
+                      userId={user.id}
+                      ticketTypeId={selectedTicket as Id<"ticketTypes">}
+                      selectedCount={selectedCount[selectedTicket]}
+                    />
+                  ) : (
                     <div
                       className={cn(
                         "w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3",
                       )}
                     >
-                      You are the owner of this event
+                      No Ticket Selected
                     </div>
-                  ) : hasBeenOffered ? (
-                    <></>
-                  ) : userTicket ? (
-                    <div className="w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3">
-                      You have already purchased a ticket for this event
-                    </div>
-                  ) : (
-                    <>
-                      <div className="flex justify-end gap-2">
-                        Total Price:{" "}
-                        <span className="font-bold">
-                          {FormatMoney(totalPrice)}
-                        </span>
-                      </div>
-
-                      {selectedTicket !== null && selectedTicket !== "" ? (
-                        <JoinQueue
-                          eventId={eventId}
-                          userId={user.id}
-                          ticketTypeId={selectedTicket as Id<"ticketTypes">}
-                          selectedCount={selectedCount[selectedTicket]}
-                        />
-                      ) : (
-                        <div
-                          className={cn(
-                            "w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3",
-                          )}
-                        >
-                          No Ticket Selected
-                        </div>
-                      )}
-                    </>
-                  )
-                ) : (
-                  <SignInButton mode="modal">
-                    <button
-                      className={cn(
-                        "w-full bg-primary text-primary-foreground font-semibold rounded-lg transition-all max-w-xl text-center duration-200 px-4 py-3",
-                      )}
-                    >
-                      Sign in to buy tickets
-                    </button>
-                  </SignInButton>
-                )}
-              </div>
-
-              {/* <div className="border rounded-lg mt-4 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
-                <h3 className="font-display font-bold text-lg flex items-center mb-4 bg-secondary p-4">
-                  <Info className="h-5 w-5 mr-2 text-jmprimary" />
-                  Event Information
-                </h3>
-                <ul className="space-y-3 text-sm px-4">
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">Refund Policy</span>
-                    <span className="font-semibold">No Refunds</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">
-                      Age Restrictions
-                    </span>
-                    <span className="font-semibold">All Ages</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">Accessibility</span>
-                    <span className="font-semibold">Wheelchair Accessible</span>
-                  </li>
-                  <li className="flex justify-between">
-                    <span className="text-muted-foreground">Contact</span>
-                    <Button
-                      variant="link"
-                      size="sm"
-                      className="h-auto font-semibold text-sm p-0"
-                    >
-                      Contact Organizer
-                    </Button>
-                  </li>
-                </ul>
-                <div className="mt-4 p-4 border-t text-xs text-muted-foreground">
-                  <p>
-                    For any questions regarding this event, please contact the
-                    organizer directly.
-                  </p>
-                </div>
-              </div> */}
-            </div>
+                  )}
+                </>
+              )
+            ) : (
+              <SignInButton mode="modal">
+                <button
+                  className={cn(
+                    "w-full bg-primary text-primary-foreground font-semibold rounded-lg transition-all max-w-xl text-center duration-200 px-4 py-3",
+                  )}
+                >
+                  Sign in to buy tickets
+                </button>
+              </SignInButton>
+            )}
           </div>
         </section>
       </div>
