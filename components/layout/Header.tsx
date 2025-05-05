@@ -3,10 +3,11 @@ import Link from "next/link";
 import React from "react";
 import new_logo from "@/images/logo/logo_newer.png";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import DropButton from "@/components/other/UserDropDownButton";
 
 const Header = () => {
   return (
-    <header className="border-b bg-background/90 backdrop-blur-lg sticky top-0 z-50 shadow-sm h-16">
+    <header className="bg-black backdrop-blur-lg sticky top-0 z-50 shadow-sm h-16">
       <div className="flex max-w-7xl m-auto flex-col lg:flex-row items-center gap-4 p-4 relative">
         <div className="flex lg:max-w-[100px] items-center w-full lg:mr-12">
           <Link href="/" className="flex items-center">
@@ -28,7 +29,7 @@ const Header = () => {
                     Sell Tickets
                   </button>
                 </Link>
-                <UserButton />
+                <DropButton />
               </div>
             </SignedIn>
             <SignedOut>
@@ -52,7 +53,7 @@ const Header = () => {
           <SignedIn>
             <div className="flex items-center gap-3">
               <Link href="/sell-tickets" className="shrink-0">
-                <button className="bg-none text-primary-foreground px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold">
+                <button className="bg-none text-primary px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold">
                   Sell Tickets
                 </button>
               </Link>

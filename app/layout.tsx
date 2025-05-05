@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: {
     default: "Raveza",
-    template: "%s | Raveza",
+    template: "%s | Raveza | Events & Concerts",
   },
   description:
     "Buy & Sell Tickets for Events & Concerts | Discover and book tickets to the most exciting events happening near you.",

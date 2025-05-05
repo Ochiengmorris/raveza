@@ -91,7 +91,7 @@ const SellerDashboard = () => {
     <div className="bg-card text-card-foreground shadow p-4 rounded-xl">
       <SignedIn>
         {userDetails?.isSeller ? (
-          <div className="flex justify-center gap-4">
+          <div className="flexflex-col md:flex-row items-center justify-center gap-4">
             <button
               onClick={handleManageAccount}
               className="bg-primary text-primary-foreground px-4 py-2 rounded-lg hover:bg-primary/90 cursor-pointer transition-colors flex items-center"
