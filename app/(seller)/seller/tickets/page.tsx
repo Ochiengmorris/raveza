@@ -122,7 +122,7 @@ const TicketsPage = () => {
       </div>
 
       <div className="mb-6 flex flex-row gap-2 lg:gap-4">
-        <div className="relative flex-1 hidden lg:flex">
+        <div className="relative flex-1 lg:flex">
           <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 h-4 w-4" />
           <Input
             type="text"
@@ -133,7 +133,7 @@ const TicketsPage = () => {
           />
         </div>
 
-        <div className="flex-1 lg:flex-none">
+        <div className="">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger>
               <div className="flex items-center">
@@ -150,7 +150,7 @@ const TicketsPage = () => {
           </Select>
         </div>
 
-        <div className="flex-1 lg:flex-none">
+        <div className="max-w-xs overflow-hidden lg:w-fit ">
           <Select value={eventFilter} onValueChange={setEventFilter}>
             <SelectTrigger>
               <div className="flex items-center overflow-hidden">

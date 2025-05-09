@@ -69,7 +69,7 @@ export default async function Page({
       <div className="min-h-[80vh] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
           <Spinner />
-          <p className="text-muted-foreground">Loading event details...</p>
+          {/* <p className="text-muted-foreground">Loading event details...</p> */}
         </div>
       </div>
     );

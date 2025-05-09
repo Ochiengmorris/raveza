@@ -22,11 +22,11 @@ export default defineSchema({
   promoCodes: defineTable({
     code: v.string(),
     discountPercentage: v.number(), // Discount percentage (0-100)
-    maxDiscountAmount: v.number(),
+    maxDiscountAmount: v.optional(v.number()),
     startDate: v.number(),
-    endDate: v.number(),
+    expiresAt: v.number(),
     isActive: v.boolean(),
-    eventId: v.optional(v.id("events")),
+    eventId: v.id("events"),
     usageLimit: v.optional(v.number()),
     usedCount: v.optional(v.number()),
   }),

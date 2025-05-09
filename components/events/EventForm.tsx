@@ -231,6 +231,9 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           }
 
           router.push(`/events/${eventId}`);
+          toast.success("Event created", {
+            description: "Your event has been successfully created.",
+          });
         } else {
           // Ensure initialData exists before proceeding with update
           if (!initialData) {
@@ -263,7 +266,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           }
 
           router.push(`/events/${initialData._id}`);
-          toast("Event updated", {
+          toast.success("Event updated", {
             description: "Your event has been successfully updated.",
           });
         }
@@ -273,7 +276,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           /Cannot reduce.*sold\)/,
         );
         const errorMessage = match ? match[0] : "An unexpected error occurred.";
-        toast("Uh oh! Something went wrong.", {
+        toast.error("Uh oh! Something went wrong.", {
           description: errorMessage,
         });
       }
