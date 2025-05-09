@@ -70,7 +70,7 @@ const Header = () => {
           <SignedOut>
             <div className="flex items-center gap-3">
               <Link href="/sell-tickets" className="shrink-0">
-                <button className="bg-none text-primary-foreground px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0">
+                <button className="bg-none px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all text-primary duration-200 ease-in-out font-semibold shrink-0">
                   Sell Tickets
                 </button>
               </Link>
