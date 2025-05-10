@@ -75,6 +75,7 @@ const Header = () => {
                 </button>
               </Link>
               <SignInButton mode="modal">
+                {/* sign in button */}
                 <button className="bg-primary text-primary-foreground shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition  ">
                   Sign In
                 </button>
