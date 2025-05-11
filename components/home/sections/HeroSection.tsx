@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HeroSection = () => {
   return (
-    <section className="relative bg-[#120030] overflow-hidden">
+    <section className="relative bg-black overflow-hidden">
       <div className="absolute inset-0 z-0">
         <Image
           src={hero}

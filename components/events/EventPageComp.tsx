@@ -9,10 +9,10 @@ import React, { useState } from "react";
 import Spinner from "../loaders/Spinner";
 import { ticketTypeWithId } from "@/app/(home)/events/[id]/page";
 import { Button } from "../ui/button";
-import { Heart, Minus, Plus, Share2 } from "lucide-react";
+import { Heart, Minus, Plus, Share2, Ticket } from "lucide-react";
 import JoinQueue from "../tickets/JoinQueue";
 import EventCard from "./EventCard";
-import { Card } from "../ui/card";
+import { Card, CardContent } from "../ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
 
@@ -28,6 +28,11 @@ type Event = {
   eventDate: number;
 };
 
+export type PromoCode = {
+  code: string;
+  discountPercent: number;
+};
+
 const EventPageComp = ({
   event,
   eventId,
@@ -40,6 +45,9 @@ const EventPageComp = ({
   const [selectedCount, setSelectedCount] = useState<{ [key: string]: number }>(
     {},
   );
+  // const [appliedPromoCode, setAppliedPromoCode] = useState<PromoCode | null>(
+  //   null,
+  // );
   const [isFavorite, setIsFavorite] = useState(false);
 
   const userTicket = useQuery(api.tickets.getUserTicketForEvent, {
@@ -117,6 +125,8 @@ const EventPageComp = ({
       return updatedCounts;
     });
   };
+
+  // const handleApplyPromoCode = (code: string) => {};
 
   const totalPrice =
     selectedTicket && ticketTypesQuery
@@ -200,7 +210,7 @@ const EventPageComp = ({
             )}
           >
             <h3 className="text-xl font-display font-semibold text-secondary-foreground">
-              About this Event
+              About This Event
             </h3>
             <p className="text-muted-foreground text-sm md:text-base whitespace-pre-line">
               {event.description}
@@ -231,13 +241,13 @@ const EventPageComp = ({
                       </Button>
                     </div>
                   </div> */}
-              <div className="text-gray-500 text-sm">
+              {/* <div className="text-gray-500 text-sm">
                 Organized by
                 <span className="capitalize text-[#6D28D9] font-semibold">
                   {" "}
                   {user?.username}
                 </span>
-              </div>
+              </div> */}
             </div>
           </Card>
         </section>
@@ -247,31 +257,130 @@ const EventPageComp = ({
             <div className="flex-1">
               <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
             </div>
-            <Card className="rounded-lg md:hidden h-fit  p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
-              <div className="bg-secondary py-3 px-5">
-                <h3 className="font-display font-semibold">Select Tickets</h3>
+            {/* <Card className="rounded-lg md:hidden h-fit p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+              <div className="bg-secondary py-3 px-5 flex items-center">
+                <Ticket size={24} className="text-primary mr-2" />
+                <h3 className="font-display font-bold">Select Tickets</h3>
               </div>
 
-              <div className="px-5">
+              <div className="p-4 space-y-4">
                 {allAvailability?.map((ticket) => (
-                  <div
+                  <Card
                     key={ticket.ticketType._id}
-                    className="pb-4 border-b last:border-0"
+                    className="p-0 border-l-4 border-l-primary overflow-hidden"
                   >
-                    <div className="flex items-center justify-between ">
-                      <div>
-                        <h4 className="font-semibold">
+                    <CardContent className="p-0">
+                      <div className="flex items-center justify-between ">
+                        <div>
+                          <h4 className="font-semibold">
+                            {ticket.ticketType.name}
+                          </h4>
+                          <p className="font-semibold text-muted-foreground text-xl  ml-2">
+                            <span className="text-secondary-foreground text-xs">
+                              Ksh
+                            </span>{" "}
+                            {FormatMoney(ticket.ticketType.price)}
+                          </p>
+                        </div>
+
+                        <div className="flex items-center gap-3">
+                          <Button
+                            variant={"outline"}
+                            type="button"
+                            size={"icon"}
+                            onClick={() =>
+                              handleTicketChange(ticket.ticketType._id, -1)
+                            }
+                            disabled={
+                              selectedCount[ticket.ticketType._id] <= 0 ||
+                              selectedTicket !== ticket.ticketType._id ||
+                              hasBeenOffered ||
+                              isEventPast ||
+                              isEventOwner ||
+                              userTicket !== null
+                            }
+                          >
+                            <Minus className="w-4 h-4" />
+                          </Button>
+
+                          <span className="w-6 text-center">
+                            {selectedCount[ticket.ticketType._id] || 0}
+                          </span>
+
+                          <Button
+                            variant={"outline"}
+                            type="button"
+                            size={"icon"}
+                            onClick={() =>
+                              handleTicketChange(ticket.ticketType._id, 1)
+                            }
+                            disabled={
+                              (selectedTicket !== null &&
+                                selectedTicket !== ticket.ticketType._id) ||
+                              hasBeenOffered ||
+                              isEventPast ||
+                              isEventOwner ||
+                              userTicket !== null
+                            }
+                          >
+                            <Plus className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+
+                      <div className="text-xs text-muted-foreground ml-2">
+                        {isEventPast
+                          ? "Event ended"
+                          : ticket.remainingTickets > 0
+                            ? ticket.remainingTickets === 1
+                              ? "1 Ticket Available"
+                              : `${ticket.remainingTickets} Tickets Available`
+                            : "0 Tickets Available"}
+                        {isEventPast
+                          ? null
+                          : ticket.remainingTickets === 0 && (
+                              <span className="text-red-500 ml-2">
+                                (Sold Out)
+                              </span>
+                            )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                ))}
+              </div>
+            </Card> */}
+          </div>
+
+          <Card className="rounded-lg p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+            <div className="bg-secondary py-3 px-5 flex items-center">
+              <Ticket size={24} className="text-primary mr-2" />
+              <h3 className="font-display font-bold">Select Tickets</h3>
+            </div>
+
+            <div className="p-4 space-y-4">
+              {allAvailability?.map((ticket) => (
+                <Card
+                  key={ticket.ticketType._id}
+                  className="p-0 border-l-4 border-l-primary overflow-hidden"
+                >
+                  <CardContent className="p-0">
+                    <div className="flex items-start md:items-center justify-between p-4">
+                      <div className="mb-4 md:mb-0">
+                        <h3 className="font-bold text-lg">
                           {ticket.ticketType.name}
-                        </h4>
-                        <p className="font-semibold text-muted-foreground text-xl  ml-2">
-                          <span className="text-secondary-foreground text-xs">
-                            Ksh
-                          </span>{" "}
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-1">
+                          All Inclusive
+                        </p>
+                        <p className="text-primary-foreground font-semibold">
+                          <span className="text-xs text-primary-foreground">
+                            ksh{" "}
+                          </span>
                           {FormatMoney(ticket.ticketType.price)}
                         </p>
                       </div>
 
-                      <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1 md:gap-3">
                         <Button
                           variant={"outline"}
                           type="button"
@@ -279,6 +388,7 @@ const EventPageComp = ({
                           onClick={() =>
                             handleTicketChange(ticket.ticketType._id, -1)
                           }
+                          className="rounded-full"
                           disabled={
                             selectedCount[ticket.ticketType._id] <= 0 ||
                             selectedTicket !== ticket.ticketType._id ||
@@ -302,6 +412,7 @@ const EventPageComp = ({
                           onClick={() =>
                             handleTicketChange(ticket.ticketType._id, 1)
                           }
+                          className="rounded-full"
                           disabled={
                             (selectedTicket !== null &&
                               selectedTicket !== ticket.ticketType._id) ||
@@ -316,7 +427,7 @@ const EventPageComp = ({
                       </div>
                     </div>
 
-                    <div className="text-xs text-muted-foreground ml-2">
+                    {/* <div className="text-xs text-muted-foreground ml-2">
                       {isEventPast
                         ? "Event ended"
                         : ticket.remainingTickets > 0
@@ -331,97 +442,9 @@ const EventPageComp = ({
                               (Sold Out)
                             </span>
                           )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </div>
-
-          <Card className="rounded-lg hidden md:block p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
-            <div className="bg-secondary py-3 px-5">
-              <h3 className="font-display font-semibold">Select Tickets</h3>
-            </div>
-
-            <div className="px-5">
-              {allAvailability?.map((ticket) => (
-                <div
-                  key={ticket.ticketType._id}
-                  className="py-2 border-t first:border-0"
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-semibold">
-                        {ticket.ticketType.name}
-                      </h4>
-                      <p className="font-semibold text-muted-foreground text-xl  ml-2">
-                        <span className="text-secondary-foreground text-xs">
-                          Ksh
-                        </span>{" "}
-                        {FormatMoney(ticket.ticketType.price)}
-                      </p>
-                    </div>
-
-                    <div className="flex items-center gap-1 md:gap-3">
-                      <Button
-                        variant={"outline"}
-                        type="button"
-                        size={"icon"}
-                        onClick={() =>
-                          handleTicketChange(ticket.ticketType._id, -1)
-                        }
-                        disabled={
-                          selectedCount[ticket.ticketType._id] <= 0 ||
-                          selectedTicket !== ticket.ticketType._id ||
-                          hasBeenOffered ||
-                          isEventPast ||
-                          isEventOwner ||
-                          userTicket !== null
-                        }
-                      >
-                        <Minus className="w-4 h-4" />
-                      </Button>
-
-                      <span className="w-6 text-center">
-                        {selectedCount[ticket.ticketType._id] || 0}
-                      </span>
-
-                      <Button
-                        variant={"outline"}
-                        type="button"
-                        size={"icon"}
-                        onClick={() =>
-                          handleTicketChange(ticket.ticketType._id, 1)
-                        }
-                        disabled={
-                          (selectedTicket !== null &&
-                            selectedTicket !== ticket.ticketType._id) ||
-                          hasBeenOffered ||
-                          isEventPast ||
-                          isEventOwner ||
-                          userTicket !== null
-                        }
-                      >
-                        <Plus className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </div>
-
-                  <div className="text-xs text-muted-foreground ml-2">
-                    {isEventPast
-                      ? "Event ended"
-                      : ticket.remainingTickets > 0
-                        ? ticket.remainingTickets === 1
-                          ? "1 Ticket Available"
-                          : `${ticket.remainingTickets} Tickets Available`
-                        : "0 Tickets Available"}
-                    {isEventPast
-                      ? null
-                      : ticket.remainingTickets === 0 && (
-                          <span className="text-red-500 ml-2">(Sold Out)</span>
-                        )}
-                  </div>
-                </div>
+                    </div> */}
+                  </CardContent>
+                </Card>
               ))}
             </div>
           </Card>

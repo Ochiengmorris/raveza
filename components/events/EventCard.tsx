@@ -227,7 +227,7 @@ const EventCard = ({
   return (
     <div
       className={cn(
-        "relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 rounded-xl hover:shadow-xl",
+        `relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 rounded-xl hover:shadow-xl ${isEventPage ? "sticky top-4" : ""} `,
       )}
     >
       <motion.div
