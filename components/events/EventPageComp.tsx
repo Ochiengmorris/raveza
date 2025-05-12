@@ -253,7 +253,7 @@ const EventPageComp = ({
         </section>
 
         <section className="w-full space-y-4">
-          <div className="sticky top-16 z-10 bg-card/80 backdrop-blur-md rounded-lg shadow-lg max-w-xl">
+          <div className="sticky top-[2px] z-10 bg-card/80 backdrop-blur-md rounded-lg shadow-lg max-w-xl overflow-hidden">
             <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
           </div>
 
@@ -263,7 +263,7 @@ const EventPageComp = ({
               <h3 className="font-display font-bold">Select Tickets</h3>
             </div>
 
-            <div className="p-4 space-y-4">
+            <div className="px-4 pb-4 space-y-4">
               {allAvailability?.map((ticket) => (
                 <Card
                   key={ticket.ticketType._id}
@@ -370,7 +370,7 @@ const EventPageComp = ({
                 </div>
               ) : userTicket ? (
                 <div className="w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3">
-                  You have already purchased a ticket for this event
+                  You already have a ticket for this event
                 </div>
               ) : (
                 <>

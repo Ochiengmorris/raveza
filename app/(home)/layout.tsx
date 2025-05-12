@@ -10,10 +10,12 @@ export default function UserLayout({
   return (
     <>
       <NextTopLoader showSpinner={false} />
-      <div className="flex flex-col h-full overflow-y-scroll">
+      <div className="flex flex-col h-full">
         <Header />
-        <main className="flex-1 ">{children}</main>
-        <Footer />
+        <div className="flex flex-col flex-1 overflow-y-scroll">
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </div>
       </div>
     </>
   );

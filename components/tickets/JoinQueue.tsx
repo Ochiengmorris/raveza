@@ -114,7 +114,7 @@ export default function JoinQueue({
           ) : (
             <button
               onClick={handleJoinQueue}
-              className="w-full px-6 py-3 rounded-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-200 shadow-md flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed"
+              className="w-full px-6 py-3 rounded-lg font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-colors duration-200 shadow-md flex items-center justify-center disabled:bg-gray-400 disabled:cursor-not-allowed cursor-pointer"
             >
               Buy Ticket
             </button>
