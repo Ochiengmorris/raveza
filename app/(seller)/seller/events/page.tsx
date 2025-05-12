@@ -79,21 +79,6 @@ const SellerEventsPage = () => {
     }
   };
 
-  // Function to render category name from ID
-  // const getCategoryName = (categoryname: string) => {
-  //   if (!categories) return "";
-  //   const category = categories.find((cat: any) => cat.id === categoryId);
-  //   return category ?  : "";
-  // };
-
-  // if (!events) {
-  //   return (
-  //     <div className="flex items-center justify-center h-screen">
-  //       <Spinner />
-  //     </div>
-  //   );
-  // }
-
   return (
     <>
       <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
@@ -112,7 +97,8 @@ const SellerEventsPage = () => {
                 </Button>
                 <Button
                   onClick={() => setIsCreateEventModalOpen(true)}
-                  className="bg-primary/5 text-primary-foreground hover:bg-jmprimary/50 cursor-pointer"
+                  className="flex items-center gap-1 cursor-pointer"
+                  variant={"default"}
                   size="sm"
                 >
                   <PlusIcon className="h-4 w-4 mr-1" />
@@ -136,10 +122,11 @@ const SellerEventsPage = () => {
             </Button>
             <Button
               onClick={() => setIsCreateEventModalOpen(true)}
-              className="bg-primary/5 text-primary-foreground hover:bg-jmprimary/50 cursor-pointer"
+              className="flex items-center gap-1 cursor-pointer"
+              variant={"default"}
               size="sm"
             >
-              <PlusIcon className="h-4 w-4 mr-1" />
+              <PlusIcon className="h-4 w-4" />
               New Event
             </Button>
           </div>
@@ -179,9 +166,9 @@ const SellerEventsPage = () => {
         </div>
 
         {componentLoadingStates.eventsLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map((item) => (
-              <Card key={item} className="overflow-hidden ">
+              <Card key={item} className="overflow-hidden p-0">
                 <Skeleton className="h-40 w-full" />
                 <CardContent className="p-4">
                   <Skeleton className="h-6 w-3/4 mb-2" />
@@ -196,7 +183,7 @@ const SellerEventsPage = () => {
             ))}
           </div>
         ) : filteredEvents.length === 0 ? (
-          <Card className="bg-slate-50">
+          <Card className="bg-slate-50 ">
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Calendar className="h-16 w-16 text-slate-300 mb-4" />
               <h3 className="text-lg font-medium text-slate-700 mb-2">

@@ -35,12 +35,12 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
 
   return (
     <div
-      className={`border max-w-[400px] mx-auto bg-card text-card-foreground rounded-xl overflow-hidden shadow-xl ${ticket.event.is_cancelled ? "border-red-800/50" : ""}`}
+      className={`max-w-[400px] mx-auto bg-card text-card-foreground rounded-xl shadow-xl ${ticket.event.is_cancelled ? "border-red-800/50" : ""}`}
     >
       {/* Event Header with Image */}
       <div className="relative ">
         {imageUrl && (
-          <div className="relative w-full aspect-[21/15] md:aspect-[21/10] ">
+          <div className="relative rounded-t-xl overflow-hidden w-full aspect-[21/15] md:aspect-[21/10] ">
             <Image
               src={imageUrl}
               alt={ticket.event.name}
@@ -65,6 +65,9 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
             </p>
           )}
         </div>
+
+        <div className="absolute -bottom-4 border border-r-0 border-t-0 border-b-0  border-l-black -right-5 bg-background p-5 rounded-full" />
+        <div className="absolute -bottom-4 -left-5 border border-l-0 border-t-0 border-b-0  border-r-black  bg-background p-5 rounded-full" />
       </div>
 
       {/* Ticket Content */}
@@ -90,11 +93,11 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
               {/* Location */}
               <div className="flex items-center text-gray-600">
                 <MapPin
-                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-jmprimary"}`}
+                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-primary"}`}
                 />
                 <div>
                   <p className="text-sm text-muted-foreground/80">Location</p>
-                  <p className="font-semibold text-primary-foreground/80">
+                  <p className="font-semibold text-primary/80">
                     {ticket.event.location}
                   </p>
                 </div>
@@ -102,15 +105,13 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
 
               <div className="flex items-center text-gray-600">
                 <User
-                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-jmprimary"}`}
+                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-primary"}`}
                 />
                 <div>
                   <p className="text-sm text-muted-foreground/80">
                     Ticket Holder
                   </p>
-                  <p className="font-semibold text-primary-foreground/80">
-                    {user.name}
-                  </p>
+                  <p className="font-semibold text-primary/80">{user.name}</p>
                 </div>
               </div>
             </div>
@@ -121,13 +122,13 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
             <div className="flex flex-col place-self-start mt-3">
               <div className="flex items-center text-gray-600">
                 <TicketIcon
-                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : ""}`}
+                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-primary"}`}
                 />
                 <div>
                   <p className="text-sm text-muted-foreground/80">
                     Ticket Type
                   </p>
-                  <p className="uppercase font-semibold  text-primary-foreground/80">
+                  <p className="uppercase font-semibold  text-primary/80">
                     {ticket.ticketType?.name}
                   </p>
                 </div>
@@ -135,13 +136,13 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
 
               <div className="flex items-center text-gray-600">
                 <Users
-                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-jmprimary"}`}
+                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-primary"}`}
                 />
                 <div>
                   <p className="text-sm text-muted-foreground/80">
                     Ticket Quantity
                   </p>
-                  <p className="font-bold text-2xl  text-primary-foreground/80">
+                  <p className="font-bold text-2xl  text-primary/80">
                     {(() => {
                       switch (ticket.count) {
                         case 1:
@@ -161,7 +162,7 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
 
               <div className="flex items-center text-gray-600">
                 <LayoutDashboard
-                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-jmprimary"}`}
+                  className={`w-5 h-5 mr-3 ${ticket.event.is_cancelled ? "text-red-800/50" : "text-primary"}`}
                 />
                 <div>
                   <p className="text-sm text-muted-foreground/80">Promoter</p>
@@ -212,7 +213,7 @@ const Ticket = ({ ticketId }: { ticketId: Id<"tickets"> }) => {
         className={`${ticket.event.is_cancelled ? "" : ""} px-6 py-4 flex justify-between items-center`}
       >
         <span className="text-sm text-foreground/70">
-          Purchase Date: {new Date(ticket.purchasedAt).toLocaleString()}
+          Purchased on: {new Date(ticket.purchasedAt).toLocaleString()}
         </span>
         <span
           className={`text-sm font-medium ${ticket.event.is_cancelled ? "text-red-600" : "text-jmprimary"}`}

@@ -3,7 +3,7 @@
 import Ticket from "@/components/tickets/Ticket";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
-import { ArrowLeft, Download, Share2 } from "lucide-react";
+import { ArrowLeft, Download } from "lucide-react";
 import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -145,21 +145,21 @@ export default function TicketPage() {
                 className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
               >
                 <Download className="w-4 h-4" />
-                <span className="text-sm">Save</span>
+                <span className="text-sm">PDF</span>
               </button>
               <button
                 onClick={exportAsPng}
                 className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
               >
-                <Share2 className="w-4 h-4" />
-                <span className="text-sm">Share</span>
+                <Download className="w-4 h-4" />
+                <span className="text-sm">PNG</span>
               </button>
             </div>
           </div>
 
           {/* Event Info Summary */}
           <div
-            className={`border bg-card text-card-foreground p-6 rounded-lg shadow-sm ${ticket.event.is_cancelled ? "border-red-800/50" : ""}`}
+            className={`bg-card text-card-foreground p-6 rounded-lg shadow-sm ${ticket.event.is_cancelled ? "border-red-800/50" : ""}`}
           >
             <h1 className="text-xl md:text-2xl font-bold">
               {ticket.event.name}
@@ -175,7 +175,7 @@ export default function TicketPage() {
                     ? "bg-red-50 text-red-700"
                     : ticket.event.eventDate < Date.now()
                       ? "bg-gray-50 text-gray-700"
-                      : "bg-jmprimary/10 text-jmprimary"
+                      : "bg-green-300/30 text-green-700"
                 }`}
               >
                 {ticket.event.is_cancelled
@@ -208,9 +208,7 @@ export default function TicketPage() {
 
         {/* Additional Information */}
         <div
-          className={`mt-8 rounded-lg p-4 ${
-            ticket.event.is_cancelled ? "border" : "border"
-          }`}
+          className={`mt-8 rounded-lg p-4 bg-card text-card-foreground shadow-sm`}
         >
           <h3
             className={`text-sm font-medium ${

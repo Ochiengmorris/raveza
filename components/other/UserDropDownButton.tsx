@@ -30,7 +30,7 @@ const DropButton = () => {
         </div>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-42 -translate-x-14">
-        <DropdownMenuItem>
+        <DropdownMenuItem className="bg-none">
           <Button
             variant={"outline"}
             onClick={() => redirect("/tickets")}

@@ -27,7 +27,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
   const statusColors = {
     valid: isPastEvent
       ? "bg-gray-50 text-gray-600 border-gray-200"
-      : "bg-primary/10 text-primary-foreground border-green-100",
+      : "bg-primary text-secondary border-green-100",
     used: "bg-gray-50 text-gray-600 border-gray-200",
     refunded: "bg-red-50 text-red-700 border-red-100",
     cancelled: "bg-red-50 text-red-700 border-red-100",
@@ -43,7 +43,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
   return (
     <Link
       href={`/tickets/${ticketId}`}
-      className={`block border bg-card text-card-foreground rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ${
+      className={`block bg-card text-card-foreground rounded-lg shadow-sm hover:shadow-md transition-all duration-200 ${
         ticket.event.is_cancelled ? "border-red-500/50" : ""
       } overflow-hidden ${isPastEvent ? "opacity-75 hover:opacity-100" : ""}`}
     >
@@ -85,7 +85,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
         <div className="space-y-2">
           <div className="flex items-center text-gray-600">
             <CalendarDays
-              className={`w-4 h-4 mr-2 ${ticket.event.is_cancelled ? "text-red-600" : "text-jmprimary"}`}
+              className={`w-4 h-4 mr-2 ${ticket.event.is_cancelled ? "text-red-600" : "text-primary"}`}
             />
             <span className="text-sm text-foreground/70">
               {new Date(ticket.event.eventDate).toLocaleDateString()}
@@ -93,7 +93,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
           </div>
           <div className="flex items-center">
             <MapPin
-              className={`w-4 h-4 mr-2 ${ticket.event.is_cancelled ? "text-red-600" : "text-jmprimary"}`}
+              className={`w-4 h-4 mr-2 ${ticket.event.is_cancelled ? "text-red-600" : "text-primary"}`}
             />
             <span className="text-sm text-foreground/70">
               {ticket.event.location}
@@ -108,7 +108,7 @@ export default function TicketCard({ ticketId }: { ticketId: Id<"tickets"> }) {
                 ? "text-red-600"
                 : isPastEvent
                   ? "text-foreground/70"
-                  : "text-jmprimary"
+                  : "text-primary"
             }`}
           >
             Ksh {FormatMoney(Number(ticket.amount))}

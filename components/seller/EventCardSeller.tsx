@@ -41,23 +41,23 @@ const EventCardSeller = ({
           {event.name}
         </h3>
 
-        <Badge className="mb-2 text-slate-900 bg-primary/10">
+        <Badge className="mb-2" variant="date">
           {event.category}
         </Badge>
 
         <div className="space-y-2">
-          <div className="flex items-start gap-2 text-sm text-primary-foreground">
+          <div className="flex items-start gap-2 text-sm text-gray-600">
             <Calendar className="h-4 w-4 mt-0.5" />
             <span>{eventDate}</span>
             <span>{event.startTime ?? "N/A"}</span>
           </div>
 
-          <div className="flex items-start gap-2 text-sm text-primary-foreground">
+          <div className="flex items-start gap-2 text-sm text-gray-600">
             <MapPin className="h-4 w-4 mt-0.5 " />
             <span className="line-clamp-1">{event.location}</span>
           </div>
 
-          <div className="flex items-start gap-2 text-sm text-primary-foreground">
+          <div className="flex items-start gap-2 text-sm text-gray-600">
             <Users className="h-4 w-4 mt-0.5" />
             <span>{event.metrics.totalTickets} capacity</span>
           </div>
@@ -65,7 +65,7 @@ const EventCardSeller = ({
 
         <div className="flex justify-between items-center mt-2 w-full">
           <div className="flex md:gap-2 justify-evenly md:justify-start w-full">
-            <Button variant="outline" size="sm">
+            <Button variant="default" size="sm">
               <EyeIcon className="h-4 w-4" />
               <span className="hidden md:block"> View</span>
             </Button>

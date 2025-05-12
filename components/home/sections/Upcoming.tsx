@@ -16,14 +16,14 @@ const Upcoming = async () => {
           {/* section heading */}
           <h2
             className={
-              "text-secondary-foreground sm:text-[50px] xs:text-[40px] text-[30px] font-bold"
+              "text-black sm:text-[50px] xs:text-[40px] text-[30px] font-bold"
             }
           >
             Upcoming Events
           </h2>
 
           {/* section subheading */}
-          <p className="sm:text-[18px] text-[14px] text-primary-foreground uppercase tracking-wider">
+          <p className="sm:text-[18px] text-[14px] text-primary uppercase tracking-wider">
             Browse events happening soon
           </p>
 

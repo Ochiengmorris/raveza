@@ -72,7 +72,7 @@ const Overview = () => {
 
           <div className="mt-4 md:mt-0 flex gap-2">
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               className="flex items-center gap-1"
             >
@@ -81,10 +81,11 @@ const Overview = () => {
             </Button>
             <Button
               onClick={() => setIsCreateEventModalOpen(true)}
-              className="bg-secondary-foreground/5 text-primary-foreground hover:bg-jmprimary/50"
+              className="flex items-center gap-1"
+              variant="default"
               size="sm"
             >
-              <PlusIcon className="h-4 w-4 mr-1" />
+              <PlusIcon className="h-4 w-4" />
               New Event
             </Button>
           </div>

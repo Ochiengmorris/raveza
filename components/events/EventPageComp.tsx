@@ -267,7 +267,7 @@ const EventPageComp = ({
               {allAvailability?.map((ticket) => (
                 <Card
                   key={ticket.ticketType._id}
-                  className="p-0 border-l-4 border-l-primary overflow-hidden"
+                  className="p-0 border-l-4 border-l-primary border-t-0 border-r-0 border-b-0 overflow-hidden"
                 >
                   <CardContent className="p-0">
                     <div className="flex items-start md:items-center justify-between p-4">
@@ -278,8 +278,8 @@ const EventPageComp = ({
                         <p className="text-gray-600 text-sm mb-1">
                           All Inclusive
                         </p>
-                        <p className="text-primary-foreground font-semibold">
-                          <span className="text-xs text-primary-foreground">
+                        <p className="text-accent-foreground font-semibold">
+                          <span className="text-xs text-accent-foreground/70">
                             ksh{" "}
                           </span>
                           {FormatMoney(ticket.ticketType.price)}
@@ -294,7 +294,7 @@ const EventPageComp = ({
                           onClick={() =>
                             handleTicketChange(ticket.ticketType._id, -1)
                           }
-                          className="rounded-full"
+                          className="rounded-full border-primary-foreground/20 hover:bg-primary-foreground/10"
                           disabled={
                             selectedCount[ticket.ticketType._id] <= 0 ||
                             selectedTicket !== ticket.ticketType._id ||
@@ -318,7 +318,7 @@ const EventPageComp = ({
                           onClick={() =>
                             handleTicketChange(ticket.ticketType._id, 1)
                           }
-                          className="rounded-full"
+                          className="rounded-full border-primary-foreground/20 hover:bg-primary-foreground/10"
                           disabled={
                             (selectedTicket !== null &&
                               selectedTicket !== ticket.ticketType._id) ||

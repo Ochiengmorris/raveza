@@ -38,10 +38,10 @@ const MenuItemComp: React.FC<ItemProps> = ({ title, items, toggleSidebar }) => {
               if (toggleSidebar) toggleSidebar();
             }}
             key={item.label}
-            className={`flex items-center ${splitPath === item.href && "bg-slate-300/20 text-primary font-semibold"} justify-start gap-2 p-3 rounded-md ${isMobile ? "text-gray-600" : "text-gray-400"}  hover:bg-slate-300/20 transition-colors duration-200 ease-in-out`}
+            className={`flex items-center ${splitPath === item.href ? (isMobile ? "text-primary bg-slate-600/10 font-semibold" : "bg-slate-300/20 text-secondary font-semibold") : ""} justify-start gap-2 p-3 rounded-md ${isMobile ? "text-gray-600" : "text-gray-400"}  hover:bg-slate-300/20 transition-colors duration-200 ease-in-out`}
           >
             {item.icon}
-            <span className="">{item.label}</span>
+            <span>{item.label}</span>
           </button>
         );
       })}

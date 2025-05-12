@@ -69,43 +69,25 @@ const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
   return (
     <Card className={cn("border border-slate-200 bg-white p-0", className)}>
       <CardHeader className="p-4 pb-0">
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center  mb-4">
           <CardTitle className="font-semibold text-lg text-slate-900">
             Revenue Overview
           </CardTitle>
           <div className="flex gap-2">
             <Button
               variant={timeRange === "monthly" ? "default" : "ghost"}
-              className={cn(
-                "text-xs px-2 py-1",
-                timeRange === "monthly"
-                  ? "bg-jmprimary hover:bg-jmprimary"
-                  : "bg-slate-200 text-slate-700",
-              )}
               onClick={() => setTimeRange("monthly")}
             >
               Monthly
             </Button>
             <Button
               variant={timeRange === "quarterly" ? "default" : "ghost"}
-              className={cn(
-                "text-xs px-2 py-1",
-                timeRange === "quarterly"
-                  ? "bg-jmprimary hover:bg-jmprimary"
-                  : "bg-slate-200 text-slate-700",
-              )}
               onClick={() => setTimeRange("quarterly")}
             >
               Quarterly
             </Button>
             <Button
               variant={timeRange === "yearly" ? "default" : "ghost"}
-              className={cn(
-                "text-xs px-2 py-1",
-                timeRange === "yearly"
-                  ? "bg-jmprimary hover:bg-jmprimary"
-                  : "bg-slate-200 text-slate-700",
-              )}
               onClick={() => setTimeRange("yearly")}
             >
               Yearly

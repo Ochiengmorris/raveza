@@ -49,7 +49,7 @@ const EventList = () => {
               </div>
             </div>
           </div>
-          <p className="mt-2 text-primary-foreground text-sm md:text-base">
+          <p className="mt-2 text-primary text-sm md:text-base">
             Discover & book tickets for amazing events
           </p>
         </div>
@@ -86,7 +86,7 @@ const EventList = () => {
           <h2 className="text-2xl md:text-3xl heading font-bold text-foreground mb-6">
             <span className="text-destructive">Past</span> Events
           </h2>
-          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 lg:gap-6">
+          <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-4 lg:gap-6">
             {pastEvents.map((event, index) => (
               <EventCard
                 key={event._id}

@@ -19,6 +19,7 @@ import { useUser } from "@clerk/nextjs";
 import MenuItemComp from "./MenuItemComp";
 import LogOutButton from "./LogOutButton";
 import AvatarNameImage from "../other/AvatarNameImage";
+import { Button } from "../ui/button";
 
 export const menuItems = [
   {
@@ -99,13 +100,14 @@ const MobileNavbar = () => {
         </div>
 
         {/* Toggle Button */}
-        <button
-          className={`text-secondary-foreground bg-primary hover:bg-primary/60 rounded-md p-2 transition-all duration-300 ease-in-out  ${isOpen ? "hidden" : ""}`}
+        <Button
+          className={`${isOpen ? "hidden" : ""}`}
           aria-label="Toggle sidebar"
           onClick={toggleSidebar}
+          variant={"default"}
         >
           <Menu size={24} />
-        </button>
+        </Button>
       </div>
 
       <div className="relative md:hidden">

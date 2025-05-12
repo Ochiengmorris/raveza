@@ -29,7 +29,7 @@ const HeroSection = () => {
           <div className="flex flex-row justify-center md:justify-start gap-4">
             <Link
               href="/events"
-              className="px-6 py-4 bg-primary/90 hover:bg-primary text-accent-foreground font-semibold rounded-md transition duration-200 text-center"
+              className="px-6 py-4 bg-primary/90 hover:bg-primary text-accent font-semibold rounded-md transition duration-200 text-center"
             >
               Explore Events
             </Link>

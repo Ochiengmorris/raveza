@@ -41,10 +41,10 @@ const CategoriesSection = async () => {
     <section id="categories" className="py-16 bg-neutral-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-12">
-          <h2 className=" text-secondary-foreground sm:text-[50px] xs:text-[40px] text-[30px] font-bold">
+          <h2 className=" text-black sm:text-[50px] xs:text-[40px] text-[30px] font-bold">
             Browse by Category
           </h2>
-          <p className="sm:text-[18px] text-[14px] text-primary-foreground uppercase tracking-wider">
+          <p className="sm:text-[18px] text-[14px] text-primary uppercase tracking-wider">
             Find events that match your interests and passions
           </p>
         </div>

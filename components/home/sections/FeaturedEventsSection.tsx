@@ -22,10 +22,10 @@ const FeaturedEventsSection = async () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center mb-10">
           <div>
-            <h2 className=" text-landingsecondary sm:text-[50px] xs:text-[40px] text-[30px] font-bold">
+            <h2 className=" text-black sm:text-[50px] xs:text-[40px] text-[30px] font-bold">
               Featured Events
             </h2>
-            <p className="sm:text-[18px] text-[14px] text-primary-foreground uppercase tracking-wider">
+            <p className="sm:text-[18px] text-[14px] text-primary uppercase tracking-wider">
               Don&apos;t miss out on these popular events
             </p>
           </div>{" "}

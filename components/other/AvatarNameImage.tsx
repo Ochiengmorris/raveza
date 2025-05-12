@@ -13,7 +13,7 @@ const AvatarNameImage = ({
   return (
     <div>
       <div
-        className={`rounded-full bg-primary-foreground text-white flex items-center justify-center ${className} capitalize`}
+        className={`rounded-full bg-primary-foreground/10 text-primary flex items-center justify-center ${className} capitalize font-bold`}
       >
         {initials}
       </div>

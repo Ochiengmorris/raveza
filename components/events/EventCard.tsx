@@ -191,7 +191,7 @@ const EventCard = ({
           </div>
           <button
             onClick={handleTicketClick}
-            className="text-sm bg-primary/50 hover:bg-primary/70 text-black px-3 py-1.5 rounded-full font-medium shadow-sm transition-colors duration-200 flex items-center gap-1"
+            className="text-sm bg-primary/80 hover:bg-primary text-accent px-3 py-1.5 rounded-full font-medium shadow-sm transition-colors duration-200 flex items-center gap-1"
           >
             View <span className="hidden lg:inline">your</span> ticket
           </button>
@@ -246,7 +246,7 @@ const EventCard = ({
         {isPastEvent && (
           <>
             <div className="absolute top-4 right-2 text-white text-xs font-extrabold uppercase transform rotate-45 translate-x-10 -translate-y-3 z-20">
-              <div className="py-2.5 bg-white z-10">
+              <div className="py-2.5 bg-primary z-10">
                 <span className="bg-destructive text-accent py-2 px-10">
                   PAST
                 </span>
@@ -255,10 +255,21 @@ const EventCard = ({
           </>
         )}
 
+        {isPastEvent && !isEventPage && (
+          <>
+            <div className="absolute top-[9.5px] right-[42.5px] transform -rotate-[30deg] translate-x-0 -translate-y-4">
+              <div className="bg-primary h-6 w-6" />
+            </div>
+            <div className="absolute top-[62px] -right-[12.5px] transform rotate-[30deg] translate-x-0 -translate-y-4 z-">
+              <div className="bg-primary h-6 w-6" />
+            </div>
+          </>
+        )}
+
         {/* Event Image */}
         {imageUrl && !isEventPage && (
           <div className="p-2">
-            <div className="relative w-full rounded-xl aspect-1/1 overflow-hidden ">
+            <div className="relative w-full rounded-xl aspect-1/1 overflow-hidden z-10">
               <Image
                 src={imageUrl}
                 alt={event.name}
