@@ -49,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased overflow-hidden `}
+        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased `}
       >
         <ClerkProvider dynamic>
           <ConvexClientProvider>

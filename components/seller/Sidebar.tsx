@@ -10,7 +10,7 @@ import {
   TagIcon,
 } from "lucide-react";
 import Image from "next/image";
-import logo_blue from "@/images/logo/logo_newer.png";
+import logo_blue from "@/images/logo/grupu1.png";
 import MenuItemComp from "@/components/seller/MenuItemComp";
 import { currentUser } from "@clerk/nextjs/server";
 import { RedirectToSignIn } from "@clerk/nextjs";
@@ -81,19 +81,19 @@ const Sidebar = async () => {
   return (
     <div className="hidden md:flex md:w-64 lg:w-72 flex-col bg-black text-gray-300 fixed inset-y-0">
       {/* Logo */}
-      <Link href="/" className="flex items-center justify-center">
+      <Link href="/" className="flex items-center justify-center mt-4">
         <Image
           src={logo_blue}
           width={200}
           height={200}
           alt="logo"
-          className="object-contain w-[100px] h-[100px] md:w-[140px] md:h-[140px] absolute -top-6 cursor-pointer"
+          className="object-contain w-12 h-12 md:w-16 md:h-16 "
           priority
         />
       </Link>
 
       {/* Navigation */}
-      <nav className="mt-[70px] px-2 text-sm flex flex-col justify-start gap-4 grow">
+      <nav className=" px-2 text-sm flex flex-col justify-start gap-4 grow">
         {menuItems.map((section, index) => (
           <MenuItemComp
             key={index}

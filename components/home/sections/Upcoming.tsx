@@ -1,7 +1,6 @@
 import EventCard from "@/components/events/EventCard";
 import { api } from "@/convex/_generated/api";
 import { fetchQuery } from "convex/nextjs";
-import Link from "next/link";
 import React from "react";
 
 const Upcoming = async () => {
@@ -10,7 +9,7 @@ const Upcoming = async () => {
       .filter((e) => e.eventDate > Date.now())
       .splice(0, 4) || [];
   return (
-    <section className="py-14 ">
+    <section className="py-[28px] ">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex flex-col items-start">
           {/* section heading */}
@@ -42,14 +41,14 @@ const Upcoming = async () => {
             )}
           </div>
 
-          <div className="mt-8 text-center w-full  md:hidden">
+          {/* <div className="mt-8 text-center w-full  md:hidden">
             <Link
               href="/events"
               className="inline-flex items-center text-primary hover:text-primary-dark font-medium"
             >
               View All Upcoming Events
             </Link>
-          </div>
+          </div> */}
         </div>
       </div>
     </section>

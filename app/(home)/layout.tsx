@@ -13,7 +13,7 @@ export default function UserLayout({
       <div className="flex flex-col h-full">
         <Header />
         <div className="flex flex-col flex-1 overflow-y-scroll">
-          <main className="flex-1">{children}</main>
+          <main className="grow">{children}</main>
           <Footer />
         </div>
       </div>

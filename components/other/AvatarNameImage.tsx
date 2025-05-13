@@ -8,7 +8,10 @@ const AvatarNameImage = ({
   className?: string;
 }) => {
   const splicedName = name.toUpperCase().split(" ");
-  const initials = splicedName[0][0] + splicedName[1][0];
+  const initials =
+    splicedName.length > 1
+      ? splicedName[0].charAt(0) + splicedName[1].charAt(0)
+      : splicedName[0].charAt(0) + splicedName[0].charAt(1);
 
   return (
     <div>

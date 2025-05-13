@@ -22,20 +22,20 @@ const HeroSection = () => {
             <br />
             <span className="text-primary">Live Events</span>
           </h1>
-          <p className="text-lg md:text-xl text-white opacity-90 mb-8 max-w-2xl md:max-w-3xl">
+          <p className="text-sm md:text-xl text-white opacity-90 mb-8 max-w-2xl md:max-w-3xl">
             Find and book tickets to the hottest concerts, festivals, theater
             performances, and more, all in one place.
           </p>
           <div className="flex flex-row justify-center md:justify-start gap-4">
             <Link
               href="/events"
-              className="px-6 py-4 bg-primary/90 hover:bg-primary text-accent font-semibold rounded-md transition duration-200 text-center"
+              className="flex-1 md:flex-none py-3 md:px-6 md:py-4 bg-primary/90 hover:bg-primary text-accent text-sm md:text-md font-semibold rounded-md transition duration-200 flex items-center justify-center"
             >
               Explore Events
             </Link>
             <Link
               href="/categories"
-              className="px-6 py-4 bg-primary/5 hover:bg-primary/30 text-accent font-semibold rounded-md transition duration-200 text-center border border-primary/40 hover:border-primary/5"
+              className="flex-1 md:flex-none py-3  md:px-6 md:py-4 bg-transparent hover:bg-primary/30 text-sm md:text-md text-accent border border-primary/40 hover:border-primary/5 font-semibold rounded-md transition duration-200 flex items-center shrink-0  justify-center"
             >
               Browse Categories
             </Link>

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import new_logo from "@/images/logo/logo_newer.png";
+import new_logo from "@/images/logo/grupu1.png";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import DropButton from "@/components/other/UserDropDownButton";
 
@@ -13,10 +13,10 @@ const Header = () => {
           <Link href="/" className="flex items-center">
             <Image
               src={new_logo}
-              width={200}
-              height={200}
+              width={100}
+              height={100}
               alt="logo"
-              className="object-contain w-[100px] h-[100px] md:w-[180px] md:h-[180px] absolute left-2 lg:-top-14"
+              className="object-contain w-8 h-8 md:w-10 md:h-10"
               priority
             />
           </Link>
@@ -35,12 +35,12 @@ const Header = () => {
             <SignedOut>
               <div className="flex items-center gap-3">
                 <Link href="/sell-tickets" className="shrink-0">
-                  <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0 cursor-pointer">
+                  <button className="bg-none text-accent px-3 py-2 text-xs md:text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0 cursor-pointer">
                     Sell Tickets
                   </button>
                 </Link>
                 <SignInButton mode="modal">
-                  <button className="bg-primary text-accent shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition cursor-pointer">
+                  <button className="bg-primary text-accent shadow hover:bg-primary/90 px-3 py-2 text-xs md:text-sm rounded-lg font-semibold transition cursor-pointer">
                     Sign In
                   </button>
                 </SignInButton>

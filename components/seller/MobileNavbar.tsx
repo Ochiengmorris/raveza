@@ -13,7 +13,7 @@ import {
   X,
 } from "lucide-react";
 import React, { useState } from "react";
-import logo from "@/images/logo/logo_newer.png";
+import logo from "@/images/logo/grupu1.png";
 import Image from "next/image";
 import { useUser } from "@clerk/nextjs";
 import MenuItemComp from "./MenuItemComp";
@@ -94,7 +94,7 @@ const MobileNavbar = () => {
             width={200}
             height={200}
             alt="logo"
-            className="object-contain w-[100px] h-[100px] md:w-[140px] md:h-[140px] absolute -top-4"
+            className="object-contain w-8 h-8 md:w-10 md:h-10"
             priority
           />
         </div>
@@ -132,7 +132,7 @@ const MobileNavbar = () => {
                 width={200}
                 height={200}
                 alt="logo"
-                className="object-contain w-[100px] h-[100px] md:w-[140px] md:h-[140px] absolute -top-4"
+                className="object-contain w-10 h-10 md:w-16 md:h-16"
                 priority
               />
             </div>

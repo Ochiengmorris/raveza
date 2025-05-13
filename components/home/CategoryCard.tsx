@@ -19,10 +19,10 @@ const CategoryCard = ({ title, icon, count, color }: CategoryCardProps) => {
       >
         {icon}
       </div>
-      <h3 className="font-display font-semibold text-lg text-landingsecondary mb-1">
+      <h3 className="font-display font-semibold md:text-lg text-landingsecondary mb-1">
         {title}
       </h3>
-      <p className="text-sm text-muted-foreground">{count} Events</p>
+      <p className="text-xs md:text-sm text-muted-foreground">{count} Events</p>
     </Link>
   );
 };
