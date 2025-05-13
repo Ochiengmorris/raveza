@@ -4,7 +4,7 @@ import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import NextTopLoader from "nextjs-toploader";
+// import NextTopLoader from "nextjs-toploader";
 import SyncUserWithConvex from "@/components/other/SyncUserWithConvex";
 
 const geistSans = Geist({
@@ -49,12 +49,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased overflow-hidden`}
+        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased`}
       >
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <SyncUserWithConvex />
-            <NextTopLoader showSpinner={false} />
             <main className="flex flex-col h-screen">{children}</main>
             <Toaster />
           </ConvexClientProvider>
