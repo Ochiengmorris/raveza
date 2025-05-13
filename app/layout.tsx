@@ -49,15 +49,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased `}
+        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased overflow-hidden`}
       >
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <SyncUserWithConvex />
             <NextTopLoader showSpinner={false} />
-            <main className="flex flex-col h-screen overflow-hidden">
-              {children}
-            </main>
+            <main className="flex flex-col h-screen">{children}</main>
             <Toaster />
           </ConvexClientProvider>
         </ClerkProvider>

@@ -98,7 +98,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/terms"
-                    className="text-neutral-500 hover:text-neutral-900 transition duration-300 text-sm md:text-base"
+                    className="text-neutral-500 hover:text-neutral-900 transition duration-300 text-xs md:text-sm lg:text-base"
                   >
                     Terms of Service
                   </Link>
@@ -106,7 +106,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/privacy"
-                    className="text-neutral-500 hover:text-neutral-900 transition duration-300 text-sm md:text-base"
+                    className="text-neutral-500 hover:text-neutral-900 transition duration-300 text-xs md:text-sm lg:text-base"
                   >
                     Privacy Policy
                   </Link>
