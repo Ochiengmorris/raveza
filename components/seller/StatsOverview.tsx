@@ -129,7 +129,7 @@ const StatsOverview = ({ stats, isLoading = false }: StatsOverviewProps) => {
         // Loading state
         <>
           {[1, 2, 3, 4].map((id) => (
-            <Card key={id} className="p-4">
+            <Card key={id} className="p-4 border-none">
               <div className="flex items-center">
                 <Skeleton className="h-12 w-12 rounded-full mr-4" />
                 <div>

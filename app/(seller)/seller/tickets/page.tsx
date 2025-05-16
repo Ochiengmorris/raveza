@@ -171,7 +171,7 @@ const TicketsPage = () => {
         </div>
       </div>
 
-      <Card className="overflow-hidden p-0 lg:px-4 px-2 py-2">
+      <Card className="overflow-hidden p-0 lg:px-4 px-2 py-2 border-none">
         <CardContent className="p-0">
           {isLoadingTickets || isLoadingEvents ? (
             <div className="p-8 space-y-4">

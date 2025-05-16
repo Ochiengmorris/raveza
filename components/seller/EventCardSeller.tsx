@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Calendar, Edit, EyeIcon, MapPin, Trash2, Users } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Id } from "@/convex/_generated/dataModel";
+import { useRouter } from "next/navigation";
 
 const EventCardSeller = ({
   event,
@@ -16,6 +17,7 @@ const EventCardSeller = ({
   event: EventDataProps;
   onDelete: (eventId: Id<"events">) => void;
 }) => {
+  const router = useRouter();
   const imageUrl = useStorageUrl(event.imageStorageId) ?? "";
 
   const eventDate = formatDate(new Date(event.eventDate).toISOString());
@@ -70,7 +72,11 @@ const EventCardSeller = ({
               <span className="hidden md:block"> View</span>
             </Button>
 
-            <Button variant="outline" size="sm">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => router.push(`/seller/events/${event._id}/edit`)}
+            >
               <Edit className="h-4 w-4 md:mr-1" />
               <span className="hidden md:block"> Edit</span>
             </Button>

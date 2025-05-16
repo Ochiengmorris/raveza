@@ -26,7 +26,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, Loader2, ShieldCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 const passwordFormSchema = z
@@ -97,7 +96,7 @@ const SettingsPage = () => {
           className="grid grid-cols-1 lg:grid-cols-3 gap-6"
         >
           {/* Password Change */}
-          <Card className={cn("")}>
+          <Card className="border-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-indigo-500" />
@@ -179,7 +178,7 @@ const SettingsPage = () => {
           </Card>
 
           {/* Account Deletion */}
-          <Card>
+          <Card className="border-none">
             <CardHeader>
               <CardTitle className="text-red-500">Danger Zone</CardTitle>
               <CardDescription>
@@ -212,7 +211,7 @@ const SettingsPage = () => {
           value="billing"
           className="grid grid-cols-1 lg:grid-cols-3 gap-6"
         >
-          <Card>
+          <Card className="border-none">
             <CardHeader>
               <CardTitle>Billing Information</CardTitle>
               <CardDescription>
@@ -237,7 +236,7 @@ const SettingsPage = () => {
           value="notifications"
           className="grid grid-cols-1 lg:grid-cols-3 gap-6"
         >
-          <Card>
+          <Card className="border-none">
             <CardHeader>
               <CardTitle>Notification Preferences</CardTitle>
               <CardDescription>

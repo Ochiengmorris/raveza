@@ -94,7 +94,7 @@ const ProfilePage = () => {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Profile Information */}
-        <Card className="lg:col">
+        <Card className="border-none">
           <CardHeader>
             <CardTitle>Personal Information</CardTitle>
             <CardDescription>
@@ -197,7 +197,7 @@ const ProfilePage = () => {
         </Card>
 
         {/* Account Info Sidebar */}
-        <Card>
+        <Card className="border-none">
           <CardHeader>
             <CardTitle>Account Info</CardTitle>
             <CardDescription>
