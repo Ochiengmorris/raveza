@@ -60,7 +60,7 @@ const Overview = () => {
 
   return (
     <>
-      <div className="max-w-screen-xl mx-auto p-4 sm:p-6">
+      <div className="max-w-screen-xl mx-auto p-4 sm:p-6 overflow-visible w-full">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Dashboard</h1>

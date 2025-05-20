@@ -117,7 +117,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
   };
 
   return (
-    <Card className="border border-slate-200 bg-white mb-6 p-0">
+    <Card className="border border-slate-200 bg-card mb-6 p-0">
       <div className="border-b border-slate-200 px-4 py-2 flex flex-col sm:flex-row sm:items-center sm:justify-between">
         <h2 className="font-semibold text-lg text-slate-900">
           Recent <span className="hidden lg:inline"> Ticket</span> Purchases
@@ -180,7 +180,7 @@ const RecentTickets = ({ tickets, isLoading = false }: RecentTicketsProps) => {
               </TableHeader>
               <TableBody>
                 {paginatedTickets.map((ticket: TicketProps) => (
-                  <TableRow key={ticket._id} className="hover:bg-slate-50">
+                  <TableRow key={ticket._id} className=" border-none">
                     <TableCell>
                       <div className="flex items-center">
                         <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">

@@ -22,11 +22,11 @@ export default async function RootLayout({
   return (
     <RequireAdminSeller>
       <NextTopLoader showSpinner={false} />
-      <div className="flex bg-gray-100 overflow-y-hidden">
+      <div className="flex bg-background/90 w-full h-screen overflow-hidden">
         <Sidebar />
         <MobileNavbar />
-        <div className="md:ml-64 lg:ml-72 pt-16 md:pt-0 grow overflow-y-scroll">
-          <main className="grow">{children}</main>
+        <div className="md:ml-64 lg:ml-72 pt-16 md:pt-0 w-full h-full overflow-y-auto overflow-x-hidden">
+          <main className="w-full max-w-full">{children}</main>
         </div>
       </div>
     </RequireAdminSeller>

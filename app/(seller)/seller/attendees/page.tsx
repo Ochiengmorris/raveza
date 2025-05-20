@@ -124,7 +124,7 @@ const AttendeesPage = () => {
         </div>
       </div>
 
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden border-none">
         <CardContent className="p-0">
           {isLoadingTickets || isLoadingEvents ? (
             <div className="p-8 space-y-4">

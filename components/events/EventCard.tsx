@@ -17,7 +17,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import EventCardSkeleton from "@/components/events/EventCardSkeleton";
-import { cn, formatDate, FormatMoney, useStorageUrl } from "@/lib/utils";
+import { formatDate, FormatMoney, useStorageUrl } from "@/lib/utils";
 import { useCallback, useMemo } from "react";
 import { api } from "@/convex/_generated/api";
 import PurchaseTicket from "@/components/tickets/PurchaseTicket";
@@ -226,15 +226,12 @@ const EventCard = ({
 
   return (
     <div
-      className={cn(
-        `relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 rounded-xl hover:shadow-xl`,
-      )}
+      className={`relative text-card-foreground transition-all duration-200 overflow-hidden cursor-pointer max-w-xl border-none p-0 hover:border hover:border-primary-foreground/20 rounded-xl hover:shadow-xl hover:bg-white bg-white/10`}
     >
       <motion.div
         onClick={handleCardClick}
-        className={`relative ${
-          isPastEvent ? "opacity-75 hover:opacity-100" : ""
-        }`}
+        className={`relative ${isPastEvent ? "opacity-75 hover:opacity-100" : ""
+          }`}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{

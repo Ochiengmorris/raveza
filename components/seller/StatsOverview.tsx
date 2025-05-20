@@ -145,7 +145,7 @@ const StatsOverview = ({ stats, isLoading = false }: StatsOverviewProps) => {
         // Data loaded state
         <>
           {statsItems.map((item, index) => (
-            <Card key={index} className="p-4 border border-slate-200 bg-white">
+            <Card key={index} className="p-4 border border-slate-200 bg-card">
               <div className="flex items-center">
                 {item.icon}
                 <div>

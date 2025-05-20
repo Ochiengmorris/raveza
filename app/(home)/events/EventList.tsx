@@ -4,7 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { CalendarDays, Loader, Ticket } from "lucide-react";
 import React, { useMemo } from "react";
-import EventCard from "./EventCard";
+import EventCard from "@/components/events/EventCard";
 
 const EventList = () => {
   const events = useQuery(api.events.get);

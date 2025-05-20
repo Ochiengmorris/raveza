@@ -117,7 +117,7 @@ const UpcomingEventsPage = ({
   };
 
   return (
-    <Card className="border border-slate-200 bg-white p-0 pb-2">
+    <Card className="border border-slate-200 bg-card p-0 pb-2">
       <CardHeader className="p-4 pb-0">
         <CardTitle className="font-semibold text-lg text-slate-900">
           Upcoming Events

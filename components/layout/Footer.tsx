@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-neutral-50 text-neutral-950 pb-4 pt-12">
+    <footer className="bg-neutral-200/50 text-neutral-950 pb-4 pt-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12">
         <div className="bg-card rounded-lg p-6 mb-8 shadow-md gap-3 shadow-primary flex flex-col md:flex-row md:items-center md:justify-between md:gap-8">
           <li className="flex items-center gap-3">

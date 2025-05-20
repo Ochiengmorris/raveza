@@ -6,13 +6,13 @@ import { cn, FormatMoney, useStorageUrl } from "@/lib/utils";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import React, { useState } from "react";
-import Spinner from "../loaders/Spinner";
+import Spinner from "../../../../components/loaders/Spinner";
 import { ticketTypeWithId } from "@/app/(home)/events/[id]/page";
-import { Button } from "../ui/button";
+import { Button } from "../../../../components/ui/button";
 import { Heart, Minus, Plus, Share2, Ticket } from "lucide-react";
-import JoinQueue from "../tickets/JoinQueue";
-import EventCard from "./EventCard";
-import { Card, CardContent } from "../ui/card";
+import JoinQueue from "../../../../components/tickets/JoinQueue";
+import EventCard from "../../../../components/events/EventCard";
+import { Card, CardContent } from "../../../../components/ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
 

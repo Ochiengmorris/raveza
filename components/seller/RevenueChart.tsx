@@ -67,7 +67,7 @@ const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
   };
 
   return (
-    <Card className={cn("border border-slate-200 bg-white p-0", className)}>
+    <Card className={cn("border border-slate-200 bg-card p-0", className)}>
       <CardHeader className="p-4 pb-0">
         <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center  mb-4">
           <CardTitle className="font-semibold text-lg text-slate-900">
@@ -149,12 +149,12 @@ const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
                 <Line
                   type="monotone"
                   dataKey="revenue"
-                  stroke="oklch(0.795 0.184 86.047)"
+                  stroke="oklch(0.47 0.15 24.94)"
                   strokeWidth={2}
                   activeDot={{ r: 6 }}
                   dot={{
                     r: 4,
-                    fill: "oklch(0.795 0.184 86.047)",
+                    fill: "oklch(0.47 0.15 24.94)",
                     strokeWidth: 2,
                     stroke: "#FFFFFF",
                   }}

@@ -4,6 +4,8 @@ import Ticket from "@/components/tickets/Ticket";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { ArrowLeft, Download } from "lucide-react";
+import { toast } from "sonner";
+import { useState } from "react";
 import Link from "next/link";
 import { redirect, useParams } from "next/navigation";
 import { useEffect, useRef } from "react";
@@ -17,6 +19,7 @@ export default function TicketPage() {
   const params = useParams();
   const { user } = useUser();
   const ticketRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
 
   const ticket = useQuery(api.tickets.getTicketWithDetails, {
     ticketId: params.id as Id<"tickets">,
@@ -40,38 +43,51 @@ export default function TicketPage() {
     return null;
   }
 
+
+
   const exportAsPng = async () => {
     if (!ticketRef.current) return;
 
     try {
+      setExporting(true);
+
       // Add a class temporarily for better rendering
       ticketRef.current.classList.add("exporting");
 
       const canvas = await html2canvas(ticketRef.current, {
-        scale: 2, // Higher scale for better quality
+        scale: 3, // Increased scale for better quality
         logging: false,
         useCORS: true,
         backgroundColor: "#ffffff",
+        windowWidth: 1920, // Better resolution
+        windowHeight: 1080,
       });
 
       // Remove the temporary class
       ticketRef.current.classList.remove("exporting");
 
       // Convert to PNG and download
-      const dataUrl = canvas.toDataURL("image/png");
+      const dataUrl = canvas.toDataURL("image/png", 1.0);
       const link = document.createElement("a");
-      link.download = `ticket-${ticket.event?.name}.png`;
+      link.download = `ticket-${ticket.event?.name}-${formatDate(new Date().toISOString())}.png`;
       link.href = dataUrl;
       link.click();
+
+      toast.success("Ticket exported successfully!");
     } catch (error) {
       console.error("Failed to export as PNG", error);
-      alert("Failed to export as PNG");
+      toast.error("Failed to export ticket as PNG. Please try again.");
+    } finally {
+      setExporting(false);
     }
   };
+
   const exportAsPdf = async () => {
     if (!ticketRef.current) return;
 
     try {
+      setExporting(true);
+
       // Add a class temporarily for better rendering
       ticketRef.current.classList.add("exporting");
 
@@ -106,7 +122,7 @@ export default function TicketPage() {
       ctx.drawImage(canvas, padding, padding);
 
       // Convert the padded canvas to an image
-      const imgData = paddedCanvas.toDataURL("image/png");
+      const imgData = paddedCanvas.toDataURL("image/png", 1.0);
 
       // Initialize jsPDF
       const pdf = new jsPDF({
@@ -118,11 +134,25 @@ export default function TicketPage() {
       // Add the image to the PDF
       pdf.addImage(imgData, "PNG", padding, padding, imgWidth, imgHeight);
 
+      // Add metadata
+      pdf.setProperties({
+        title: `Ticket - ${ticket.event?.name}`,
+        subject: `Event Ticket - ${ticket.event?.name}`,
+        author: "Umoja Tickets",
+        creator: "Umoja Tickets",
+        keywords: "ticket,event,umoja"
+      });
+
       // Save the PDF
-      pdf.save(`ticket-${ticket.event?.name}.pdf`);
+      const fileName = `ticket-${ticket.event?.name}-${formatDate(new Date().toISOString())}.pdf`;
+      pdf.save(fileName);
+
+      toast.success("Ticket exported successfully!");
     } catch (error) {
       console.error("Error exporting ticket as PDF:", error);
-      alert("Failed to export ticket as PDF. Please try again.");
+      toast.error("Failed to export ticket as PDF. Please try again.");
+    } finally {
+      setExporting(false);
     }
   };
 
@@ -142,14 +172,16 @@ export default function TicketPage() {
             <div className="flex items-center gap-4">
               <button
                 onClick={exportAsPdf}
-                className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
+                disabled={exporting}
+                className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="w-4 h-4" />
                 <span className="text-sm">PDF</span>
               </button>
               <button
                 onClick={exportAsPng}
-                className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100"
+                disabled={exporting}
+                className="flex items-center gap-2 px-4 py-2 text-foreground hover:text-gray-900 transition-colors rounded-lg hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Download className="w-4 h-4" />
                 <span className="text-sm">PNG</span>
@@ -170,13 +202,12 @@ export default function TicketPage() {
             </p>
             <div className="mt-4 flex items-center gap-4">
               <span
-                className={`px-3 py-1 rounded-full text-sm font-medium ${
-                  ticket.event.is_cancelled
+                className={`px-3 py-1 rounded-full text-sm font-medium ${ticket.event.is_cancelled
                     ? "bg-red-50 text-red-700"
                     : ticket.event.eventDate < Date.now()
                       ? "bg-gray-50 text-gray-700"
                       : "bg-green-300/30 text-green-700"
-                }`}
+                  }`}
               >
                 {ticket.event.is_cancelled
                   ? "Cancelled"
@@ -211,18 +242,16 @@ export default function TicketPage() {
           className={`mt-8 rounded-lg p-4 bg-card text-card-foreground shadow-sm`}
         >
           <h3
-            className={`text-sm font-medium ${
-              ticket.event.is_cancelled ? "" : ""
-            }`}
+            className={`text-sm font-medium ${ticket.event.is_cancelled ? "" : ""
+              }`}
           >
             Need Help?
           </h3>
           <p
-            className={`mt-1 text-sm ${
-              ticket.event.is_cancelled
+            className={`mt-1 text-sm ${ticket.event.is_cancelled
                 ? "text-foreground/70"
                 : "text-foreground/70"
-            }`}
+              }`}
           >
             {ticket.event.is_cancelled
               ? "For questions about refunds or cancellations, please contact our support team at team@umojatickets.com"

@@ -597,8 +597,11 @@ export const updateEvent = mutation({
     }
 
     // First update the event details without ticket types
-    const { ticketTypes, ...eventUpdates } = updates;
-    await ctx.db.patch(eventId, eventUpdates);
+    const { ticketTypes, time, ...eventUpdates } = updates;
+    await ctx.db.patch(eventId, {
+      ...eventUpdates,
+      startTime: time,
+    });
 
     // Get existing ticket types
     const existingTicketTypes = await ctx.db

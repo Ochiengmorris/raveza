@@ -17,17 +17,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
 import { cn, useStorageUrl } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "convex/react";
 import { Loader2, X } from "lucide-react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useRef, useState, useTransition } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { z } from "zod";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
@@ -38,33 +36,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "../ui/tooltip";
-
-const ticketSchema = z.object({
-  name: z.string().min(1, "Ticket name is required"),
-  price: z.number().min(0, "Price must be 0 or greater"),
-  totalTickets: z.number().min(1, "Must have at least 1 ticket"),
-});
-
-const formSchema = z.object({
-  name: z.string().min(1, "Event name is required"),
-  description: z.string().min(1, "Description is required"),
-  location: z.string().min(1, "Location is required"),
-  category: z.string({
-    required_error: "Category is required",
-  }),
-  eventDate: z
-    .date()
-    .min(
-      new Date(new Date().setHours(0, 0, 0, 0)),
-      "Event date must be in the future",
-    ),
-  time: z.string().min(1, "Time is required"),
-  ticketTypes: z
-    .array(ticketSchema)
-    .min(1, "At least one ticket type required"),
-});
-
-type FormData = z.infer<typeof formSchema>;
+import { eventFormSchema, EventFormType } from "@/lib/validation";
 
 interface InitialEventData {
   _id: Id<"events">;
@@ -104,6 +76,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const currentImageUrl = useStorageUrl(initialData?.imageStorageId);
+  const pathname = usePathname();
 
   const userDetails = useQuery(api.users.getUserById, {
     userId: user?.id || "",
@@ -119,8 +92,8 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
 
   const [removedCurrentImage, setRemovedCurrentImage] = useState(false);
 
-  const form = useForm<FormData>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<EventFormType>({
+    resolver: zodResolver(eventFormSchema),
     defaultValues: {
       name: initialData?.name ?? "",
       description: initialData?.description ?? "",
@@ -184,7 +157,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
   //   }
   // };
 
-  async function onSubmit(values: FormData) {
+  async function onSubmit(values: EventFormType) {
     if (!user?.id) return;
 
     if (!userDetails) return;
@@ -265,14 +238,18 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
           if (imageStorageId || removedCurrentImage) {
             await updateEventImage({
               eventId: initialData._id,
-              // If we have a new image, use its ID, otherwise if we're removing the image, pass null
+              // If we have a new image, we use its ID, otherwise if we're removing the image, pass null
               storageId: imageStorageId
                 ? (imageStorageId as Id<"_storage">)
                 : null,
             });
           }
 
+         if(pathname.includes("seller")) {
+          router.push(`/seller/events`);
+         } else {
           router.push(`/events/${initialData._id}`);
+         }
           toast.success("Event updated", {
             description: "Your event has been successfully updated.",
           });

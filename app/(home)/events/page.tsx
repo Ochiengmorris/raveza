@@ -1,6 +1,6 @@
-import EventList from "@/components/events/EventList";
 import { Metadata } from "next";
 import React from "react";
+import EventList from "./EventList";
 
 export const metadata: Metadata = {
   title: "Events",
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 const page = () => {
   return (
-    <div>
+    <div className="bg-background/90 pb-12">
       <EventList />
     </div>
   );

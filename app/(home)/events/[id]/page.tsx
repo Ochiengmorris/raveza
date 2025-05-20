@@ -2,7 +2,7 @@ import Spinner from "@/components/loaders/Spinner";
 import { cache } from "react";
 import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
-import EventPageComp from "@/components/events/EventPageComp";
+import EventPageComp from "@/app/(home)/events/[id]/EventPageComp";
 import { fetchQuery } from "convex/nextjs";
 import { Metadata } from "next";
 
@@ -76,7 +76,7 @@ export default async function Page({
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-background/90">
       <EventPageComp event={event} eventId={id as Id<"events">} />
     </div>
   );

@@ -54,8 +54,8 @@ const PromoCodesPage = () => {
     api.promoCodes.getEventPromoCodes,
     selectedEventId
       ? {
-          eventId: selectedEventId as Id<"events">,
-        }
+        eventId: selectedEventId as Id<"events">,
+      }
       : "skip",
   );
 
@@ -110,7 +110,7 @@ const PromoCodesPage = () => {
         {selectedEventId && events && events.length > 0 && <></>}
       </div>
       {!selectedEventId && (
-        <Card>
+        <Card className="border-none">
           <CardContent className="p-8 flex flex-col items-center justify-center text-center">
             <Tag className="h-12 w-12 text-muted-foreground mb-4" />
             <CardTitle className="mb-2">Select an Event</CardTitle>
@@ -126,7 +126,7 @@ const PromoCodesPage = () => {
         </div>
       )}
       {selectedEventId && promoCodes && promoCodes.length > 0 && (
-        <Card>
+        <Card className="border-none">
           <CardHeader>
             <CardTitle>Promotional Codes</CardTitle>
             <CardDescription>
@@ -149,7 +149,7 @@ const PromoCodesPage = () => {
               </TableHeader>
               <TableBody>
                 {promoCodes.map((code) => (
-                  <TableRow key={code._id}>
+                  <TableRow key={code._id} className="border-none">
                     <TableCell className="font-medium">
                       <div className="flex items-center space-x-2">
                         <span>{code.code}</span>
@@ -160,7 +160,7 @@ const PromoCodesPage = () => {
                                 variant="ghost"
                                 size="icon"
                                 className="h-6 w-6"
-                                // onClick={() => copyToClipboard(code.code)}
+                              // onClick={() => copyToClipboard(code.code)}
                               >
                                 <Copy className="h-3 w-3" />
                               </Button>
@@ -195,15 +195,17 @@ const PromoCodesPage = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {code.isActive ? (
+                      {code.isActive && events?.find(event => event._id === selectedEventId)?.eventDate !== undefined &&
+                        events.find(event => event._id === selectedEventId)!.eventDate < Date.now() ? (
+                        <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
+                          <Check className="h-3 w-3 mr-1" /> Past Event
+                        </Badge>
+                      ) : code.isActive ? (
                         <Badge className="bg-green-100 text-green-800 hover:bg-green-100">
                           <Check className="h-3 w-3 mr-1" /> Active
                         </Badge>
                       ) : (
-                        <Badge
-                          variant="outline"
-                          className="bg-red-100 text-red-800 hover:bg-red-100"
-                        >
+                        <Badge variant="outline" className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
                           <X className="h-3 w-3 mr-1" /> Inactive
                         </Badge>
                       )}

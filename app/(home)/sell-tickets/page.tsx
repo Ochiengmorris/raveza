@@ -1,4 +1,4 @@
-import SellerDashboard from "@/components/seller/SellerDashboard";
+import SellerDashboard from "./SellerDashboard";
 import { Metadata } from "next";
 // import { auth } from "@clerk/nextjs/server";
 // import { redirect } from "next/navigation";
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const SellTicketsPage = async () => {
   return (
-    <div className="bg-background">
+    <div className="bg-background h-full">
       <div className="max-w-3xl mx-auto p-6">
         <div className="rounded-xl text-card-foreground overflow-hidden">
           {/* Header Section */}
