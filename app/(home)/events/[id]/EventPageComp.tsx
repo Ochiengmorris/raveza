@@ -156,7 +156,7 @@ const EventPageComp = ({
   const lumpSumTotalPriceFormatted = FormatMoney(lumpSumTotalPrice);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 relative">
         <section className="space-y-4">
           {imageUrl && (
             // Event Header
