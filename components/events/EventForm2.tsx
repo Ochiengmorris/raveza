@@ -29,13 +29,13 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
-import { Textarea } from "../ui/textarea2";
+import { Textarea } from "@/components/ui/textarea2";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "../ui/tooltip";
+} from "@/components/ui/tooltip";
 import { eventFormSchema, EventFormType } from "@/lib/validation";
 
 interface InitialEventData {
@@ -245,11 +245,11 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             });
           }
 
-         if(pathname.includes("seller")) {
-          router.push(`/seller/events`);
-         } else {
-          router.push(`/events/${initialData._id}`);
-         }
+          if (pathname.includes("seller")) {
+            router.push(`/seller/events`);
+          } else {
+            router.push(`/events/${initialData._id}`);
+          }
           toast.success("Event updated", {
             description: "Your event has been successfully updated.",
           });
@@ -372,7 +372,9 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                   ></textarea> */}
                   <Textarea
                     {...field}
-                    className={cn("focus:ring-0 focus:border-0")}
+                    className={cn(
+                      "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0",
+                    )}
                     placeholder="Event Description"
                   />
                 </FormControl>
@@ -435,7 +437,9 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                     <FormControl>
                       <Input
                         {...field}
-                        className={cn("focus:ring-0 focus:border-0")}
+                        className={cn(
+                          "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0",
+                        )}
                       />
                     </FormControl>
                     <FormMessage />
@@ -500,7 +504,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                           }
                           min={new Date().toISOString().split("T")[0]} // Prevent past dates
                           className={cn(
-                            "focus:ring-0 focus:border-0 justify-end lg:justify-start text-sm lg:text-base",
+                            "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 justify-end lg:justify-start text-sm lg:text-base",
                           )}
                         />
                       </FormControl>
@@ -522,7 +526,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                           type="time"
                           {...field}
                           className={cn(
-                            "focus:ring-0 focus:border-0 justify-end lg:justify-start text-sm lg:text-base",
+                            "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 justify-end lg:justify-start text-sm lg:text-base",
                           )}
                         />
                       </FormControl>
@@ -551,7 +555,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                   <input
                     type="text"
                     className={cn(
-                      "focus:ring-0 focus:border-0 text-base font-bold w-full focus:border-gray-300 rounded-md p-2",
+                      "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 text-base font-bold w-full focus:border-gray-300 rounded-md p-2",
                     )}
                     {...form.register(`ticketTypes.${index}.name`)}
                     placeholder="Ticket Name"
@@ -564,7 +568,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                       <input
                         type="number"
                         className={cn(
-                          "focus:ring-0 focus:border-0 text-lg font-bold w-full border-b focus:border-gray-300 rounded-md p-2",
+                          "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 text-lg font-bold w-full border-b focus:border-gray-300 rounded-md p-2",
                         )}
                         {...form.register(`ticketTypes.${index}.price`, {
                           valueAsNumber: true,
@@ -580,7 +584,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                             <input
                               type="number"
                               className={cn(
-                                "focus:ring-0 focus:border-0 text-lg font-bold w-full border-b focus:border-gray-300 rounded-md p-2",
+                                "focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 text-lg font-bold w-full border-b focus:border-gray-300 rounded-md p-2",
                               )}
                               {...form.register(
                                 `ticketTypes.${index}.totalTickets`,

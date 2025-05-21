@@ -9,7 +9,7 @@ export default function UserLayout({
 }) {
   return (
     <>
-      <NextTopLoader showSpinner={false} />
+      <NextTopLoader showSpinner={false} color="#9e2c2c" />
       <div className="flex flex-col h-full">
         <Header />
         <div className="flex flex-col flex-1 overflow-y-scroll">

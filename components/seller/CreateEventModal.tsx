@@ -5,7 +5,8 @@ import {
   DialogDescription,
   DialogTitle,
 } from "../ui/dialog";
-import EventForm from "../events/EventForm";
+import EventForm from "../events/EventForm2";
+// import EventForm from "../events/EventForm";
 
 interface CreateEventModalProps {
   isOpen: boolean;

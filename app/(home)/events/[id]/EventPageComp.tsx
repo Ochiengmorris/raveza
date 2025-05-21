@@ -6,15 +6,16 @@ import { cn, FormatMoney, useStorageUrl } from "@/lib/utils";
 import { SignInButton, useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import React, { useState } from "react";
-import Spinner from "../../../../components/loaders/Spinner";
+import Spinner from "@/components/loaders/Spinner";
 import { ticketTypeWithId } from "@/app/(home)/events/[id]/page";
-import { Button } from "../../../../components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Heart, Minus, Plus, Share2, Ticket } from "lucide-react";
-import JoinQueue from "../../../../components/tickets/JoinQueue";
-import EventCard from "../../../../components/events/EventCard";
-import { Card, CardContent } from "../../../../components/ui/card";
+import JoinQueue from "@/components/tickets/JoinQueue";
+import EventCard from "@/components/events/EventCard";
+import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
 
 type Event = {
   _id: Id<"events">;
@@ -45,9 +46,10 @@ const EventPageComp = ({
   const [selectedCount, setSelectedCount] = useState<{ [key: string]: number }>(
     {},
   );
-  // const [appliedPromoCode, setAppliedPromoCode] = useState<PromoCode | null>(
-  //   null,
-  // );
+  const [appliedPromoCode, setAppliedPromoCode] = useState<PromoCode | null>(
+    null,
+  );
+  const [promoCode, setPromoCode] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState(false);
 
   const userTicket = useQuery(api.tickets.getUserTicketForEvent, {
@@ -126,13 +128,32 @@ const EventPageComp = ({
     });
   };
 
-  // const handleApplyPromoCode = (code: string) => {};
+  const handleApplyPromoCode = (code: string) => {
+    setPromoCode(code);
+    // Here you would typically check the promo code against your backend
+    // and apply the discount if valid.
+    // For this example, we'll just log it to the console.
+    setAppliedPromoCode({ code, discountPercent: 10 });
+    console.log(`Promo code ${appliedPromoCode?.discountPercent}% applied!`);
+    toast.success(`Promo code ${code} applied!`);
+    setPromoCode("");
+    setTimeout(() => {
+      setAppliedPromoCode(null);
+    }, 30000);
+  };
 
   const totalPrice =
     selectedTicket && ticketTypesQuery
       ? selectedCount[selectedTicket] *
         (ticketTypesQuery.find((t) => t._id === selectedTicket)?.price ?? 0)
       : 0;
+
+  const lumpSumTotalPrice =
+    totalPrice -
+    (appliedPromoCode
+      ? (totalPrice * appliedPromoCode.discountPercent) / 100
+      : 0);
+  const lumpSumTotalPriceFormatted = FormatMoney(lumpSumTotalPrice);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -257,7 +278,7 @@ const EventPageComp = ({
             <EventCard motionkey={1} eventId={eventId} isEventPage={true} />
           </div>
 
-          <Card className="rounded-lg p-0 overflow-hidden text-card-foreground bg-card shadow transition-all duration-300 border-primary-foreground/10 max-w-xl">
+          <Card className="rounded-lg p-0 overflow-hidden text-card-foreground bg-card shadow-lg border-none max-w-xl">
             <div className="bg-secondary py-3 px-5 flex items-center">
               <Ticket size={24} className="text-primary mr-2" />
               <h3 className="font-display font-bold">Select Tickets</h3>
@@ -356,6 +377,76 @@ const EventPageComp = ({
           </Card>
 
           <div className="">
+            <div className="flex flex-col justify-end gap-2 max-w-xl bg-card rounded-lg shadow-lg p-4 mb-4">
+              {Object.entries(selectedCount).map(([ticketType, count]) => {
+                const ticketPrice =
+                  ticketTypesQuery?.find((t) => t._id === ticketType)?.price ??
+                  0;
+                const ticketName =
+                  ticketTypesQuery?.find((t) => t._id === ticketType)?.name ??
+                  "ticketType";
+                return (
+                  <span
+                    key={ticketType}
+                    className="text-sm text-muted-foreground flex justify-between w-full"
+                  >
+                    <span className="font-stretch-75%">
+                      {count} x {ticketName}
+                    </span>
+                    {FormatMoney(ticketPrice * count)}
+                  </span>
+                );
+              })}
+
+              <span className="text-sm text-muted-foreground flex justify-between w-full">
+                <span className="font-stretch-75%">
+                  Discount Code{" "}
+                  <span className="uppercase">
+                    {appliedPromoCode && `- (${appliedPromoCode.code})`}
+                  </span>
+                </span>
+                {appliedPromoCode
+                  ? `-${appliedPromoCode.discountPercent}% (${FormatMoney(
+                      (totalPrice * appliedPromoCode.discountPercent) / 100,
+                    )}) `
+                  : "- 0%"}
+              </span>
+
+              <div className="flex items-center gap-2 mt-2">
+                <Input
+                  placeholder="Promo Code"
+                  value={promoCode}
+                  onChange={(e) => setPromoCode(e.target.value)}
+                  className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 text-sm uppercase"
+                  disabled={isEventPast || isEventOwner || userTicket !== null}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleApplyPromoCode(promoCode);
+                    }
+                  }}
+                  autoComplete="off"
+                />
+                <Button
+                  variant="link"
+                  className="font-semibold hover:no-underline hover:bg-primary/15"
+                  onClick={() => {
+                    handleApplyPromoCode(promoCode);
+                    toast.success("Promo code applied!");
+                  }}
+                >
+                  Apply Code
+                </Button>
+              </div>
+
+              <span className="text-sm border-t border-gray-400 pt-2 text-muted-foreground flex font-semibold justify-between w-full gap-2">
+                Total Price:{" "}
+                <span className="font-bold text-base">
+                  <span className="text-xs">KES</span>{" "}
+                  {lumpSumTotalPriceFormatted}
+                </span>
+              </span>
+            </div>
+
             {user ? (
               isEventPast ? (
                 <div className="p-4 bg-destructive/10 text-center text-destructive w-full font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed  duration-200 px-4 py-3">
@@ -364,21 +455,13 @@ const EventPageComp = ({
               ) : isEventOwner ? (
                 <></>
               ) : hasBeenOffered ? (
-                <div className="flex justify-end gap-2 max-w-xl">
-                  Total Price:{" "}
-                  <span className="font-bold">{FormatMoney(totalPrice)}</span>
-                </div>
+                <></>
               ) : userTicket ? (
                 <div className="w-full bg-primary/5 text-muted-foreground/50 font-semibold rounded-lg transition-all max-w-xl cursor-not-allowed text-center duration-200 px-4 py-3">
                   You already have a ticket for this event
                 </div>
               ) : (
                 <>
-                  <div className="flex justify-end gap-2 max-w-xl">
-                    Total Price:{" "}
-                    <span className="font-bold">{FormatMoney(totalPrice)}</span>
-                  </div>
-
                   {selectedTicket !== null && selectedTicket !== "" ? (
                     <JoinQueue
                       eventId={eventId}
@@ -398,15 +481,31 @@ const EventPageComp = ({
                 </>
               )
             ) : (
-              <SignInButton mode="modal">
-                <button
-                  className={cn(
-                    "w-full bg-primary text-primary-foreground font-semibold rounded-lg transition-all max-w-xl text-center duration-200 px-4 py-3",
-                  )}
-                >
-                  Sign in to buy tickets
-                </button>
-              </SignInButton>
+              <>
+                <div className="flex gap-3 max-w-xl">
+                  <SignInButton mode="modal">
+                    <button
+                      className={
+                        "bg-primary text-primary-foreground font-semibold rounded-lg max-w-xl px-4 py-3 flex-1 text-sm lg:text-md hover:bg-primary/90 transition-all duration-200 ease-in-out"
+                      }
+                    >
+                      Sign in{" "}
+                      <span className="hidden md:inline">
+                        {" "}
+                        to get discounts
+                      </span>
+                    </button>
+                  </SignInButton>
+                  <button
+                    className="flex-1 text-sm md:text-md max-w-xl px-4 py-3 rounded-lg border-primary hover:bg-secondary hover:text-primary transition-all duration-200 ease-in-out font-semibold"
+                    onClick={() => {
+                      toast("Please sign in to buy tickets.");
+                    }}
+                  >
+                    Buy Tickets
+                  </button>
+                </div>
+              </>
             )}
           </div>
         </section>

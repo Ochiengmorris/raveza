@@ -21,7 +21,7 @@ export default async function RootLayout({
 }>) {
   return (
     <RequireAdminSeller>
-      <NextTopLoader showSpinner={false} />
+      <NextTopLoader showSpinner={false} color="#9e2c2c" />
       <div className="flex bg-background/90 w-full h-screen overflow-hidden">
         <Sidebar />
         <MobileNavbar />

@@ -274,6 +274,7 @@ export default function TicketPurchaseDialog({
                       placeholder="e.g., 0712345678"
                       value={phoneNumber}
                       onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0"
                       required
                     />
                   </div>

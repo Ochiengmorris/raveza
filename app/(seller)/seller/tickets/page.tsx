@@ -198,7 +198,7 @@ const TicketsPage = () => {
               </p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto py-2">
               <Table>
                 <TableHeader>
                   <TableRow>
@@ -213,7 +213,7 @@ const TicketsPage = () => {
                 </TableHeader>
                 <TableBody>
                   {paginatedTickets.map((ticket) => (
-                    <TableRow key={ticket._id} className="hover:bg-slate-50">
+                    <TableRow key={ticket._id} className="border-none">
                       <TableCell>
                         <div className="flex items-center">
                           <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">
