@@ -10,7 +10,35 @@ export const getEventPromoCodes = query({
       .query("promoCodes")
       .filter((q) => q.eq(q.field("eventId"), args.eventId))
       .collect();
+
+    for (const promoCode of promoCodes) {
+      const redemptions = await ctx.db
+        .query("promotionalCodeRedemptions")
+        .filter((q) => q.eq(q.field("promoCodeId"), promoCode._id))
+        .collect();
+
+      promoCode.usedCount = redemptions.length;
+    }
+
     return promoCodes;
+  },
+});
+
+export const getByCodeAndEventId = query({
+  args: {
+    code: v.optional(v.id("promoCodes")),
+    eventId: v.id("events"),
+  },
+  handler: async (ctx, args) => {
+    if (!args.code) {
+      return null;
+    }
+    const promoCode = await ctx.db
+      .query("promoCodes")
+      .filter((q) => q.eq(q.field("code"), args.code))
+      .filter((q) => q.eq(q.field("eventId"), args.eventId))
+      .first();
+    return promoCode;
   },
 });
 
@@ -126,5 +154,69 @@ export const getPromoCodeRedemptions = query({
       .filter((q) => q.eq(q.field("promoCodeId"), promoCodeId))
       .collect();
     return redemptions;
+  },
+});
+
+export const createPromoCodeRedemption = mutation({
+  args: {
+    userId: v.optional(v.string()),
+    promoCodeId: v.id("promoCodes"),
+    eventId: v.id("events"),
+    ticketId: v.optional(v.id("tickets")),
+    redeemedAt: v.number(),
+    dicountAmount: v.number(),
+  },
+  handler: async (ctx, args) => {
+    const { promoCodeId } = args;
+    const promoCode = await ctx.db.get(promoCodeId);
+    if (!promoCode) {
+      throw new ConvexError("Promo code not found");
+    }
+    const redemption = await ctx.db.insert("promotionalCodeRedemptions", {
+      ...args,
+    });
+    const redemptions = await ctx.db
+      .query("promotionalCodeRedemptions")
+      .filter((q) => q.eq(q.field("promoCodeId"), promoCodeId))
+      .collect();
+
+    if (promoCode.usageLimit) {
+      if (redemptions.length >= promoCode.usageLimit) {
+        await ctx.db.patch(promoCodeId, {
+          isActive: false,
+        });
+      }
+    }
+
+    return redemption;
+  },
+});
+
+export const checkAvailabilityPromo = query({
+  args: {
+    code: v.id("promoCodes"),
+  },
+  handler: async (ctx, args) => {
+    const { code } = args;
+
+    const promoCode = await ctx.db.get(code);
+    if (!promoCode) {
+      throw new ConvexError("Promo code not found");
+    }
+    if (!promoCode.isActive) {
+      return false;
+    }
+
+    const redemptions = await ctx.db
+      .query("promotionalCodeRedemptions")
+      .filter((q) => q.eq(q.field("promoCodeId"), code))
+      .collect();
+
+    if (promoCode.usageLimit) {
+      if (redemptions.length >= promoCode.usageLimit) {
+        return false;
+      }
+    }
+    return true;
   },
 });

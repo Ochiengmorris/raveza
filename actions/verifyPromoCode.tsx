@@ -2,6 +2,13 @@ import { api } from "@/convex/_generated/api";
 import { Id } from "@/convex/_generated/dataModel";
 import { fetchQuery } from "convex/nextjs";
 
+async function checkAvailability(code: Id<"promoCodes">) {
+  const isAvailable = await fetchQuery(api.promoCodes.checkAvailabilityPromo, {
+    code,
+  });
+  return isAvailable;
+}
+
 const VerifyPromoCode = async ({
   eventId,
   code,
@@ -13,20 +20,51 @@ const VerifyPromoCode = async ({
     eventId,
   });
 
+  // console.log(promoCodes, code.toUpperCase());
+
+  if (!promoCodes) {
+    return {
+      success: false,
+      error: "Promo codes have  not found",
+    };
+  }
+
   try {
-    const promoCode = promoCodes.find((promoCode) => promoCode.code === code);
+    const upperCode = typeof code === "string" ? code.toUpperCase() : "";
+    const promoCode = promoCodes.find((p) => p.code === upperCode);
+
+    const isAvailable = await checkAvailability(
+      promoCode?._id ?? ("" as Id<"promoCodes">),
+    );
+    if (!isAvailable) {
+      return {
+        success: false,
+        error: "Promo code has exhausted its usage limit",
+      };
+    }
 
     if (promoCode) {
       const isValid = new Date(promoCode.expiresAt) > new Date();
       return isValid
         ? {
             success: true,
-            promoCode,
+            promoCodeValues: {
+              id: promoCode._id,
+              code: promoCode.code,
+              discount: promoCode.discountPercentage,
+              expiresAt: promoCode.expiresAt,
+              isActive: promoCode.isActive,
+            },
           }
         : {
             success: false,
             error: "Promo code has expired",
           };
+    } else {
+      return {
+        success: false,
+        error: "Promo code not found",
+      };
     }
   } catch (error) {
     console.error("Error fetching promo codes:", error);
@@ -35,11 +73,6 @@ const VerifyPromoCode = async ({
       error: "An error occurred while verifying the promo code",
     };
   }
-
-  return {
-    success: false,
-    error: "Promo code not found",
-  };
 };
 
 export default VerifyPromoCode;

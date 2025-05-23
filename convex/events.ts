@@ -649,8 +649,12 @@ export const joinWaitingList = mutation({
     userId: v.string(),
     ticketTypeId: v.id("ticketTypes"),
     selectedCount: v.number(),
+    promoCodeId: v.optional(v.id("promoCodes")),
   },
-  handler: async (ctx, { eventId, userId, ticketTypeId, selectedCount }) => {
+  handler: async (
+    ctx,
+    { eventId, userId, ticketTypeId, selectedCount, promoCodeId },
+  ) => {
     // Rate limit check
     const status = await rateLimiter.limit(ctx, "queueJoin", { key: userId });
     if (!status.ok) {
@@ -674,6 +678,14 @@ export const joinWaitingList = mutation({
     // Don't allow duplicate entries
     if (existingEntry) {
       throw new Error("Already in waiting list for this event");
+    }
+
+    // get promocode information
+    let discount = 0;
+    if (promoCodeId) {
+      const promocode = await ctx.db.get(promoCodeId);
+      if (!promocode) throw new Error("Promo code not found");
+      discount = promocode.discountPercentage;
     }
 
     // Verify the event exists
@@ -730,6 +742,8 @@ export const joinWaitingList = mutation({
         eventId,
         userId,
         ticketTypeId,
+        promoCodeId,
+        promoCodeDiscount: discount,
         count: selectedCount,
         status: WAITING_LIST_STATUS.OFFERED, // Mark as offered
         offerExpiresAt: now + DURATIONS.TICKET_OFFER, // Set expiration time
@@ -945,7 +959,7 @@ export const purchaseMpesaTicket = mutation({
     try {
       console.log("Creating ticket with payment info", paymentInfo);
       // Create ticket with payment info
-      await ctx.db.insert("tickets", {
+      const ticket = await ctx.db.insert("tickets", {
         eventId,
         userId,
         ticketTypeId: waitingListEntry.ticketTypeId,
@@ -954,6 +968,7 @@ export const purchaseMpesaTicket = mutation({
         status: TICKET_STATUS.VALID,
         paymentIntentId: paymentInfo.checkoutRequestId,
         amount: paymentInfo.amount,
+        promoCodeId: waitingListEntry.promoCodeId,
       });
 
       console.log("Updating waiting list status to purchased");
@@ -969,6 +984,8 @@ export const purchaseMpesaTicket = mutation({
       });
 
       console.log("Purchase ticket completed successfully");
+
+      return ticket;
     } catch (error) {
       console.error("Failed to complete ticket purchase:", error);
       throw new Error(`Failed to complete ticket purchase: ${error}`);

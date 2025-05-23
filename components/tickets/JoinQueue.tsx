@@ -14,11 +14,13 @@ export default function JoinQueue({
   userId,
   ticketTypeId,
   selectedCount,
+  promoCodeId,
 }: {
   eventId: Id<"events">;
   userId: string;
   ticketTypeId: Id<"ticketTypes">;
   selectedCount: number;
+  promoCodeId?: Id<"promoCodes">;
 }) {
   const joinWaitingList = useMutation(api.events.joinWaitingList);
 
@@ -48,6 +50,7 @@ export default function JoinQueue({
         userId,
         ticketTypeId,
         selectedCount,
+        promoCodeId,
       });
       if (result.success) {
         console.log("Successfully joined waiting list");

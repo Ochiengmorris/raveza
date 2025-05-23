@@ -29,10 +29,12 @@ export default defineSchema({
     eventId: v.id("events"),
     usageLimit: v.optional(v.number()),
     usedCount: v.optional(v.number()),
-  }),
+  })
+    .index("by_event", ["eventId"])
+    .index("by_eventId_code", ["eventId", "code"]),
 
   promotionalCodeRedemptions: defineTable({
-    userId: v.string(),
+    userId: v.optional(v.string()),
     promoCodeId: v.id("promoCodes"),
     eventId: v.id("events"),
     ticketId: v.optional(v.id("tickets")),
@@ -56,6 +58,7 @@ export default defineSchema({
     purchasedAt: v.number(),
     ticketTypeId: v.id("ticketTypes"),
     count: v.number(),
+    promoCodeId: v.optional(v.id("promoCodes")),
     status: v.union(
       v.literal("valid"),
       v.literal("used"),
@@ -77,6 +80,8 @@ export default defineSchema({
     ticketTypeId: v.id("ticketTypes"),
     count: v.number(),
     userId: v.string(),
+    promoCodeId: v.optional(v.id("promoCodes")),
+    promoCodeDiscount: v.optional(v.number()),
     status: v.union(
       v.literal("waiting"),
       v.literal("offered"),
@@ -108,6 +113,7 @@ export default defineSchema({
     metadata: v.string(), // JSON string of MpesaCallbackMetaData
     amount: v.number(),
     expiresAt: v.string(), // ISO date string
+    promoCodeId: v.optional(v.id("promoCodes")),
     status: v.union(
       v.literal("pending"),
       v.literal("completed"),

@@ -5,8 +5,8 @@ import {
   DialogDescription,
   DialogTitle,
 } from "../ui/dialog";
-import EventForm from "../events/EventForm2";
-// import EventForm from "../events/EventForm";
+import EventForm2 from "../events/EventForm2";
+import EventForm from "../events/EventForm";
 
 interface CreateEventModalProps {
   isOpen: boolean;
@@ -27,8 +27,11 @@ const CreateEventModal = ({ isOpen, onClose }: CreateEventModalProps) => {
           will review your event and notify you once it&apos;s live. If you have
           any questions, please contact our support team.
         </DialogDescription>
-        <div className="px-6 pb-6">
+        <div className="px-6 pb-6 lg:hidden">
           <EventForm mode="create" />
+        </div>
+        <div className="px-6 pb-6 hidden lg:block">
+          <EventForm2 mode="create" />
         </div>
       </DialogContent>
     </Dialog>

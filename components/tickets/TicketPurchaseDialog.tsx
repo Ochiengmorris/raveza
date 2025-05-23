@@ -119,7 +119,7 @@ export default function TicketPurchaseDialog({
         ticketTypeId,
       });
 
-      if (response.status === "ok") {
+      if (response.status === "ok" && response.data) {
         setCheckoutId(response.data.checkoutRequestId);
         setIsStkPushSent(true);
         setChecking(true);

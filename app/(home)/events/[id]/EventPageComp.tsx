@@ -16,6 +16,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
 import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
+import VerifyPromoCode from "@/actions/verifyPromoCode";
 
 type Event = {
   _id: Id<"events">;
@@ -30,8 +31,11 @@ type Event = {
 };
 
 export type PromoCode = {
+  id: Id<"promoCodes">;
   code: string;
-  discountPercent: number;
+  discount: number;
+  expiresAt: number;
+  isActive: boolean;
 };
 
 const EventPageComp = ({
@@ -46,9 +50,9 @@ const EventPageComp = ({
   const [selectedCount, setSelectedCount] = useState<{ [key: string]: number }>(
     {},
   );
-  const [appliedPromoCode, setAppliedPromoCode] = useState<PromoCode | null>(
-    null,
-  );
+  const [appliedPromoCode, setAppliedPromoCode] = useState<
+    PromoCode | undefined
+  >(undefined);
   const [promoCode, setPromoCode] = useState<string>("");
   const [isFavorite, setIsFavorite] = useState(false);
 
@@ -128,18 +132,32 @@ const EventPageComp = ({
     });
   };
 
-  const handleApplyPromoCode = (code: string) => {
-    setPromoCode(code);
-    // Here you would typically check the promo code against your backend
-    // and apply the discount if valid.
-    // For this example, we'll just log it to the console.
-    setAppliedPromoCode({ code, discountPercent: 10 });
-    console.log(`Promo code ${appliedPromoCode?.discountPercent}% applied!`);
-    toast.success(`Promo code ${code} applied!`);
-    setPromoCode("");
-    setTimeout(() => {
-      setAppliedPromoCode(null);
-    }, 30000);
+  const handleApplyPromoCode = async () => {
+    try {
+      const result = await VerifyPromoCode({
+        eventId: event._id,
+        code: promoCode.toUpperCase(),
+      });
+      console.log(result);
+      if (result.success) {
+        setAppliedPromoCode(result?.promoCodeValues);
+        toast.success("Promo code applied successfully!");
+      } else {
+        setAppliedPromoCode(undefined);
+        toast.error(result.error);
+      }
+    } catch (error) {
+      console.error("Error applying promo code:", error);
+      setAppliedPromoCode(undefined);
+      toast.error("Failed to apply promo code.");
+    }
+    // setAppliedPromoCode({ code, discountPercent: 10 });
+    // console.log(`Promo code ${promoCode} applied!`);
+    // toast.success(`Promo code ${promoCode} applied!`);
+    // setPromoCode("");
+    // setTimeout(() => {
+    //   setAppliedPromoCode(null);
+    // }, 30000);
   };
 
   const totalPrice =
@@ -150,9 +168,7 @@ const EventPageComp = ({
 
   const lumpSumTotalPrice =
     totalPrice -
-    (appliedPromoCode
-      ? (totalPrice * appliedPromoCode.discountPercent) / 100
-      : 0);
+    (appliedPromoCode ? (totalPrice * appliedPromoCode.discount) / 100 : 0);
   const lumpSumTotalPriceFormatted = FormatMoney(lumpSumTotalPrice);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -406,8 +422,8 @@ const EventPageComp = ({
                   </span>
                 </span>
                 {appliedPromoCode
-                  ? `-${appliedPromoCode.discountPercent}% (${FormatMoney(
-                      (totalPrice * appliedPromoCode.discountPercent) / 100,
+                  ? `-${appliedPromoCode.discount}% (${FormatMoney(
+                      (totalPrice * appliedPromoCode.discount) / 100,
                     )}) `
                   : "- 0%"}
               </span>
@@ -421,7 +437,7 @@ const EventPageComp = ({
                   disabled={isEventPast || isEventOwner || userTicket !== null}
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleApplyPromoCode(promoCode);
+                      handleApplyPromoCode();
                     }
                   }}
                   autoComplete="off"
@@ -429,10 +445,8 @@ const EventPageComp = ({
                 <Button
                   variant="link"
                   className="font-semibold hover:no-underline hover:bg-primary/15"
-                  onClick={() => {
-                    handleApplyPromoCode(promoCode);
-                    toast.success("Promo code applied!");
-                  }}
+                  disabled={isEventPast || isEventOwner || userTicket !== null}
+                  onClick={handleApplyPromoCode}
                 >
                   Apply Code
                 </Button>
@@ -468,6 +482,7 @@ const EventPageComp = ({
                       userId={user.id}
                       ticketTypeId={selectedTicket as Id<"ticketTypes">}
                       selectedCount={selectedCount[selectedTicket]}
+                      promoCodeId={appliedPromoCode?.id}
                     />
                   ) : (
                     <div

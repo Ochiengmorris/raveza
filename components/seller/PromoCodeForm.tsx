@@ -192,7 +192,11 @@ const PromoCodeForm = ({
                 <FormItem>
                   <FormLabel>Code</FormLabel>
                   <FormControl>
-                    <Input placeholder="SUMMER2023" {...field} />
+                    <Input
+                      placeholder="SUMMER2023"
+                      {...field}
+                      className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 "
+                    />
                   </FormControl>
                   <FormDescription>
                     This is the code users will enter to receive the discount
@@ -237,7 +241,13 @@ const PromoCodeForm = ({
                   <FormItem className="flex-1">
                     <FormLabel>Discount (%)</FormLabel>
                     <FormControl>
-                      <Input type="number" min="1" max="100" {...field} />
+                      <Input
+                        type="number"
+                        min="1"
+                        max="100"
+                        {...field}
+                        className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 "
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -251,7 +261,12 @@ const PromoCodeForm = ({
                   <FormItem className="flex-1">
                     <FormLabel>Maximum Uses</FormLabel>
                     <FormControl>
-                      <Input type="number" min="1" {...field} />
+                      <Input
+                        type="number"
+                        min="1"
+                        {...field}
+                        className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 "
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -280,6 +295,8 @@ const PromoCodeForm = ({
                             ? new Date(field.value).toISOString().split("T")[0]
                             : ""
                         }
+                        min={new Date().toISOString().split("T")[0]}
+                        className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 "
                       />
                     </FormControl>
                     <FormMessage />
@@ -307,6 +324,7 @@ const PromoCodeForm = ({
                             : ""
                         }
                         min={new Date().toISOString().split("T")[0]}
+                        className="focus:outline-none focus-within:outline-none focus-within:ring-0 focus-visible:ring-0 "
                       />
                     </FormControl>
                     <FormMessage />
@@ -357,9 +375,9 @@ const PromoCodeForm = ({
                   {existingCode ? "Creating Code..." : "Updating Code..."}
                 </>
               ) : existingCode ? (
-                "Update Event"
+                "Update Code"
               ) : (
-                "Create Event"
+                "Create Code"
               )}
             </Button>
           </form>

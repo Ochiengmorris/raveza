@@ -79,7 +79,7 @@ export async function queryTransactionCheck({
       });
 
       // Process the ticket purchase
-      await convex.mutation(api.events.purchaseMpesaTicket, {
+      const result = await convex.mutation(api.events.purchaseMpesaTicket, {
         eventId: metadata.eventId,
         userId: metadata.userId,
         waitingListId: metadata.waitingListId,
@@ -88,6 +88,16 @@ export async function queryTransactionCheck({
           checkoutRequestId: data.CheckoutRequestID,
         },
       });
+      if (transaction.promoCodeId) {
+        await convex.mutation(api.promoCodes.createPromoCodeRedemption, {
+          userId: metadata.userId,
+          promoCodeId: transaction.promoCodeId,
+          eventId: metadata.eventId,
+          ticketId: result,
+          redeemedAt: Date.now(),
+          dicountAmount: transaction.amount,
+        });
+      }
 
       await convex.mutation(api.users.updateUserBalance, {
         eventId: metadata.eventId,

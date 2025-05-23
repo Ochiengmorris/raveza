@@ -7,15 +7,18 @@ export const create = mutation({
     metadata: v.string(),
     amount: v.number(),
     expiresAt: v.string(),
+    promoCodeId: v.optional(v.id("promoCodes")),
   },
   handler: async (ctx, args) => {
-    const { checkoutRequestId, metadata, amount, expiresAt } = args;
+    const { checkoutRequestId, metadata, amount, expiresAt, promoCodeId } =
+      args;
 
     const id = await ctx.db.insert("mpesaTransactions", {
       checkoutRequestId,
       metadata,
       amount,
       expiresAt,
+      promoCodeId,
       status: "pending",
     });
 

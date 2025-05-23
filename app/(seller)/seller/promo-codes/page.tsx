@@ -54,12 +54,10 @@ const PromoCodesPage = () => {
     api.promoCodes.getEventPromoCodes,
     selectedEventId
       ? {
-        eventId: selectedEventId as Id<"events">,
-      }
+          eventId: selectedEventId as Id<"events">,
+        }
       : "skip",
   );
-
-  console.log(promoCodes);
 
   // Format discount for display
   const formatDiscount = (percentage: number) => {
@@ -160,7 +158,7 @@ const PromoCodesPage = () => {
                                 variant="ghost"
                                 size="icon"
                                 className="h-6 w-6"
-                              // onClick={() => copyToClipboard(code.code)}
+                                // onClick={() => copyToClipboard(code.code)}
                               >
                                 <Copy className="h-3 w-3" />
                               </Button>
@@ -195,8 +193,11 @@ const PromoCodesPage = () => {
                       )}
                     </TableCell>
                     <TableCell>
-                      {code.isActive && events?.find(event => event._id === selectedEventId)?.eventDate !== undefined &&
-                        events.find(event => event._id === selectedEventId)!.eventDate < Date.now() ? (
+                      {code.isActive &&
+                      events?.find((event) => event._id === selectedEventId)
+                        ?.eventDate !== undefined &&
+                      events.find((event) => event._id === selectedEventId)!
+                        .eventDate < Date.now() ? (
                         <Badge className="bg-red-100 text-red-800 hover:bg-red-100">
                           <Check className="h-3 w-3 mr-1" /> Past Event
                         </Badge>
@@ -205,7 +206,10 @@ const PromoCodesPage = () => {
                           <Check className="h-3 w-3 mr-1" /> Active
                         </Badge>
                       ) : (
-                        <Badge variant="outline" className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">
+                        <Badge
+                          variant="outline"
+                          className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100"
+                        >
                           <X className="h-3 w-3 mr-1" /> Inactive
                         </Badge>
                       )}

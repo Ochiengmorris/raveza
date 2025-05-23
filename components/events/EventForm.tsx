@@ -350,7 +350,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                     size="sm"
                     onClick={generateDescription}
                     disabled={isGeneratingDescription}
-                    className="flex items-center gap-2"
+                    className=" items-center gap-2 hidden"
                   >
                     {isGeneratingDescription ? (
                       <>
@@ -368,7 +368,10 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
                 <FormControl>
                   <Textarea
                     {...field}
-                    className={cn("focus:ring-0 focus:border-0")}
+                    className={cn(
+                      "focus:ring-0 focus:border-0 overflow-y-scroll",
+                    )}
+                    rows={4}
                   ></Textarea>
                 </FormControl>
                 <FormMessage />
