@@ -4,7 +4,7 @@ import { api } from "@/convex/_generated/api";
 import { getConvexClient } from "@/lib/convex";
 import { MpesaCredentials } from "@/lib/mpesa";
 import { getAccessToken } from "@/middleware";
-import { auth } from "@clerk/nextjs/server";
+// import { auth } from "@clerk/nextjs/server";
 
 const mpesaCredentials: MpesaCredentials = {
   consumerKey: process.env.MPESA_CONSUMER_KEY!,
@@ -15,11 +15,15 @@ const mpesaCredentials: MpesaCredentials = {
 
 export async function queryTransactionCheck({
   checkoutRequestId,
+  // guestUserId,
 }: {
   checkoutRequestId: string;
+  guestUserId?: string;
 }) {
-  const { userId } = await auth();
-  if (!userId) throw new Error("Not authenticated");
+  // const { userId } = await auth();
+  // const effectiveId = userId ?? guestUserId;
+  // if (!effectiveId) throw new Error("Not authenticated");
+
   const accessToken = await getAccessToken();
 
   const url = "https://sandbox.safaricom.co.ke/mpesa/stkpushquery/v1/query";
@@ -143,46 +147,46 @@ export async function queryTransactionCheck({
   }
 }
 
-export const checkStatusTransaction = async ({
-  checkoutRequestId,
-}: {
-  checkoutRequestId: string | null;
-}) => {
-  if (!checkoutRequestId) {
-    console.error("CheckoutRequestId is required");
-    return { message: "CheckoutRequestId is required", status: 400 };
-  }
-  const convex = getConvexClient();
+// export const checkStatusTransaction = async ({
+//   checkoutRequestId,
+// }: {
+//   checkoutRequestId: string | null;
+// }) => {
+//   if (!checkoutRequestId) {
+//     console.error("CheckoutRequestId is required");
+//     return { message: "CheckoutRequestId is required", status: 400 };
+//   }
+//   const convex = getConvexClient();
 
-  try {
-    const transaction = await convex.query(
-      api.mpesaTransactions.getByCheckoutRequestId,
-      {
-        checkoutRequestId,
-      },
-    );
+//   try {
+//     const transaction = await convex.query(
+//       api.mpesaTransactions.getByCheckoutRequestId,
+//       {
+//         checkoutRequestId,
+//       },
+//     );
 
-    if (!transaction) {
-      console.error(
-        "Transaction not found for CheckoutRequestID:",
-        checkoutRequestId,
-      );
-      return { message: "Transaction not found", status: 404 };
-    }
+//     if (!transaction) {
+//       console.error(
+//         "Transaction not found for CheckoutRequestID:",
+//         checkoutRequestId,
+//       );
+//       return { message: "Transaction not found", status: 404 };
+//     }
 
-    return { transaction };
-  } catch (error: unknown) {
-    if (error instanceof Error) {
-      console.error("Error querying transaction:", error.message);
-      return {
-        status: 500,
-        message: error.message || "Query failed",
-      };
-    }
-    console.error("Unexpected error:", error);
-    return {
-      status: 500,
-      message: "Query failed",
-    };
-  }
-};
+//     return { transaction };
+//   } catch (error: unknown) {
+//     if (error instanceof Error) {
+//       console.error("Error querying transaction:", error.message);
+//       return {
+//         status: 500,
+//         message: error.message || "Query failed",
+//       };
+//     }
+//     console.error("Unexpected error:", error);
+//     return {
+//       status: 500,
+//       message: "Query failed",
+//     };
+//   }
+// };

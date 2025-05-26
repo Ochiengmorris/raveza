@@ -25,17 +25,28 @@ const VerifyPromoCode = async ({
   if (!promoCodes) {
     return {
       success: false,
-      error: "Promo codes have  not found",
+      error: "No promo codes found for this event",
     };
   }
 
   try {
     const upperCode = typeof code === "string" ? code.toUpperCase() : "";
     const promoCode = promoCodes.find((p) => p.code === upperCode);
+    if (!promoCode) {
+      return {
+        success: false,
+        error: "Promo code not found",
+      };
+    }
 
-    const isAvailable = await checkAvailability(
-      promoCode?._id ?? ("" as Id<"promoCodes">),
-    );
+    const isAvailable = await checkAvailability(promoCode._id);
+    const isValid = new Date(promoCode.expiresAt) > new Date();
+    if (!isValid) {
+      return {
+        success: false,
+        error: "Promo code has expired",
+      };
+    }
     if (!isAvailable) {
       return {
         success: false,
@@ -43,29 +54,16 @@ const VerifyPromoCode = async ({
       };
     }
 
-    if (promoCode) {
-      const isValid = new Date(promoCode.expiresAt) > new Date();
-      return isValid
-        ? {
-            success: true,
-            promoCodeValues: {
-              id: promoCode._id,
-              code: promoCode.code,
-              discount: promoCode.discountPercentage,
-              expiresAt: promoCode.expiresAt,
-              isActive: promoCode.isActive,
-            },
-          }
-        : {
-            success: false,
-            error: "Promo code has expired",
-          };
-    } else {
-      return {
-        success: false,
-        error: "Promo code not found",
-      };
-    }
+    return {
+      success: true,
+      promoCodeValues: {
+        id: promoCode._id,
+        code: promoCode.code,
+        discount: promoCode.discountPercentage,
+        expiresAt: promoCode.expiresAt,
+        isActive: promoCode.isActive,
+      },
+    };
   } catch (error) {
     console.error("Error fetching promo codes:", error);
     return {

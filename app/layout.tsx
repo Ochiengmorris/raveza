@@ -6,6 +6,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 // import NextTopLoader from "nextjs-toploader";
 import SyncUserWithConvex from "@/components/other/SyncUserWithConvex";
+import { GuestProvider } from "@/components/providers/GuestProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,9 +54,11 @@ export default function RootLayout({
       >
         <ClerkProvider dynamic>
           <ConvexClientProvider>
-            <SyncUserWithConvex />
-            <main className="flex flex-col h-screen">{children}</main>
-            <Toaster />
+            <GuestProvider>
+              <SyncUserWithConvex />
+              <main className="flex flex-col h-screen">{children}</main>
+              <Toaster />
+            </GuestProvider>
           </ConvexClientProvider>
         </ClerkProvider>
       </body>

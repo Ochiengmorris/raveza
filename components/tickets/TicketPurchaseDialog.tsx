@@ -26,6 +26,7 @@ import {
 import { Id } from "@/convex/_generated/dataModel";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
+import { useGuest } from "../providers/GuestProvider";
 
 export default function TicketPurchaseDialog({
   open,
@@ -48,9 +49,10 @@ export default function TicketPurchaseDialog({
   const router = useRouter();
 
   const { user } = useUser();
+  const { guestInfo } = useGuest();
   const queuePosition = useQuery(api.waitingList.getQueuePosition, {
     eventId,
-    userId: user?.id ?? "",
+    userId: user?.id ?? guestInfo?.id ?? "",
     ticketTypeId,
   });
 
@@ -100,7 +102,11 @@ export default function TicketPurchaseDialog({
   const handlePurchaseMpesa = async (e: React.FormEvent) => {
     e.preventDefault();
     setChecking(false);
-    if (!user || !queuePosition || queuePosition.status !== "offered") {
+    if (
+      (!user && !guestInfo) ||
+      !queuePosition ||
+      queuePosition.status !== "offered"
+    ) {
       toast("Oops! Sorry, try reseving again", {
         description: "You took too long to purchase",
       });
@@ -117,6 +123,7 @@ export default function TicketPurchaseDialog({
         eventId,
         phoneNumber: formattedPhoneNumber,
         ticketTypeId,
+        guestUserId: guestInfo?.id ?? "",
       });
 
       if (response.status === "ok" && response.data) {

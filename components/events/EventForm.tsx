@@ -230,7 +230,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             });
           }
 
-          router.push(`/events/${eventId}`);
+          // router.push(`/events/${eventId}`);
           toast.success("Event created", {
             description: "Your event has been successfully created.",
           });
@@ -265,7 +265,7 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
             });
           }
 
-          router.push(`/events/${initialData._id}`);
+          router.back();
           toast.success("Event updated", {
             description: "Your event has been successfully updated.",
           });

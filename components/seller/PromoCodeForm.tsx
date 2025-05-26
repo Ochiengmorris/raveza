@@ -4,7 +4,6 @@ import { Id } from "@/convex/_generated/dataModel";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import {
   Dialog,
   DialogContent,
@@ -13,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Edit, Loader2, Plus } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import {
   Form,
   FormControl,
@@ -36,30 +35,12 @@ import { useMutation } from "convex/react";
 import { ConvexError } from "convex/values";
 import { api } from "@/convex/_generated/api";
 import { Switch } from "@/components/ui/switch";
+import { PromoCodeFormValues, promoCodeSchema } from "@/lib/validation";
 
 interface EventProps {
   _id: string;
   name?: string;
 }
-
-// Define validation schema for creating promotional code
-const promoCodeSchema = z.object({
-  code: z
-    .string()
-    .min(3, "Code must be at least 3 characters")
-    .max(20, "Code must be less than 20 characters"),
-  eventId: z.string(),
-  discountPercentage: z.coerce
-    .number()
-    .min(1, "Discount must be at least 1%")
-    .max(100, "Discount cannot exceed 100%"),
-  startDate: z.coerce.number(),
-  maxUses: z.coerce.number().min(1, "Maximum uses must be at least 1"),
-  isActive: z.boolean(),
-  expiresAt: z.coerce.number(),
-});
-
-type PromoCodeFormValues = z.infer<typeof promoCodeSchema>;
 
 interface ExistingCode {
   _id: string;
@@ -76,9 +57,11 @@ interface ExistingCode {
 const PromoCodeForm = ({
   event,
   existingCode = null,
+  children,
 }: {
   event: EventProps;
   existingCode?: ExistingCode | null;
+  children?: React.ReactNode;
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -166,17 +149,7 @@ const PromoCodeForm = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {existingCode ? (
-          <Button variant="ghost" size="sm">
-            <Edit className="h-4 w-4 mr-1" /> Edit
-          </Button>
-        ) : (
-          <Button>
-            <Plus className="h-4 w-4 mr-1" /> Create Promotional Code
-          </Button>
-        )}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>

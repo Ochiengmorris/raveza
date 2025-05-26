@@ -26,81 +26,22 @@ export async function createMpesaPaymentRequest({
   eventId,
   phoneNumber,
   ticketTypeId,
+  guestUserId,
 }: {
   eventId: Id<"events">;
   phoneNumber: string;
   ticketTypeId: Id<"ticketTypes">;
+  guestUserId?: string;
 }): Promise<CreateMpesaPaymentResult> {
-  //   const { userId } = await auth();
-  //   if (!userId) throw new Error("Not authenticated");
-  //   const convex = getConvexClient();
-  //   // Get event details
-  //   const event = await convex.query(api.events.getById, { eventId });
-  //   if (!event) throw new Error("Event not found");
-  //   // Get tickettype details
-  //   const ticketTypeDetails = await convex.query(api.tickets.getTicketType, {
-  //     ticketTypeId: ticketTypeId,
-  //   });
-  //   if (!ticketTypeDetails?.ticketType?.price) {
-  //     throw new Error("Invalid ticket type or price");
-  //   }
-  //   // Get waiting list entry
-  //   const queuePosition = await convex.query(api.waitingList.getQueuePosition, {
-  //     eventId,
-  //     userId,
-  //     ticketTypeId,
-  //   });
-  //   if (!queuePosition || queuePosition.status !== "offered") {
-  //     throw new Error("No valid ticket offer found");
-  //   }
-  //   if (!queuePosition.offerExpiresAt) {
-  //     throw new Error("Ticket offer has no expiration date");
-  //   }
-  //   const promoCodedetails = await convex.query(
-  //     api.promoCodes.getByCodeAndEventId,
-  //     {
-  //       eventId,
-  //       code: queuePosition?.promoCodeId ?? ("" as Id<"promoCodes">),
-  //     },
-  //   );
-  //   console.log(promoCodedetails);
-  //   const metadata: MpesaCallbackMetaData = {
-  //     eventId,
-  //     userId,
-  //     waitingListId: queuePosition._id,
-  //   };
-  //   const price = ticketTypeDetails?.ticketType?.price * queuePosition.count;
-  //   const discount = promoCodedetails?.discountPercentage || 0;
-  //   const amount = price * (1 - discount / 100);
-  //   // Create Mpesa STK Push request
-  //   try {
-  //     const stkPushResponse = await sendStkPush(phoneNumber, amount);
-  //     if (!stkPushResponse || !stkPushResponse.CheckoutRequestID) {
-  //       throw new Error("Failed to initiate Mpesa payment");
-  //     }
-  //     // Store the metadata and CheckoutRequestID in your database
-  //     await convex.mutation(api.mpesaTransactions.create, {
-  //       checkoutRequestId: stkPushResponse.CheckoutRequestID,
-  //       metadata: JSON.stringify(metadata),
-  //       amount: amount,
-  //       expiresAt: new Date(Date.now() + DURATIONS.TICKET_OFFER).toISOString(),
-  //       promoCodeId: queuePosition.promoCodeId,
-  //     });
-  //     return {
-  //       status: "ok",
-  //       data: {
-  //         checkoutRequestId: stkPushResponse.CheckoutRequestID,
-  //         responseCode: stkPushResponse.ResponseCode,
-  //       },
-  //     };
-  //   } catch (error) {
-  //     console.error("Error initiating Mpesa payment:", error);
-  //     throw new Error("Failed to initiate Mpesa payment");
+  if (!eventId || !phoneNumber || !ticketTypeId) {
+    return { status: "error", error: "Missing required parameters" };
+  }
 
   try {
     // Authentication check
     const { userId } = await auth();
-    if (!userId) {
+    const effectiveId = userId ?? guestUserId;
+    if (!effectiveId) {
       return { status: "error", error: "Authentication required" };
     }
 
@@ -127,7 +68,7 @@ export async function createMpesaPaymentRequest({
     // Check queue position and offer validity
     const queuePosition = await convex.query(api.waitingList.getQueuePosition, {
       eventId,
-      userId,
+      userId: effectiveId,
       ticketTypeId,
     });
 
@@ -166,7 +107,7 @@ export async function createMpesaPaymentRequest({
     // Prepare metadata
     const metadata: MpesaCallbackMetaData = {
       eventId,
-      userId,
+      userId: effectiveId,
       waitingListId: queuePosition._id,
     };
 

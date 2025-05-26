@@ -26,3 +26,22 @@ export const eventFormSchema = z.object({
 });
 
 export type EventFormType = z.infer<typeof eventFormSchema>;
+
+// Promo Code
+export const promoCodeSchema = z.object({
+  code: z
+    .string()
+    .min(3, "Code must be at least 3 characters")
+    .max(20, "Code must be less than 20 characters"),
+  eventId: z.string(),
+  discountPercentage: z.coerce
+    .number()
+    .min(1, "Discount must be at least 1%")
+    .max(100, "Discount cannot exceed 100%"),
+  startDate: z.coerce.number(),
+  maxUses: z.coerce.number().min(1, "Maximum uses must be at least 1"),
+  isActive: z.boolean(),
+  expiresAt: z.coerce.number(),
+});
+
+export type PromoCodeFormValues = z.infer<typeof promoCodeSchema>;

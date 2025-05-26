@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth, useUser } from "@clerk/nextjs";
 import Image from "next/image";
-import { Button } from "@/components/ui/button";
 import { redirect } from "next/navigation";
 
 const DropButton = () => {
@@ -29,24 +28,26 @@ const DropButton = () => {
           />
         </div>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-42 -translate-x-14">
-        <DropdownMenuItem className="bg-none">
-          <Button
-            variant={"outline"}
+      <DropdownMenuContent className="w-42 -translate-x-14 bg-none">
+        <DropdownMenuItem className="bg-none hover:bg-none">
+          <button
             onClick={() => redirect("/tickets")}
-            className={"w-full justify-center"}
+            className={
+              "w-full justify-center  hover:bg-accent cursor-pointer py-2"
+            }
           >
             My Tickets
-          </Button>
+          </button>
         </DropdownMenuItem>
-        <DropdownMenuItem className="">
-          <Button
-            variant={"link"}
+        <DropdownMenuItem className="bg-none hover:bg-none">
+          <button
             onClick={async () => await signOut()}
-            className={"w-full justify-center"}
+            className={
+              "w-full justify-center  hover:bg-accent cursor-pointer py-2"
+            }
           >
             Sign Out
-          </Button>
+          </button>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

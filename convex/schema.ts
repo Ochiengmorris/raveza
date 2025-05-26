@@ -103,8 +103,16 @@ export default defineSchema({
     stripeConnectId: v.optional(v.string()),
     isSeller: v.optional(v.boolean()),
     balance: v.optional(v.number()),
+    // Additional fileds for Guest users
+    isGuest: v.optional(v.boolean()),
+    guestSessionId: v.optional(v.string()),
+    guestEmail: v.optional(v.string()),
+    guestName: v.optional(v.string()),
+    guestPhoneNumber: v.optional(v.string()),
+    guestCreatedAt: v.optional(v.number()),
   })
     .index("by_user_id", ["userId"])
+    .index("by_guest_session_id", ["guestSessionId"])
     .index("by_email", ["email"]),
 
   mpesaTransactions: defineTable({

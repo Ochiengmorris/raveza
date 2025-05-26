@@ -38,7 +38,18 @@ import { Id } from "@/convex/_generated/dataModel";
 import { useUser } from "@clerk/nextjs";
 import { useQuery } from "convex/react";
 import { format } from "date-fns";
-import { Calendar, Check, Copy, Loader2, Tag, Trash, X } from "lucide-react";
+import {
+  Calendar,
+  Check,
+  Copy,
+  Edit,
+  Loader2,
+  Plus,
+  SquarePlus,
+  Tag,
+  Trash,
+  X,
+} from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
@@ -126,10 +137,21 @@ const PromoCodesPage = () => {
       {selectedEventId && promoCodes && promoCodes.length > 0 && (
         <Card className="border-none">
           <CardHeader>
-            <CardTitle>Promotional Codes</CardTitle>
-            <CardDescription>
+            {/* <CardTitle>Promo Codes</CardTitle> */}
+            <CardDescription className="flex items-center">
               Manage discount codes for{" "}
               {events?.find((event) => event._id === selectedEventId)?.name}
+              <PromoCodeForm
+                event={{
+                  _id: selectedEventId,
+                  name: events?.find((event) => event._id === selectedEventId)
+                    ?.name,
+                }}
+              >
+                <Button className="ml-auto" variant={"ghost"} size={"icon"}>
+                  <SquarePlus className="h-6 w-6" />
+                </Button>
+              </PromoCodeForm>
             </CardDescription>
           </CardHeader>
 
@@ -216,7 +238,6 @@ const PromoCodesPage = () => {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end space-x-2">
-                        {/* <RedemptionsDialog promoCode={code} /> */}
                         <PromoCodeForm
                           event={{
                             _id: selectedEventId,
@@ -225,7 +246,11 @@ const PromoCodesPage = () => {
                             )?.name,
                           }}
                           existingCode={code}
-                        />
+                        >
+                          <Button variant="ghost" size="sm">
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                        </PromoCodeForm>
                         <Button
                           variant="ghost"
                           size="sm"
@@ -265,7 +290,11 @@ const PromoCodesPage = () => {
                 name: events?.find((event) => event._id === selectedEventId)
                   ?.name,
               }}
-            />
+            >
+              <Button>
+                <Plus className="h-4 w-4 mr-1" /> Create
+              </Button>
+            </PromoCodeForm>
           </CardContent>
         </Card>
       )}
