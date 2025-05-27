@@ -25,6 +25,7 @@ interface RevenueChartProps {
 
 const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
   const [timeRange, setTimeRange] = useState<TimeRange>("monthly");
+
   const processChartData = (
     data: Array<{ month: number; revenue: number }> | undefined,
   ) => {
@@ -110,7 +111,7 @@ const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
                 margin={{
                   top: 20,
                   right: 20,
-                  left: 20,
+                  left: -20,
                   bottom: 5,
                 }}
               >
@@ -140,7 +141,7 @@ const RevenueChart = ({ data, isLoading, className }: RevenueChartProps) => {
                   tickLine={false}
                 />
                 <YAxis
-                  tickFormatter={(value) => `KSh ${(value / 1000).toFixed(0)}k`}
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
                   tick={{ fontSize: 12, fill: "#64748B" }}
                   axisLine={{ stroke: "#E2E8F0" }}
                   tickLine={false}

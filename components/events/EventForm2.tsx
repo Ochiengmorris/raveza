@@ -112,51 +112,6 @@ export default function EventForm({ mode, initialData }: EventFormProps) {
     name: "ticketTypes",
   });
 
-  // const [isGeneratingDescription, setIsGeneratingDescription] = useState(false);
-
-  // const generateDescription = async () => {
-  //   // if (!form.getValues("name")) {
-  //   //   toast({
-  //   //     variant: "destructive",
-  //   //     title: "Event name required",
-  //   //     description:
-  //   //       "Please enter an event name first to generate a description.",
-  //   //   });
-  //   //   return;
-  //   // }
-
-  //   setIsGeneratingDescription(true);
-  //   try {
-  //     toast("Generate with AI", {
-  //       description: "Coming soon!",
-  //     });
-  //     // const response = await fetch("/api/generate-description", {
-  //     //   method: "POST",
-  //     //   headers: {
-  //     //     "Content-Type": "application/json",
-  //     //   },
-  //     //   body: JSON.stringify({
-  //     //     eventName: form.getValues("name"),
-  //     //     eventType: "event", // You can make this dynamic based on event type
-  //     //   }),
-  //     // });
-
-  //     // if (!response.ok) {
-  //     //   throw new Error("Failed to generate description");
-  //     // }
-
-  //     // const data = await response.json();
-  //     // form.setValue("description", data.description);
-  //   } catch (error) {
-  //     toast("Error", {
-  //       description: "Failed to generate description. Please try again.",
-  //     });
-  //     console.log(error);
-  //   } finally {
-  //     setIsGeneratingDescription(false);
-  //   }
-  // };
-
   async function onSubmit(values: EventFormType) {
     if (!user?.id) return;
 

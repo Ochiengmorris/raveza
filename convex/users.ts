@@ -183,6 +183,7 @@ export const convertGuestToUser = mutation({
     authUserId: v.string(), // Clerk user ID
   },
   handler: async (ctx, args) => {
+    console.log("Converting guest user to regular user", args);
     const guestUser = await ctx.db
       .query("users")
       .withIndex("by_guest_session_id", (q) =>
@@ -194,6 +195,18 @@ export const convertGuestToUser = mutation({
       throw new Error("Guest user not found");
     }
 
+    // Get guest users tickets or other data if needed
+    const guestTickets = await ctx.db
+      .query("tickets")
+      .filter((q) => q.eq(q.field("userId"), guestUser.userId))
+      .collect();
+
+    const guestActiveWaitingListEntry = await ctx.db
+      .query("waitingList")
+      .filter((q) => q.eq(q.field("userId"), guestUser.userId))
+      .filter((q) => q.eq(q.field("status"), "offered"))
+      .first();
+
     // Check if user with this Clerk ID already exists
     const existingUser = await ctx.db
       .query("users")
@@ -201,10 +214,55 @@ export const convertGuestToUser = mutation({
       .first();
 
     if (existingUser) {
-      // User already exists, transfer guest data to existing user
-      // This could involve merging tickets, etc.
+      console.log("Existing user found, updating guest data");
+      if (guestTickets.length > 0) {
+        await Promise.all(
+          guestTickets.map((ticket) =>
+            ctx.db.patch(ticket._id, { userId: existingUser.userId }),
+          ),
+        );
+      }
+
+      // Assuming he is not the owner of the event
+      // If the user  already has a ticket for the event in the waiting list,update the waiting list status to purchased
+      if (guestActiveWaitingListEntry && guestTickets.length > 0) {
+        const hasTicket = guestTickets.some(
+          (ticket) => ticket.eventId === guestActiveWaitingListEntry.eventId,
+        );
+        if (hasTicket) {
+          console.log(
+            "Updating waiting list entry to purchased for existing user",
+          );
+          // Update the waiting list entry to purchased
+          await ctx.db.patch(guestActiveWaitingListEntry._id, {
+            userId: existingUser.userId,
+            status: "purchased",
+          });
+        } else {
+          // If no ticket, just update the userId
+          await ctx.db.patch(guestActiveWaitingListEntry._id, {
+            userId: existingUser.userId,
+          });
+        }
+      }
+
       await ctx.db.delete(guestUser._id);
       return existingUser;
+    }
+
+    if (guestTickets.length > 0) {
+      // Update guest tickets to the new user ID
+      await Promise.all(
+        guestTickets.map((ticket) =>
+          ctx.db.patch(ticket._id, { userId: args.authUserId }),
+        ),
+      );
+    }
+    if (guestActiveWaitingListEntry) {
+      // Update guest waiting list entry to the new user ID
+      await ctx.db.patch(guestActiveWaitingListEntry._id, {
+        userId: args.authUserId,
+      });
     }
 
     // Update guest user to regular user

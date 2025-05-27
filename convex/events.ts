@@ -52,6 +52,16 @@ export const create = mutation({
   handler: async (ctx, args) => {
     const ticketTypes = args.ticketTypes;
 
+    const user = await ctx.db
+      .query("users")
+      .withIndex("by_user_id", (q) => q.eq("userId", args.userId))
+      .first();
+
+    if (!user) {
+      throw new ConvexError("User not found");
+    }
+    const firstName = user.name.split(" ")[0];
+
     const eventId = await ctx.db.insert("events", {
       name: args.name,
       description: args.description,
@@ -60,6 +70,7 @@ export const create = mutation({
       startTime: args.time,
       userId: args.userId,
       category: args.category,
+      organizerName: user.organizerName ?? firstName,
     });
 
     for (const ticketType of ticketTypes) {
@@ -491,19 +502,6 @@ export const getMonthlyRevenue = query({
     // Group and sum revenue by month
     const revenueByMonth: Record<string, number> = {};
 
-    // for (const ticket of tickets) {
-    //   const date = new Date(ticket._creationTime);
-    //   const month = date.getMonth() + 1; // getMonth() is 0-indexed
-    //   const year = date.getFullYear();
-    //   const key = `${year}-${month}`; // key for grouping
-
-    //   if (!revenueByMonth[key]) {
-    //     revenueByMonth[key] = 0;
-    //   }
-
-    //   revenueByMonth[key] += ticket.amount ?? 0;
-    // }
-
     for (const ticket of tickets) {
       const date = new Date(ticket._creationTime);
       const month = date.getMonth() + 1; // 1-indexed
@@ -515,18 +513,21 @@ export const getMonthlyRevenue = query({
       revenueByMonth[month] += ticket.amount ?? 0;
     }
 
-    // const monthlyRevenue = Object.entries(revenueByMonth)
-    //   .map(([key, revenue]) => {
-    //     const [yearStr, monthStr] = key.split("-");
-    //     return {
-    //       year: parseInt(yearStr),
-    //       month: parseInt(monthStr),
-    //       revenue,
-    //     };
-    //   })
-    //   .sort((a, b) =>
-    //     a.year === b.year ? a.month - b.month : a.year - b.year
-    //   );
+    const YearlyRevenue = Object.entries(revenueByMonth)
+      .map(([key, revenue]) => {
+        const [yearStr, monthStr] = key.split("-");
+        return {
+          year: parseInt(yearStr),
+          month: parseInt(monthStr),
+          revenue,
+        };
+      })
+      .sort((a, b) =>
+        a.year === b.year ? a.month - b.month : a.year - b.year,
+      );
+
+    console.log("Yearly Revenue Data:", YearlyRevenue);
+
     const monthlyRevenue = Object.entries(revenueByMonth)
       .map(([monthStr, revenue]) => ({
         month: parseInt(monthStr),

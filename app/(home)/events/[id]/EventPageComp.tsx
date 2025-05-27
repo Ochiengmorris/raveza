@@ -73,6 +73,7 @@ type Event = {
   imageStorageId?: Id<"_storage">;
   startTime?: string;
   description: string;
+  organizerName?: string;
   eventDate: number;
 };
 
@@ -237,7 +238,7 @@ const EventPageComp = ({
                   <Button
                     variant="outline"
                     size="icon"
-                    className="rounded-full cursor-pointer"
+                    className="rounded-full cursor-pointer border-none"
                     onClick={() => {
                       if (navigator.share) {
                         navigator
@@ -290,7 +291,7 @@ const EventPageComp = ({
                 Organized by
                 <span className="capitalize text-primary font-semibold">
                   {" "}
-                  {user?.username ?? "Organizer"}
+                  {event.organizerName ?? "Organizer"}
                 </span>
               </div>
               <p className="text-muted-foreground text-sm md:text-base whitespace-pre-line">

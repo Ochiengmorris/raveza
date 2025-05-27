@@ -183,7 +183,7 @@ const SellerEventsPage = () => {
             ))}
           </div>
         ) : filteredEvents.length === 0 ? (
-          <Card className="bg-slate-50 ">
+          <Card className="p-0 border-none">
             <CardContent className="flex flex-col items-center justify-center py-12">
               <Calendar className="h-16 w-16 text-slate-300 mb-4" />
               <h3 className="text-lg font-medium text-slate-700 mb-2">

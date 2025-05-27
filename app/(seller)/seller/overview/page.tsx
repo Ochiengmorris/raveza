@@ -31,21 +31,21 @@ const Overview = () => {
   });
 
   // Memoize loading state to prevent unnecessary re-renders
-  const isLoading = useMemo(() => {
-    return (
-      eventMetrics === undefined ||
-      eventWithMetrics === undefined ||
-      monthlyRevenue === undefined ||
-      ticketDetails === undefined
-    );
-  }, [eventMetrics, eventWithMetrics, monthlyRevenue, ticketDetails]);
+  // const isLoading = useMemo(() => {
+  //   return (
+  //     eventMetrics === undefined ||
+  //     eventWithMetrics === undefined ||
+  //     monthlyRevenue === undefined ||
+  //     ticketDetails === undefined
+  //   );
+  // }, [eventMetrics, eventWithMetrics, monthlyRevenue, ticketDetails]);
 
   // Memoize any data transformations you need to perform
   const formattedRevenue = useMemo(() => {
     return monthlyRevenue || mockMonthlyRevenue;
   }, [monthlyRevenue]);
 
-  console.log(isLoading, formattedRevenue);
+  // console.log(, formattedRevenue);
   // Memoized component loading states
   const componentLoadingStates = useMemo(() => {
     return {
@@ -99,7 +99,7 @@ const Overview = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           <RevenueChart
             className="lg:col-span-2"
-            data={mockMonthlyRevenue}
+            data={formattedRevenue}
             isLoading={componentLoadingStates.revenueLoading}
           />
           <UpcomingEvents
@@ -112,12 +112,12 @@ const Overview = () => {
           tickets={ticketDetails}
           isLoading={componentLoadingStates.ticketsLoading}
         />
-      </div>
 
-      <CreateEventModal
-        isOpen={isCreateEventModalOpen}
-        onClose={() => setIsCreateEventModalOpen(false)}
-      />
+        <CreateEventModal
+          isOpen={isCreateEventModalOpen}
+          onClose={() => setIsCreateEventModalOpen(false)}
+        />
+      </div>
     </>
   );
 };
