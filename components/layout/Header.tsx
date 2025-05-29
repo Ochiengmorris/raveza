@@ -4,8 +4,16 @@ import React from "react";
 import new_logo from "@/images/logo/grupu1.png";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import DropButton from "@/components/other/UserDropDownButton";
+import { currentUser } from "@clerk/nextjs/server";
+import { fetchQuery } from "convex/nextjs";
+import { api } from "@/convex/_generated/api";
 
-const Header = () => {
+const Header = async () => {
+  const user = await currentUser();
+  const userDetails = await fetchQuery(api.users.getUserById, {
+    userId: user?.id ?? "",
+  });
+  const isSeller = userDetails && userDetails?.isSeller;
   return (
     <header className="bg-black backdrop-blur-lg sticky top-0 z-50 shadow-sm h-16">
       <div className="flex max-w-7xl m-auto flex-col lg:flex-row items-center gap-4 p-4 relative">
@@ -52,11 +60,19 @@ const Header = () => {
         <div className="hidden lg:flex ml-auto">
           <SignedIn>
             <div className="flex items-center gap-3">
-              <Link href="/sell-tickets" className="shrink-0">
-                <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold cursor-pointer">
-                  Sell Tickets
-                </button>
-              </Link>
+              {isSeller ? (
+                <Link href="/seller/overview" className="shrink-0">
+                  <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold cursor-pointer">
+                    Dashboard
+                  </button>
+                </Link>
+              ) : (
+                <Link href="/sell-tickets" className="shrink-0">
+                  <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold cursor-pointer">
+                    Sell Tickets
+                  </button>
+                </Link>
+              )}
 
               <Link href="/tickets" className="shrink-0">
                 <button className="bg-primary text-accent shadow hover:bg-primary/90 px-3 py-2 text-sm rounded-lg font-semibold transition cursor-pointer">

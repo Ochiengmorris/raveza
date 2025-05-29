@@ -71,3 +71,36 @@ export const formatDateTime = (dateTimeString: string): string => {
   };
   return date.toLocaleString(undefined, options);
 };
+
+/**
+ * Copies the provided text to the clipboard.
+ *
+ * @param text - The string to be copied to the clipboard.
+ * @returns A promise that resolves when the text has been copied.
+ */
+export async function copyToClipBoard(text: string): Promise<void> {
+  if (!navigator.clipboard) {
+    // Fallback for browsers that do not support the Clipboard API
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    // Avoid scrolling to the bottom of the page
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+
+    try {
+      const successful = document.execCommand("copy");
+      if (!successful) {
+        throw new Error("Failed to copy text to clipboard");
+      }
+    } catch (error: unknown) {
+      console.error("Fallback: Error copying text to clipboard", error);
+    }
+    document.body.removeChild(textArea);
+  } else {
+    await navigator.clipboard.writeText(text);
+  }
+}

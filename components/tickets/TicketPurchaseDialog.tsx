@@ -162,9 +162,7 @@ export default function TicketPurchaseDialog({
 
       if (result.status === "ok") {
         router.replace("/tickets/purchase-success");
-        toast("Transaction Status", {
-          description: `Result: ${result.message}`,
-        });
+        toast.success("Ticket Purchased Successfully");
 
         setIsStkPushSent(false);
       } else {

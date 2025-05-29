@@ -471,7 +471,6 @@ export const getAllUserEventsMetrics = query({
 /**
  * get monthly revenue for data
  */
-
 export const getMonthlyRevenue = query({
   args: { userId: v.string() },
   handler: async (ctx, { userId }) => {
@@ -490,7 +489,7 @@ export const getMonthlyRevenue = query({
       ),
     );
 
-    // Flatten the ticket arrays
+    // Flatten the ticket arrays and filter for current year and valid status
     const tickets = allTickets.flat().filter((t) => {
       const date = new Date(t._creationTime);
       return (
@@ -499,41 +498,28 @@ export const getMonthlyRevenue = query({
       );
     });
 
-    // Group and sum revenue by month
-    const revenueByMonth: Record<string, number> = {};
+    // Initialize all 12 months with 0 revenue
+    const revenueByMonth: Record<number, number> = {};
+    for (let i = 1; i <= 12; i++) {
+      revenueByMonth[i] = 0;
+    }
 
+    // Sum revenue by month
     for (const ticket of tickets) {
       const date = new Date(ticket._creationTime);
       const month = date.getMonth() + 1; // 1-indexed
-
-      if (!revenueByMonth[month]) {
-        revenueByMonth[month] = 0;
-      }
-
       revenueByMonth[month] += ticket.amount ?? 0;
     }
 
-    const YearlyRevenue = Object.entries(revenueByMonth)
-      .map(([key, revenue]) => {
-        const [yearStr, monthStr] = key.split("-");
-        return {
-          year: parseInt(yearStr),
-          month: parseInt(monthStr),
-          revenue,
-        };
-      })
-      .sort((a, b) =>
-        a.year === b.year ? a.month - b.month : a.year - b.year,
-      );
-
-    console.log("Yearly Revenue Data:", YearlyRevenue);
-
+    // Convert to array format and sort by month
     const monthlyRevenue = Object.entries(revenueByMonth)
       .map(([monthStr, revenue]) => ({
         month: parseInt(monthStr),
         revenue,
       }))
       .sort((a, b) => a.month - b.month);
+
+    // console.log("Monthly Revenue Data:", monthlyRevenue);
 
     return monthlyRevenue;
   },
@@ -678,7 +664,10 @@ export const joinWaitingList = mutation({
 
     // Don't allow duplicate entries
     if (existingEntry) {
-      throw new Error("Already in waiting list for this event");
+      return {
+        success: false,
+        message: "You are already in the waiting list for this event.",
+      };
     }
 
     // get promocode information

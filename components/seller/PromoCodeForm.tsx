@@ -306,28 +306,11 @@ const PromoCodeForm = ({
               />
             </div>
 
-            {/* <FormField
-              control={form.control}
-              name="isActive"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                  <FormControl>
-                    <input
-                      type="checkbox"
-                      checked={field.value}
-                      onChange={field.onChange}
-                      className="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary"
-                    />
-                  </FormControl>
-                  <FormLabel className="font-normal">Active</FormLabel>
-                </FormItem>
-              )}
-            /> */}
             <FormField
               control={form.control}
               name="isActive"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                <FormItem className="flex flex-row items-center justify-between rounded-lg bg-card-foreground/10 shadow-card p-3">
                   <FormLabel className="font-normal">
                     Promo Code Status
                   </FormLabel>
@@ -345,7 +328,7 @@ const PromoCodeForm = ({
               {isPending ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  {existingCode ? "Creating Code..." : "Updating Code..."}
+                  {existingCode ? "Updating..." : "Creating..."}
                 </>
               ) : existingCode ? (
                 "Update Code"

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import RequireAdminSeller from "@/components/layout/RequireAdminSeller";
-import NextTopLoader from "nextjs-toploader";
+// import NextTopLoader from "nextjs-toploader";
 import Sidebar from "@/components/seller/Sidebar";
 import MobileNavbar from "@/components/seller/MobileNavbar";
 import "../globals.css";
@@ -21,11 +21,11 @@ export default async function RootLayout({
 }>) {
   return (
     <RequireAdminSeller>
-      <NextTopLoader showSpinner={false} color="#9e2c2c" />
       <div className="flex bg-background/90 w-full h-screen overflow-hidden">
         <Sidebar />
         <MobileNavbar />
         <div className="md:ml-64 lg:ml-72 pt-16 md:pt-0 w-full h-full overflow-y-auto overflow-x-hidden">
+          {/* <NextTopLoader showSpinner={false} color="#9e2c2c" /> */}
           <main className="w-full max-w-full">{children}</main>
         </div>
       </div>

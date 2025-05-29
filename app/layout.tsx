@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Montserrat, Poppins } from "next/font/google";
 import ConvexClientProvider from "@/components/ConvexClientProvider";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
@@ -7,28 +6,6 @@ import { Toaster } from "@/components/ui/sonner";
 // import NextTopLoader from "nextjs-toploader";
 import SyncUserWithConvex from "@/components/other/SyncUserWithConvex";
 import { GuestProvider } from "@/components/providers/GuestProvider";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const poppins = Poppins({
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-  subsets: ["latin"],
-});
-
-const montserrat = Montserrat({
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: {
@@ -49,9 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${poppins.variable} ${montserrat.variable}  ${geistMono.variable} antialiased`}
-      >
+      <body className={`  antialiased`}>
         <ClerkProvider dynamic>
           <ConvexClientProvider>
             <GuestProvider>
