@@ -26,7 +26,7 @@ const Upcoming = async () => {
             Browse events happening soon
           </p>
 
-          <div className="mt-6 grid grid-cols-2 w-full md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="mt-6 grid grid-cols-2 w-full lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {/* {!events && renderSkeletons()} */}
             {events &&
               events.map((event) => (
