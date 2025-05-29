@@ -32,11 +32,20 @@ const Header = async () => {
           <div className="lg:hidden ml-auto">
             <SignedIn>
               <div className="flex items-center gap-3">
-                <Link href="/sell-tickets" className="shrink-0">
-                  <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0 cursor-pointer">
-                    Sell Tickets
-                  </button>
-                </Link>
+                {isSeller ? (
+                  <Link href="/seller/overview" className="shrink-0">
+                    <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold cursor-pointer">
+                      Dashboard
+                    </button>
+                  </Link>
+                ) : (
+                  <Link href="/sell-tickets" className="shrink-0">
+                    <button className="bg-none text-accent px-3 py-2 text-sm rounded-lg hover:bg-primary/20 transition-all duration-200 ease-in-out font-semibold shrink-0 cursor-pointer">
+                      Sell Tickets
+                    </button>
+                  </Link>
+                )}
+
                 <DropButton />
               </div>
             </SignedIn>
