@@ -116,7 +116,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-neutral-200 mt-8 pt-4 text-center">
-          <p className="text-muted-foreground text-xs md:text-sm lg:text-base  text-center">
+          <p className="text-muted-foreground text-xs lg:text-sm  text-center">
             &copy; {new Date().getFullYear()} JMorris Tech Ltd. All rights
             reserved.
           </p>
