@@ -117,7 +117,7 @@ export default function Footer() {
         </div>
         <div className="border-t border-neutral-200 mt-8 pt-4 text-center">
           <p className="text-muted-foreground text-xs lg:text-sm  text-center">
-            &copy; {new Date().getFullYear()} JMorris Tech Ltd. All rights
+            copyright &copy; {new Date().getFullYear()} raveza inc. All rights
             reserved.
           </p>
         </div>
